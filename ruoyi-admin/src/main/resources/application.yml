@@ -3,7 +3,7 @@ ruoyi:
   version: 3.8.4
   copyrightYear: 2022
   demoEnabled: true
-  profile: ${RUOYI_UPLOAD_PATH:uploadPath}
+  profile: M:/0NUIST/class/bysj/Medical-platform-master/uploadPath
   addressEnabled: false
   captchaType: math
 
@@ -79,7 +79,7 @@ xss:
 
 polyp:
   inference:
-    base-url: ${POLYP_INFER_BASE_URL:http://127.0.0.1:8001}
+    base-url: https://u231948-8c36-8d7654f5.westc.seetacloud.com:8443
     timeout: ${POLYP_INFER_TIMEOUT:60000}
     video-timeout: ${POLYP_INFER_VIDEO_TIMEOUT:900000}
     send-model-path: ${POLYP_INFER_SEND_MODEL_PATH:false}
@@ -96,7 +96,7 @@ polyp:
     default-model-id: ${POLYP_INFER_DEFAULT_MODEL_ID:1}
   ffmpeg:
     enabled: ${POLYP_FFMPEG_ENABLED:true}
-    path: ${POLYP_FFMPEG_PATH:ffmpeg}
+    path: M:\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe
     timeout-seconds: ${POLYP_FFMPEG_TIMEOUT_SECONDS:300}
     output-suffix: ${POLYP_FFMPEG_OUTPUT_SUFFIX:_web}
   storage:
