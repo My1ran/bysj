@@ -41,6 +41,20 @@ nbdist/
 *.log
 *.xml.versionsBackup
 *.swp
+*.pyc
+__pycache__/
+
+# Local runtime/cache artifacts
+.m2/
+.m2repo/
+.codex-temp-*/
+data/
+logs/
+uploadPath/
+python-infer-service/.venv/
+python-infer-service/outputs/
+hs_err_pid*.log
+replay_pid*.log
 
 !*/build/*.java
 !*/build/*.html

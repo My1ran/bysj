@@ -42,6 +42,10 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
+      },
+      '/profile': {
+        target: 'http://127.0.0.1:8080', // 或你的后端端口
+        changeOrigin: true
       }
     },
     disableHostCheck: true

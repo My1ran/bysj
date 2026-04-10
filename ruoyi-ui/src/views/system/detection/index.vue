@@ -1,377 +1,574 @@
+﻿
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="患者姓名" prop="patiName">
-        <el-input
-          v-model="queryParams.patiName"
-          placeholder="请输入患者姓名"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="检测类型" prop="detectionType">
-        <el-select v-model="queryParams.detectionType" placeholder="请选择检测类型" clearable>
-          <el-option label="图片检测" value="0" />
-          <el-option label="视频检测" value="1" />
-          <el-option label="实时检测" value="2" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="报告生成" prop="reportGenerated">
-        <el-select v-model="queryParams.reportGenerated" placeholder="请选择" clearable>
-          <el-option label="是" value="1" />
-          <el-option label="否" value="0" />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
+    <el-card shadow="never">
+      <div slot="header"><span>息肉检测</span></div>
+      <el-row :gutter="16">
+        <el-col :span="12">
+          <div class="label">当前模型</div>
+          <div v-if="currentModel">
+            <el-tag type="success">{{ currentModel.modelName }}（ID: {{ currentModel.modelId }}）</el-tag>
+            <span class="meta">阈值：{{ currentModel.confThreshold }}</span>
+          </div>
+          <el-tag v-else type="info">暂无启用模型</el-tag>
+        </el-col>
+        <el-col :span="12" class="align-right">
+          <el-button v-hasPermi="['system:polyp:model:query']" type="primary" size="mini" icon="el-icon-refresh" @click="loadCurrentModel">刷新模型</el-button>
+        </el-col>
+      </el-row>
+      <el-upload
+        ref="uploader"
+        class="upload-block"
+        action="#"
+        drag
+        :auto-upload="false"
+        :limit="1"
+        :show-file-list="true"
+        :accept="acceptTypes"
+        :before-upload="alwaysManualUpload"
+        :on-change="handleFileChange"
+        :on-remove="handleRemoveFile"
+      >
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">将图片或视频拖到此处，或 <em>点击选择文件</em></div>
+        <div slot="tip" class="el-upload__tip">支持：jpg/jpeg/png/bmp/mp4（可选：avi/mov/mkv）</div>
+      </el-upload>
+      <div class="actions">
+        <el-button v-hasPermi="['system:polyp:file:upload']" type="primary" icon="el-icon-video-play" :loading="detecting" @click="submitDetect">上传并检测</el-button>
+        <span v-if="selectedFileName" class="selected-file">已选择：{{ selectedFileName }}</span>
+      </div>
+    </el-card>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleUpload"
-          v-hasPermi="['system:detection:upload']"
-        >上传检测</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:detection:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:detection:export']"
-        >导出</el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-
-    <el-table v-loading="loading" :data="detectionList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="检测 ID" align="center" prop="resultId" />
-      <el-table-column label="患者 ID" align="center" prop="patiId" />
-      <el-table-column label="患者姓名" align="center" prop="patiName" />
-      <el-table-column label="检测类型" align="center" prop="detectionType">
-        <template slot-scope="scope">
-          <dict-tag :options="detectionTypeDict" :value="scope.row.detectionType"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="样本编号" align="center" prop="sampleNumber" />
-      <el-table-column label="息肉数量" align="center" prop="polypCount" />
-      <el-table-column label="平均置信度" align="center" prop="avgConfidence" />
-      <el-table-column label="检测时间" align="center" prop="detectionTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.detectionTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-view"
-            @click="handleView(scope.row)"
-          >查看</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-download"
-            @click="handleDownload(scope.row)"
-          >下载</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['system:detection:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
-
-    <!-- 检测结果详情对话框 -->
-    <el-dialog :title="检测结果详情" :visible.sync="openView" width="900px" append-to-body>
-      <el-descriptions :column="2" border>
-        <el-descriptions-item label="检测 ID">{{ viewForm.resultId }}</el-descriptions-item>
-        <el-descriptions-item label="患者姓名">{{ viewForm.patiName }}</el-descriptions-item>
-        <el-descriptions-item label="检测类型">
-          <dict-tag :options="detectionTypeDict" :value="viewForm.detectionType"/>
-        </el-descriptions-item>
-        <el-descriptions-item label="样本编号">{{ viewForm.sampleNumber }}</el-descriptions-item>
-        <el-descriptions-item label="息肉数量">{{ viewForm.polypCount }}</el-descriptions-item>
-        <el-descriptions-item label="平均置信度">{{ viewForm.avgConfidence }}</el-descriptions-item>
-        <el-descriptions-item label="最大尺寸">{{ viewForm.maxSize }} mm</el-descriptions-item>
-        <el-descriptions-item label="最小尺寸">{{ viewForm.minSize }} mm</el-descriptions-item>
-        <el-descriptions-item label="检测时间">
-          {{ parseTime(viewForm.detectionTime, '{y}-{m}-{d} {h}:{i}:{s}') }}
-        </el-descriptions-item>
+    <el-card v-if="currentDetail && currentDetail.task" shadow="never" class="block-gap">
+      <div slot="header"><span>任务详情（ID: {{ currentDetail.task.taskId }}）</span></div>
+      <el-descriptions :column="3" border>
+        <el-descriptions-item label="任务编号">{{ currentDetail.task.taskNo }}</el-descriptions-item>
+        <el-descriptions-item label="状态"><el-tag :type="statusTagType(currentDetail.task.status)">{{ statusText(currentDetail.task.status) }}</el-tag></el-descriptions-item>
+        <el-descriptions-item label="推理耗时(ms)">{{ currentDetail.task.inferenceMs || '-' }}</el-descriptions-item>
       </el-descriptions>
 
-      <el-divider content-position="left">检测结果图片</el-divider>
-      <div style="text-align: center;">
-        <img :src="imageUrl" alt="检测结果" style="max-width: 100%; max-height: 500px;" />
+      <div v-if="currentFileType==='image' && currentImageUrl" class="block-gap">
+        <div class="label">图片结果</div>
+        <img :src="currentImageUrl" class="preview" alt="image">
+      </div>
+      <div v-if="currentFileType==='video' && currentVideoUrl" class="block-gap">
+        <div class="label">视频结果</div>
+        <video ref="videoEl" :key="currentVideoKey" :src="currentVideoUrl" class="preview" preload="metadata" controls />
+        <div class="video-toolbar">
+          <span class="rate-label">播放速度：</span>
+          <el-radio-group v-model="currentPlaybackRate" size="mini" @change="changePlaybackRate">
+            <el-radio-button v-for="rate in playbackRates" :key="rate" :label="rate">{{ rate }}x</el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
 
-      <el-divider content-position="left">息肉详情</el-divider>
-      <el-table :data="polypDetails" size="small" max-height="300">
-        <el-table-column label="序号" type="index" width="50" align="center" />
-        <el-table-column label="置信度" align="center" prop="confidence" />
-        <el-table-column label="尺寸 (mm)" align="center" prop="sizeMm" />
-        <el-table-column label="位置" align="center" prop="position" />
-        <el-table-column label="分类" align="center" prop="classification" />
-      </el-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="openView = false">关 闭</el-button>
+      <div class="block-gap">
+        <div class="label">检测框列表</div>
+        <el-table v-if="currentFileType==='video'" v-loading="frameRowsLoading" :data="pagedVideoHitRows" size="small" border empty-text="暂无命中帧数据" @row-click="jumpToVideoTimestamp">
+          <el-table-column label="#" type="index" width="60" align="center" />
+          <el-table-column label="帧号" prop="frameIndex" width="90" />
+          <el-table-column label="时间(秒)" prop="timestampSec" width="120"><template slot-scope="scope">{{ Number(scope.row.timestampSec || 0).toFixed(3) }}</template></el-table-column>
+          <el-table-column label="框数量" prop="boxCount" width="90" />
+          <el-table-column label="最大置信度" prop="maxConfidence" width="120"><template slot-scope="scope">{{ Number(scope.row.maxConfidence || 0).toFixed(4) }}</template></el-table-column>
+          <el-table-column label="类别" prop="className" width="100" />
+          <el-table-column label="坐标(x1,y1,x2,y2)" prop="position" min-width="220" />
+        </el-table>
+        <el-pagination
+          v-if="currentFileType==='video' && videoHitRows.length > 0"
+          class="video-box-pagination"
+          background
+          layout="total, sizes, prev, pager, next"
+          :total="videoHitRows.length"
+          :current-page="videoListPageNum"
+          :page-size="videoListPageSize"
+          :page-sizes="videoListPageSizes"
+          @current-change="handleVideoPageChange"
+          @size-change="handleVideoSizeChange"
+        />
+        <el-table v-else :data="imageBoxRows" size="small" border empty-text="暂无检测框数据">
+          <el-table-column label="#" type="index" width="60" align="center" />
+          <el-table-column label="类别" min-width="120"><template slot-scope="scope">{{ toClassZh(scope.row.classification) }}</template></el-table-column>
+          <el-table-column label="置信度" min-width="100">
+            <template slot-scope="scope">
+              {{ scope.row.confidence === null || scope.row.confidence === undefined ? '-' : Number(scope.row.confidence).toFixed(3) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="坐标串" prop="position" min-width="220" />
+        </el-table>
       </div>
-    </el-dialog>
+    </el-card>
 
-    <!-- 上传检测对话框 -->
-    <el-dialog :title="上传检测" :visible.sync="openUpload" width="600px" append-to-body>
-      <el-form ref="uploadForm" :model="uploadForm" label-width="80px">
-        <el-form-item label="选择患者" prop="patiId">
-          <el-select v-model="uploadForm.patiId" placeholder="请选择患者 (可选)" clearable style="width: 100%">
-            <el-option
-              v-for="patient in patientList"
-              :key="patient.patiId"
-              :label="patient.patiName + ' (' + patient.patiCode + ')'"
-              :value="patient.patiId"
-            />
+    <el-card v-else shadow="never" class="block-gap"><el-empty description="暂无任务详情，请先上传并检测" /></el-card>
+    <el-card shadow="never" class="block-gap">
+      <div slot="header"><span>历史任务记录</span></div>
+      <el-form ref="queryForm" :inline="true" size="small" :model="queryParams">
+        <el-form-item label="任务编号"><el-input v-model="queryParams.taskNo" placeholder="请输入任务编号" clearable @keyup.enter.native="handleQuery" /></el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="queryParams.status" placeholder="全部状态" clearable>
+            <el-option label="待处理" value="PENDING" />
+            <el-option label="处理中" value="RUNNING" />
+            <el-option label="成功" value="SUCCESS" />
+            <el-option label="失败" value="FAILED" />
           </el-select>
         </el-form-item>
-        <el-form-item label="上传图片" prop="file">
-          <el-upload
-            ref="fileUpload"
-            action="#"
-            :http-request="handleFileUpload"
-            :before-upload="beforeFileUpload"
-            :on-success="handleFileSuccess"
-            :on-error="handleFileError"
-            :limit="1"
-            :file-list="fileList"
-            accept="image/jpg,image/jpeg,image/png,image/bmp"
-          >
-            <el-button type="primary">选择文件</el-button>
-            <div slot="tip" class="el-upload__tip">
-              只能上传 jpg/png/bmp 文件，且不超过 10MB
-            </div>
-          </el-upload>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+          <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitUpload">开始检测</el-button>
-        <el-button @click="openUpload = false">取 消</el-button>
-      </div>
-    </el-dialog>
+      <el-table v-loading="listLoading" :data="taskList" border empty-text="暂无历史任务">
+        <el-table-column label="任务ID" prop="taskId" width="90" />
+        <el-table-column label="任务编号" prop="taskNo" min-width="220" />
+        <el-table-column label="状态" min-width="100"><template slot-scope="scope"><el-tag :type="statusTagType(scope.row.status)">{{ statusText(scope.row.status) }}</el-tag></template></el-table-column>
+        <el-table-column label="推理耗时(ms)" prop="inferenceMs" min-width="120" />
+        <el-table-column label="创建时间" prop="createTime" min-width="180" />
+        <el-table-column label="操作" width="120" align="center"><template slot-scope="scope"><el-button size="mini" type="text" @click="showDetail(scope.row.taskId)">查看</el-button></template></el-table-column>
+      </el-table>
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getTaskList" />
+    </el-card>
   </div>
 </template>
 
 <script>
-import { listDetection, getDetection, delDetection, uploadDetect } from "@/api/system/detection";
-import { listPatient } from "@/api/system/patient";
+import { uploadPolypFile, createPolypTask, getPolypTaskDetail, getCurrentPolypModel, listPolypTask } from '@/api/system/polypTask'
 
 export default {
-  name: "Detection",
+  name: 'Detection',
   data() {
     return {
-      // 遮罩层
-      loading: true,
-      // 选中数组
-      ids: [],
-      // 非多个禁用
-      multiple: true,
-      // 显示搜索条件
-      showSearch: true,
-      // 总条数
+      detecting: false,
+      selectedFile: null,
+      selectedFileName: '',
+      currentModel: null,
+      currentDetail: null,
+      currentBoxes: [],
+      imageBoxRows: [],
+      currentImageUrl: '',
+      currentVideoUrl: '',
+      currentVideoKey: 0,
+      currentFileType: '',
+      resultFramesUrl: '',
+      videoHitRows: [],
+      videoListPageNum: 1,
+      videoListPageSize: 10,
+      videoListPageSizes: [10, 20, 50],
+      frameRowsLoading: false,
+      videoFps: 0,
+      pollingTimer: null,
+      pollingTaskId: null,
+      pollingRequesting: false,
+      framesLoadErrorNotified: false,
+      playbackRates: [0.5, 1, 1.5, 2],
+      currentPlaybackRate: 1,
+      taskList: [],
       total: 0,
-      // 检测结果表格数据
-      detectionList: [],
-      // 检测类型字典
-      detectionTypeDict: [
-        { label: '图片检测', value: '0' },
-        { label: '视频检测', value: '1' },
-        { label: '实时检测', value: '2' }
-      ],
-      // 患者列表
-      patientList: [],
-      // 弹出层标题
-      openView: false,
-      openUpload: false,
-      // 查看详情表单
-      viewForm: {},
-      // 息肉详情列表
-      polypDetails: [],
-      // 图片 URL
-      imageUrl: '',
-      // 上传表单
-      uploadForm: {
-        patiId: null,
-        file: null
-      },
-      // 文件列表
-      fileList: [],
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        patiName: null,
-        detectionType: null,
-        reportGenerated: null
-      }
-    };
+      listLoading: false,
+      acceptTypes: '.jpg,.jpeg,.png,.bmp,.mp4,.avi,.mov,.mkv',
+      imageExts: ['jpg', 'jpeg', 'png', 'bmp'],
+      videoExts: ['mp4', 'avi', 'mov', 'mkv'],
+      maxImageBytes: 10 * 1024 * 1024,
+      maxVideoBytes: 500 * 1024 * 1024,
+      queryParams: { pageNum: 1, pageSize: 10, taskNo: undefined, status: undefined }
+    }
+  },
+  computed: {
+    pagedVideoHitRows() {
+      const start = (this.videoListPageNum - 1) * this.videoListPageSize
+      const end = start + this.videoListPageSize
+      return this.videoHitRows.slice(start, end)
+    }
   },
   created() {
-    this.getList();
-    this.getPatientList();
+    this.loadCurrentModel()
+    this.getTaskList()
+  },
+  beforeDestroy() {
+    this.stopTaskPolling()
   },
   methods: {
-    /** 查询检测结果列表 */
-    getList() {
-      this.loading = true;
-      listDetection(this.queryParams).then(response => {
-        this.detectionList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+    statusTagType(status) {
+      if (status === 'SUCCESS') return 'success'
+      if (status === 'FAILED') return 'danger'
+      if (status === 'RUNNING') return 'warning'
+      return 'info'
     },
-    /** 查询患者列表 */
-    getPatientList() {
-      listPatient({ pageSize: 1000 }).then(response => {
-        this.patientList = response.rows;
-      });
+    statusText(status) {
+      if (status === 'SUCCESS') return '成功'
+      if (status === 'FAILED') return '失败'
+      if (status === 'RUNNING') return '处理中'
+      if (status === 'PENDING') return '待处理'
+      return status || '-'
     },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.resultId)
-      this.multiple = !selection.length
-    },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-    /** 上传检测按钮操作 */
-    handleUpload() {
-      this.reset();
-      this.openUpload = true;
-    },
-    /** 查看按钮操作 */
-    handleView(row) {
-      getDetection(row.resultId).then(response => {
-        this.viewForm = response.data;
-        this.polypDetails = response.data.polypDetails || [];
-        this.imageUrl = response.data.resultFile ? this.baseUrl + response.data.resultFile : '';
-        this.openView = true;
-      });
-    },
-    // 文件上传前校验
-    beforeFileUpload(file) {
-      const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp';
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isImage) {
-        this.$modal.msgError('只能上传 JPG/PNG/BMP 格式的图片!');
-        return false;
+    alwaysManualUpload() { return false },
+    handleFileChange(uploadFile) {
+      const rawFile = uploadFile && (uploadFile.raw || uploadFile)
+      if (!rawFile) {
+        this.selectedFile = null
+        this.selectedFileName = ''
+        return
       }
-      if (!isLt10M) {
-        this.$modal.msgError('图片大小不能超过 10MB!');
-        return false;
+      const validateResult = this.validateSelectedFile(rawFile)
+      if (!validateResult.valid) {
+        this.$modal.msgError(validateResult.message)
+        this.selectedFile = null
+        this.selectedFileName = ''
+        this.$refs.uploader && this.$refs.uploader.clearFiles()
+        return
       }
-      this.uploadForm.file = file;
-      return true;
+      this.selectedFile = rawFile
+      this.selectedFileName = rawFile.name
     },
-    // 文件上传
-    handleFileUpload(options) {
-      const { file } = options;
-      this.uploadForm.file = file;
+    validateSelectedFile(file) {
+      const ext = (file.name.split('.').pop() || '').toLowerCase()
+      if (this.imageExts.includes(ext)) return file.size <= this.maxImageBytes ? { valid: true } : { valid: false, message: '图片大小不能超过 10MB' }
+      if (this.videoExts.includes(ext)) return file.size <= this.maxVideoBytes ? { valid: true } : { valid: false, message: '视频大小不能超过 500MB' }
+      return { valid: false, message: '仅支持 jpg/jpeg/png/bmp/mp4（可选 avi/mov/mkv）格式' }
     },
-    // 文件上传成功
-    handleFileSuccess(response, file) {
-      console.log('upload success', response);
+    handleRemoveFile() {
+      this.selectedFile = null
+      this.selectedFileName = ''
     },
-    // 文件上传失败
-    handleFileError(error) {
-      console.error('upload error', error);
+    async loadCurrentModel() {
+      try { this.currentModel = (await getCurrentPolypModel()).data || null } catch (e) { this.currentModel = null }
     },
-    // 提交上传
-    submitUpload() {
-      if (!this.uploadForm.file) {
-        this.$modal.msgError('请选择要检测的图片');
-        return;
+    async submitDetect() {
+      if (!this.selectedFile) {
+        this.$modal.msgError('请先选择图片或视频文件')
+        return
       }
-      const formData = new FormData();
-      formData.append('file', this.uploadForm.file);
-      if (this.uploadForm.patiId) {
-        formData.append('patiId', this.uploadForm.patiId);
+      this.stopTaskPolling()
+      this.detecting = true
+      this.$modal.loading('正在提交任务，请稍候...')
+      try {
+        const uploadRes = await uploadPolypFile(this.selectedFile)
+        const sourceFileId = uploadRes && uploadRes.data ? uploadRes.data.fileId : null
+        if (!sourceFileId) throw new Error('文件上传成功，但未返回 fileId')
+
+        const req = { sourceFileId }
+        if (this.currentModel && this.currentModel.modelId) {
+          req.modelId = this.currentModel.modelId
+          req.confThreshold = this.currentModel.confThreshold
+        }
+        const taskRes = await createPolypTask(req)
+        const taskId = taskRes && taskRes.data ? taskRes.data.taskId : null
+        if (!taskId) throw new Error('任务创建成功，但未返回 taskId')
+
+        await this.showDetail(taskId)
+        await this.getTaskList()
+        this.$modal.msgSuccess(`任务已提交，任务ID=${taskId}，正在后台识别`)
+        this.startTaskPolling(taskId)
+      } catch (error) {
+        const msg = (error && error.response && error.response.data && error.response.data.msg) || error.message || '检测失败'
+        this.$modal.msgError(msg)
+      } finally {
+        this.$modal.closeLoading()
+        this.detecting = false
+      }
+    },
+    startTaskPolling(taskId) {
+      this.stopTaskPolling()
+      if (!taskId) return
+      this.pollingTaskId = taskId
+      this.pollingTimer = window.setInterval(() => this.pollTaskStatus(), 2000)
+      this.pollTaskStatus()
+    },
+    stopTaskPolling() {
+      if (this.pollingTimer) {
+        window.clearInterval(this.pollingTimer)
+        this.pollingTimer = null
+      }
+      this.pollingTaskId = null
+      this.pollingRequesting = false
+    },
+    async pollTaskStatus() {
+      if (!this.pollingTaskId || this.pollingRequesting) return
+      this.pollingRequesting = true
+      try {
+        const taskId = this.pollingTaskId
+        const detail = (await getPolypTaskDetail(taskId)).data || {}
+        const task = detail.task || {}
+        if (this.currentDetail && this.currentDetail.task && this.currentDetail.task.taskId === taskId) {
+          this.currentDetail.task.status = task.status
+          this.currentDetail.task.errorMsg = task.errorMsg
+          this.currentDetail.task.inferenceMs = task.inferenceMs
+        }
+        if (task.status === 'SUCCESS') {
+          this.stopTaskPolling()
+          await this.applyDetailData(detail)
+          await this.getTaskList()
+          this.$modal.msgSuccess(`任务ID=${taskId} 识别已完成`)
+        } else if (task.status === 'FAILED') {
+          this.stopTaskPolling()
+          await this.applyDetailData(detail)
+          await this.getTaskList()
+          this.$modal.msgError(`任务ID=${taskId} 识别失败：${task.errorMsg || '后台推理失败'}`)
+        }
+      } catch (e) {
+        // ignore transient polling error
+      } finally {
+        this.pollingRequesting = false
+      }
+    },
+    async showDetail(taskId) {
+      await this.applyDetailData((await getPolypTaskDetail(taskId)).data || {})
+    },
+    async applyDetailData(data) {
+      this.currentDetail = data
+      this.currentBoxes = data.boxes || []
+      this.imageBoxRows = []
+      const sourceFile = data.sourceFile || {}
+      this.currentFileType = data.mediaType || this.getFileTypeByName(sourceFile.originName || sourceFile.fileUrl || '')
+      const sourceFileUrl = this.normalizeFileUrl(data.sourceFileUrl || sourceFile.fileUrl || '')
+      const resultImageUrl = this.normalizeFileUrl(data.resultImageUrl || '')
+      const resultVideoUrl = this.normalizeFileUrl(data.resultVideoUrl || '')
+      this.resultFramesUrl = this.normalizeFileUrl(data.resultFramesUrl || '')
+      this.framesLoadErrorNotified = false
+      this.currentImageUrl = this.currentFileType === 'image' ? (resultImageUrl || sourceFileUrl) : ''
+      this.currentVideoUrl = this.currentFileType === 'video' ? (resultVideoUrl || sourceFileUrl) : ''
+      this.currentVideoKey += this.currentFileType === 'video' ? 1 : 0
+      this.videoHitRows = []
+      this.videoListPageNum = 1
+      if (this.currentFileType === 'video') {
+        await this.loadVideoHitRows(data)
+      } else if (this.currentFileType === 'image') {
+        this.imageBoxRows = this.buildImageBoxRows(data)
+      }
+    },
+    async loadVideoHitRows(detailData) {
+      this.frameRowsLoading = true
+      try {
+        const frames = await this.fetchFrames(detailData)
+        this.videoHitRows = this.flattenHitRows(frames)
+        this.videoListPageNum = 1
+      } finally {
+        this.frameRowsLoading = false
+      }
+    },
+    handleVideoPageChange(pageNum) {
+      this.videoListPageNum = pageNum
+    },
+    handleVideoSizeChange(pageSize) {
+      this.videoListPageSize = pageSize
+      this.videoListPageNum = 1
+    },
+    async fetchFrames(detailData) {
+      const summary = detailData.inferenceSummary || {}
+      const rawFrames = detailData.frames || summary.frames || []
+      if (rawFrames.length) {
+        this.videoFps = this.toNumber(summary.fps, 0)
+        return this.normalizeFrames(rawFrames)
+      }
+      if (!this.resultFramesUrl) {
+        return []
+      }
+      try {
+        const fetchUrl = this.ensureHttpsForSeetaCloud(this.resultFramesUrl)
+        const resp = await window.fetch(fetchUrl, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'omit',
+          cache: 'no-store',
+          headers: {
+            Accept: 'application/json,text/plain,*/*'
+          }
+        })
+        if (!resp.ok) return []
+        const textPayload = await resp.text()
+        const payload = JSON.parse(textPayload.replace(/^\uFEFF/, ''))
+        this.videoFps = this.toNumber(payload.fps, summary.fps, 0)
+        return this.normalizeFrames(payload.frames || [])
+      } catch (e) {
+        if (!this.framesLoadErrorNotified) {
+          const err = e && e.message ? e.message : '未知错误'
+          this.$modal.msgError(`读取命中帧失败：${err}`)
+          this.framesLoadErrorNotified = true
+        }
+        return []
+      }
+    },
+    normalizeFrames(frames) {
+      return (frames || []).map(item => ({
+        frameIndex: this.toNumber(item.frameIndex, item.frame_index, 0),
+        timestampSec: this.toNumber(item.timestampSec, item.timestamp_sec, 0),
+        maxConfidence: this.toNumber(item.maxConfidence, item.max_confidence, 0),
+        boxes: this.normalizeBoxes(item.boxes || [])
+      }))
+    },
+    normalizeBoxes(boxes) {
+      return (boxes || []).map(box => ({
+        x1: this.toNumber(box.x1, box.bboxX, 0),
+        y1: this.toNumber(box.y1, box.bboxY, 0),
+        x2: this.toNumber(box.x2, this.toNumber(box.bboxX, 0) + this.toNumber(box.bboxWidth, 0), 0),
+        y2: this.toNumber(box.y2, this.toNumber(box.bboxY, 0) + this.toNumber(box.bboxHeight, 0), 0),
+        className: this.toClassZh(box.className || box.class_name || box.classification || 'polyp'),
+        score: this.toNumber(box.score, box.confidence, 0)
+      }))
+    },
+    flattenHitRows(frames) {
+      const rows = []
+      ;(frames || []).forEach(frame => {
+        const frameBoxes = frame.boxes || []
+        if (!frameBoxes.length) return
+        const maxConfidence = frame.maxConfidence || Math.max(...frameBoxes.map(b => this.toNumber(b.score, 0)))
+        frameBoxes.forEach((box, idx) => {
+          rows.push({
+            rowKey: `${frame.frameIndex}-${idx}`,
+            frameIndex: frame.frameIndex,
+            timestampSec: this.toNumber(frame.timestampSec, this.videoFps ? frame.frameIndex / this.videoFps : 0, 0),
+            boxCount: frameBoxes.length,
+            maxConfidence,
+            className: box.className,
+            position: `${box.x1},${box.y1},${box.x2},${box.y2}`
+          })
+        })
+      })
+      return rows
+    },
+    buildImageBoxRows(detailData) {
+      const rawBoxes = detailData && Array.isArray(detailData.boxes) ? detailData.boxes : []
+      const summary = detailData && detailData.inferenceSummary ? detailData.inferenceSummary : {}
+      const representativeBoxes = Array.isArray(summary.representativeBoxes) ? summary.representativeBoxes : []
+
+      if (rawBoxes.length) {
+        return rawBoxes.map((box, index) => ({
+          ...box,
+          confidence: this.resolveImageConfidence(box, representativeBoxes[index]),
+          classification: box.classification || box.className || box.class_name || 'polyp',
+          position: box.position || this.resolveBoxPosition(box, representativeBoxes[index])
+        }))
       }
 
-      this.$modal.loading("正在检测，请稍候...");
-      uploadDetect(formData).then(response => {
-        this.$modal.closeLoading();
-        this.$modal.msgSuccess(`检测完成，发现 ${response.data.polypCount} 个息肉`);
-        this.openUpload = false;
-        this.getList();
-      }).catch(() => {
-        this.$modal.closeLoading();
-      });
+      return representativeBoxes.map((box) => ({
+        classification: box.classification || box.className || box.class_name || 'polyp',
+        confidence: this.resolveImageConfidence({}, box),
+        position: this.resolveBoxPosition({}, box)
+      }))
     },
-    // 表单重置
-    reset() {
-      this.uploadForm = {
-        patiId: null,
-        file: null
-      };
-      this.fileList = [];
+    resolveImageConfidence(detailBox, representativeBox) {
+      if (this.hasValue(detailBox && detailBox.confidence)) {
+        return this.toNumber(detailBox.confidence)
+      }
+      if (this.hasValue(detailBox && detailBox.score)) {
+        return this.toNumber(detailBox.score)
+      }
+      if (this.hasValue(representativeBox && representativeBox.score)) {
+        return this.toNumber(representativeBox.score)
+      }
+      if (this.hasValue(representativeBox && representativeBox.confidence)) {
+        return this.toNumber(representativeBox.confidence)
+      }
+      return null
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const resultIds = row.resultId || this.ids;
-      this.$modal.confirm('是否确认删除检测编号为"' + resultIds + '"的数据项？').then(function() {
-        return delDetection(resultIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+    resolveBoxPosition(detailBox, representativeBox) {
+      const x1 = this.toOptionalNumber(detailBox && detailBox.bboxX, detailBox && detailBox.x1, representativeBox && representativeBox.x1)
+      const y1 = this.toOptionalNumber(detailBox && detailBox.bboxY, detailBox && detailBox.y1, representativeBox && representativeBox.y1)
+      const width = this.toOptionalNumber(detailBox && detailBox.bboxWidth)
+      const height = this.toOptionalNumber(detailBox && detailBox.bboxHeight)
+      const x2 = this.toOptionalNumber(detailBox && detailBox.x2, this.hasValue(x1) && this.hasValue(width) ? x1 + width : null, representativeBox && representativeBox.x2)
+      const y2 = this.toOptionalNumber(detailBox && detailBox.y2, this.hasValue(y1) && this.hasValue(height) ? y1 + height : null, representativeBox && representativeBox.y2)
+      if (!this.hasValue(x1) || !this.hasValue(y1) || !this.hasValue(x2) || !this.hasValue(y2)) {
+        return '-'
+      }
+      return `${x1},${y1},${x2},${y2}`
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.$modal.confirm('是否确认导出所有检测结果数据项？').then(() => {
-        // return exportDetection(this.queryParams);
-      }).catch(() => {});
+    hasValue(value) {
+      return value !== null && value !== undefined && value !== ''
     },
-    /** 下载按钮操作 */
-    handleDownload(row) {
-      // 下载检测结果
-      this.$modal.msgSuccess("开始下载检测结果");
+    jumpToVideoTimestamp(row) {
+      if (!row || this.currentFileType !== 'video' || !this.$refs.videoEl) return
+      this.$refs.videoEl.currentTime = this.toNumber(row.timestampSec, 0)
+    },
+    changePlaybackRate(rate) {
+      if (this.$refs.videoEl) {
+        const value = Number(rate)
+        this.$refs.videoEl.playbackRate = Number.isNaN(value) ? 1 : value
+      }
+    },
+    toClassZh(className) {
+      const normalized = (className || '').toString().toLowerCase()
+      if (!normalized || normalized === 'polyp') return '息肉'
+      return className
+    },
+    normalizeFileUrl(fileUrl) {
+      if (!fileUrl) return ''
+      let normalized = String(fileUrl).replace(/\\/g, '/').trim()
+      if (!normalized) return ''
+      if (normalized.startsWith('http://') || normalized.startsWith('https://')) return this.ensureHttpsForSeetaCloud(normalized)
+      normalized = normalized.replace(/^\/(dev-api|prod-api)(?=\/profile\/)/, '')
+      if (normalized.startsWith('profile/')) normalized = '/' + normalized
+      return normalized.startsWith('/') ? normalized : '/' + normalized
+    },
+    ensureHttpsForSeetaCloud(url) {
+      if (!url || !/^http:\/\//i.test(url)) {
+        return url
+      }
+      try {
+        const parsed = new URL(url)
+        if (parsed.hostname && parsed.hostname.endsWith('.westc.seetacloud.com')) {
+          parsed.protocol = 'https:'
+          return parsed.toString()
+        }
+      } catch (e) {
+        return url
+      }
+      return url
+    },
+    toNumber() {
+      for (let i = 0; i < arguments.length; i++) {
+        const value = arguments[i]
+        if (value === null || value === undefined || value === '') continue
+        const num = Number(value)
+        if (!Number.isNaN(num)) return num
+      }
+      return 0
+    },
+    toOptionalNumber() {
+      for (let i = 0; i < arguments.length; i++) {
+        const value = arguments[i]
+        if (value === null || value === undefined || value === '') continue
+        const num = Number(value)
+        if (!Number.isNaN(num)) return num
+      }
+      return null
+    },
+    getFileTypeByName(name) {
+      const ext = (name.split('.').pop() || '').toLowerCase()
+      if (this.videoExts.includes(ext)) return 'video'
+      if (this.imageExts.includes(ext)) return 'image'
+      return ''
+    },
+    async getTaskList() {
+      this.listLoading = true
+      try {
+        const res = await listPolypTask(this.queryParams)
+        this.taskList = res.rows || []
+        this.total = res.total || 0
+      } finally {
+        this.listLoading = false
+      }
+    },
+    handleQuery() {
+      this.queryParams.pageNum = 1
+      this.getTaskList()
+    },
+    resetQuery() {
+      this.resetForm('queryForm')
+      this.handleQuery()
     }
   }
-};
+}
 </script>
+
+<style scoped>
+.block-gap { margin-top: 16px; }
+.upload-block { margin-top: 16px; }
+.actions { margin-top: 12px; }
+.selected-file { margin-left: 12px; color: #606266; font-size: 13px; }
+.label { font-weight: 600; margin-bottom: 8px; }
+.meta { margin-left: 12px; color: #606266; }
+.align-right { text-align: right; }
+.preview { max-width: 100%; max-height: 420px; border: 1px solid #ebeef5; border-radius: 4px; display: block; }
+.video-toolbar { margin-top: 10px; display: flex; align-items: center; }
+.rate-label { color: #606266; font-size: 13px; margin-right: 8px; }
+.video-box-pagination { margin-top: 10px; text-align: right; }
+</style>
