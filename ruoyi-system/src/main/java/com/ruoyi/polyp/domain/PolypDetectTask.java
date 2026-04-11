@@ -22,6 +22,14 @@ public class PolypDetectTask extends BaseEntity
     private Long inferenceMs;
     private String errorMsg;
     private String mediaType;
+    private String resultImageUrl;
+    private String resultVideoUrl;
+    private String resultFramesUrl;
+    private Integer frameCount;
+    private Integer detectedFrameCount;
+    private Integer boxCount;
+    private BigDecimal maxConfidence;
+    private Integer isDeleted;
     private Integer polypCount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
@@ -138,6 +146,86 @@ public class PolypDetectTask extends BaseEntity
         this.mediaType = mediaType;
     }
 
+    public String getResultImageUrl()
+    {
+        return resultImageUrl;
+    }
+
+    public void setResultImageUrl(String resultImageUrl)
+    {
+        this.resultImageUrl = resultImageUrl;
+    }
+
+    public String getResultVideoUrl()
+    {
+        return resultVideoUrl;
+    }
+
+    public void setResultVideoUrl(String resultVideoUrl)
+    {
+        this.resultVideoUrl = resultVideoUrl;
+    }
+
+    public String getResultFramesUrl()
+    {
+        return resultFramesUrl;
+    }
+
+    public void setResultFramesUrl(String resultFramesUrl)
+    {
+        this.resultFramesUrl = resultFramesUrl;
+    }
+
+    public Integer getFrameCount()
+    {
+        return frameCount;
+    }
+
+    public void setFrameCount(Integer frameCount)
+    {
+        this.frameCount = frameCount;
+    }
+
+    public Integer getDetectedFrameCount()
+    {
+        return detectedFrameCount;
+    }
+
+    public void setDetectedFrameCount(Integer detectedFrameCount)
+    {
+        this.detectedFrameCount = detectedFrameCount;
+    }
+
+    public Integer getBoxCount()
+    {
+        return boxCount;
+    }
+
+    public void setBoxCount(Integer boxCount)
+    {
+        this.boxCount = boxCount;
+    }
+
+    public BigDecimal getMaxConfidence()
+    {
+        return maxConfidence;
+    }
+
+    public void setMaxConfidence(BigDecimal maxConfidence)
+    {
+        this.maxConfidence = maxConfidence;
+    }
+
+    public Integer getIsDeleted()
+    {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted)
+    {
+        this.isDeleted = isDeleted;
+    }
+
     public Integer getPolypCount()
     {
         return polypCount;
@@ -183,6 +271,14 @@ public class PolypDetectTask extends BaseEntity
             .append("inferenceMs", getInferenceMs())
             .append("errorMsg", getErrorMsg())
             .append("mediaType", getMediaType())
+            .append("resultImageUrl", getResultImageUrl())
+            .append("resultVideoUrl", getResultVideoUrl())
+            .append("resultFramesUrl", getResultFramesUrl())
+            .append("frameCount", getFrameCount())
+            .append("detectedFrameCount", getDetectedFrameCount())
+            .append("boxCount", getBoxCount())
+            .append("maxConfidence", getMaxConfidence())
+            .append("isDeleted", getIsDeleted())
             .append("polypCount", getPolypCount())
             .append("startTime", getStartTime())
             .append("finishTime", getFinishTime())

@@ -111,9 +111,11 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         task.setTaskNo(generateTaskNo());
         task.setPatientId(request.getPatientId());
         task.setSourceFileId(request.getSourceFileId());
+        task.setMediaType(fileType);
         task.setModelId(model.getModelId());
         task.setConfThreshold(request.getConfThreshold() == null ? model.getConfThreshold() : request.getConfThreshold());
         task.setStatus(PolypTaskStatus.PENDING);
+        task.setIsDeleted(0);
         task.setCreateTime(DateUtils.getNowDate());
         polypDetectTaskMapper.insertPolypDetectTask(task);
         final Long taskId = task.getTaskId();
@@ -141,15 +143,17 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         result.put("task", task);
         result.put("sourceFile", sourceFile);
         result.put("model", polypModelService.selectPolypModelByModelId(task.getModelId()));
-        String fileType = sourceFile == null ? "" : PolypFileTypeUtils.resolveFileTypeByExt(resolveExtension(sourceFile));
+        String fileType = StringUtils.isNotEmpty(task.getMediaType())
+            ? task.getMediaType()
+            : (sourceFile == null ? "" : PolypFileTypeUtils.resolveFileTypeByExt(resolveExtension(sourceFile)));
         Map<String, Object> inferenceSummary = parseInferenceSummary(task.getRemark());
-        String resultImageUrl = normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultImageUrl")));
-        String resultVideoUrl = normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultVideoUrl")));
-        String resultFramesUrl = normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultFramesUrl")));
-        Long frameCount = longValue(inferenceSummary.get("frameCount"));
-        Long detectedFrameCount = longValue(inferenceSummary.get("detectedFrameCount"));
-        Long boxCount = longValue(inferenceSummary.get("boxCount"));
-        BigDecimal maxConfidence = decimalValue(inferenceSummary.get("maxConfidence"));
+        String resultImageUrl = normalizePublicMediaUrl(firstNonEmpty(task.getResultImageUrl(), stringValue(inferenceSummary.get("resultImageUrl"))));
+        String resultVideoUrl = normalizePublicMediaUrl(firstNonEmpty(task.getResultVideoUrl(), stringValue(inferenceSummary.get("resultVideoUrl"))));
+        String resultFramesUrl = normalizePublicMediaUrl(firstNonEmpty(task.getResultFramesUrl(), stringValue(inferenceSummary.get("resultFramesUrl"))));
+        Integer frameCount = intValue(firstNonNull(task.getFrameCount(), inferenceSummary.get("frameCount")));
+        Integer detectedFrameCount = intValue(firstNonNull(task.getDetectedFrameCount(), inferenceSummary.get("detectedFrameCount")));
+        Integer boxCount = intValue(firstNonNull(task.getBoxCount(), inferenceSummary.get("boxCount")));
+        BigDecimal maxConfidence = decimalValue(firstNonNull(task.getMaxConfidence(), inferenceSummary.get("maxConfidence")));
         BigDecimal fps = decimalValue(inferenceSummary.get("fps"));
         if (StringUtils.isEmpty(resultVideoUrl) && PolypFileTypeUtils.TYPE_VIDEO.equals(fileType))
         {
@@ -161,9 +165,9 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         result.put("resultImageUrl", resultImageUrl);
         result.put("resultVideoUrl", resultVideoUrl);
         result.put("resultFramesUrl", resultFramesUrl);
-        result.put("frameCount", frameCount == null ? 0L : frameCount);
-        result.put("detectedFrameCount", detectedFrameCount == null ? 0L : detectedFrameCount);
-        result.put("boxCount", boxCount == null ? 0L : boxCount);
+        result.put("frameCount", frameCount == null ? 0 : frameCount);
+        result.put("detectedFrameCount", detectedFrameCount == null ? 0 : detectedFrameCount);
+        result.put("boxCount", boxCount == null ? 0 : boxCount);
         result.put("maxConfidence", maxConfidence == null ? BigDecimal.ZERO : maxConfidence);
         result.put("fps", fps == null ? BigDecimal.ZERO : fps);
         result.put("inferenceSummary", inferenceSummary);
@@ -176,10 +180,11 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
             List<HisPolypDetail> details = hisPolypDetailService.selectHisPolypDetailByResultId(task.getResultId());
             result.put("detectionResult", detectionResult);
             result.put("boxes", details);
-            result.put("polypCount", details == null ? 0 : details.size());
+            Integer polypCount = task.getBoxCount() != null ? task.getBoxCount() : (details == null ? 0 : details.size());
+            result.put("polypCount", polypCount);
             if ((boxCount == null || boxCount <= 0) && details != null)
             {
-                result.put("boxCount", (long) details.size());
+                result.put("boxCount", details.size());
             }
             if ((maxConfidence == null || maxConfidence.compareTo(BigDecimal.ZERO) <= 0)
                 && detectionResult != null && detectionResult.getAvgConfidence() != null)
@@ -233,8 +238,8 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
             item.setCreateTime(dateValue(row.get("createTime")));
 
             Map<String, Object> inferenceSummary = parseInferenceSummary(stringValue(row.get("remark")));
-            item.setResultImageUrl(normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultImageUrl"))));
-            item.setResultVideoUrl(normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultVideoUrl"))));
+            item.setResultImageUrl(normalizePublicMediaUrl(firstNonEmpty(stringValue(row.get("resultImageUrl")), stringValue(inferenceSummary.get("resultImageUrl")))));
+            item.setResultVideoUrl(normalizePublicMediaUrl(firstNonEmpty(stringValue(row.get("resultVideoUrl")), stringValue(inferenceSummary.get("resultVideoUrl")))));
             result.add(item);
         }
         return result;
@@ -281,15 +286,38 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
             task.setStatus(PolypTaskStatus.RUNNING);
             task.setStartTime(new Date());
             task.setErrorMsg(null);
+            task.setResultImageUrl(null);
+            task.setResultVideoUrl(null);
+            task.setResultFramesUrl(null);
+            task.setFrameCount(0);
+            task.setDetectedFrameCount(0);
+            task.setBoxCount(0);
+            task.setMaxConfidence(BigDecimal.ZERO);
             task.setUpdateTime(DateUtils.getNowDate());
             polypDetectTaskMapper.updatePolypDetectTask(task);
 
             InferResponse inferResponse = polypInferenceClient.infer(sourcePhysicalFile, fileType, model, task.getConfThreshold());
             Long resultId = saveLegacyResult(task, sourceFile, inferResponse, fileType);
+            String resultImageUrl = normalizePublicMediaUrl(inferResponse.getResultImageUrl());
+            String resultVideoUrl = normalizePublicMediaUrl(inferResponse.getResultVideoUrl());
+            if (StringUtils.isEmpty(resultVideoUrl) && PolypFileTypeUtils.TYPE_VIDEO.equals(fileType))
+            {
+                resultVideoUrl = normalizePublicMediaUrl(fileAssetService.resolvePlayableVideoUrl(sourceFile));
+            }
+            String resultFramesUrl = normalizePublicMediaUrl(inferResponse.getResultFramesUrl());
 
             task.setStatus(PolypTaskStatus.SUCCESS);
             task.setResultId(resultId);
             task.setInferenceMs(inferResponse.getInferenceMs());
+            task.setMediaType(fileType);
+            task.setResultImageUrl(resultImageUrl);
+            task.setResultVideoUrl(resultVideoUrl);
+            task.setResultFramesUrl(resultFramesUrl);
+            task.setFrameCount(inferResponse.getFrameCount() == null ? 0 : inferResponse.getFrameCount());
+            task.setDetectedFrameCount(inferResponse.getDetectedFrameCount() == null ? 0 : inferResponse.getDetectedFrameCount());
+            task.setBoxCount(inferResponse.getBoxes() == null ? 0 : inferResponse.getBoxes().size());
+            task.setMaxConfidence(inferResponse.getMaxConfidence() == null ? BigDecimal.ZERO : inferResponse.getMaxConfidence());
+            task.setIsDeleted(0);
             task.setRemark(buildInferenceSummaryRemark(fileType, inferResponse, sourceFile));
             task.setFinishTime(new Date());
             task.setUpdateTime(DateUtils.getNowDate());
@@ -301,6 +329,13 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
             task.setStatus(PolypTaskStatus.FAILED);
             task.setFinishTime(new Date());
             task.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 500));
+            task.setResultImageUrl(null);
+            task.setResultVideoUrl(null);
+            task.setResultFramesUrl(null);
+            task.setFrameCount(0);
+            task.setDetectedFrameCount(0);
+            task.setBoxCount(0);
+            task.setMaxConfidence(BigDecimal.ZERO);
             task.setUpdateTime(DateUtils.getNowDate());
             polypDetectTaskMapper.updatePolypDetectTask(task);
             log.error("polyp detect task failed, taskId={}, error={}", taskId, e.getMessage(), e);
@@ -319,6 +354,13 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         detectionResult.setPolypCount(boxes.size());
         detectionResult.setDetectionTime(new Date());
         detectionResult.setReportGenerated("0");
+        String resultImageUrl = normalizePublicMediaUrl(inferResponse.getResultImageUrl());
+        String resultVideoUrl = normalizePublicMediaUrl(inferResponse.getResultVideoUrl());
+        if (StringUtils.isEmpty(resultVideoUrl) && PolypFileTypeUtils.TYPE_VIDEO.equals(fileType))
+        {
+            resultVideoUrl = normalizePublicMediaUrl(fileAssetService.resolvePlayableVideoUrl(sourceFile));
+        }
+        detectionResult.setResultFile(PolypFileTypeUtils.TYPE_VIDEO.equals(fileType) ? resultVideoUrl : resultImageUrl);
 
         if (!boxes.isEmpty())
         {
@@ -495,6 +537,38 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
     private String stringValue(Object value)
     {
         return value == null ? "" : String.valueOf(value);
+    }
+
+    private Object firstNonNull(Object... values)
+    {
+        if (values == null)
+        {
+            return null;
+        }
+        for (Object value : values)
+        {
+            if (value != null)
+            {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    private String firstNonEmpty(String... values)
+    {
+        if (values == null)
+        {
+            return "";
+        }
+        for (String value : values)
+        {
+            if (StringUtils.isNotEmpty(value))
+            {
+                return value;
+            }
+        }
+        return "";
     }
 
     private int nvl(Integer value)
