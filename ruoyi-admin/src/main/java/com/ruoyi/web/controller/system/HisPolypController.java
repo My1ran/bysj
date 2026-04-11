@@ -18,6 +18,7 @@ import com.ruoyi.system.service.IHisPolypDetailService;
  * @date 2026-03-27
  */
 @RestController
+@Deprecated
 @RequestMapping("/system/polyp")
 public class HisPolypController extends BaseController
 {

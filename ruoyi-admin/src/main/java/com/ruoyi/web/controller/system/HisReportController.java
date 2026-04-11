@@ -24,6 +24,7 @@ import com.ruoyi.system.domain.HisPolypDetail;
  * @date 2026-03-19
  */
 @RestController
+@Deprecated
 @RequestMapping("/system/report")
 public class HisReportController extends BaseController
 {

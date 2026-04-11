@@ -24,20 +24,20 @@ public class PolypFileController
         this.fileAssetService = fileAssetService;
     }
 
-    @Log(title = "息肉检测文件上传", businessType = BusinessType.INSERT, isSaveRequestData = false, isSaveResponseData = false)
+    @Log(title = "检查资料上传", businessType = BusinessType.INSERT, isSaveRequestData = false, isSaveResponseData = false)
     @PreAuthorize("@ss.hasPermi('system:polyp:file:upload')")
     @PostMapping("/upload")
     public AjaxResult upload(@RequestParam("file") MultipartFile file)
     {
         if (file == null || file.isEmpty())
         {
-            return AjaxResult.error("Upload file cannot be empty");
+            return AjaxResult.error("上传文件不能为空");
         }
 
         String ext = PolypFileTypeUtils.getExtension(file);
         if (!PolypFileTypeUtils.isSupportedExt(ext))
         {
-            return AjaxResult.error("Only " + PolypFileTypeUtils.allowListText() + " is supported");
+            return AjaxResult.error("仅支持 " + PolypFileTypeUtils.allowListText() + " 格式");
         }
 
         FileAsset asset = fileAssetService.uploadSourceFile(file);

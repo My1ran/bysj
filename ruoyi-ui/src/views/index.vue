@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="app-container polyp-dashboard">
     <el-row :gutter="16" class="card-row">
       <el-col v-for="card in overviewCards" :key="card.key" :xs="24" :sm="12" :lg="8" :xl="4">
@@ -13,7 +13,7 @@
       <el-col :xs="24" :lg="16">
         <el-card shadow="never">
           <div slot="header">
-            <span>最近 7 天检测趋势</span>
+            <span>最近 7 天检查任务趋势</span>
           </div>
           <div ref="trendChart" class="chart-box" />
         </el-card>
@@ -51,13 +51,13 @@
       <el-col :span="24">
         <el-card shadow="never">
           <div slot="header" class="table-header">
-            <span>最近任务（10条）</span>
-            <el-button type="primary" size="mini" @click="$router.push('/system/polyp')">进入检测中心</el-button>
+            <span>最近任务（10 条）</span>
+            <el-button type="primary" size="mini" @click="$router.push('/system/polyp')">进入息肉检测中心</el-button>
           </div>
           <el-table v-loading="loading" :data="recentTasks" border size="small" empty-text="暂无任务数据">
             <el-table-column label="任务ID" prop="taskId" width="90" align="center" />
             <el-table-column label="任务编号" prop="taskNo" min-width="220" />
-            <el-table-column label="类型" width="100">
+            <el-table-column label="媒体类型" width="100">
               <template slot-scope="scope">
                 <el-tag size="mini">{{ scope.row.mediaType === 'video' ? '视频' : '图片' }}</el-tag>
               </template>
@@ -68,7 +68,7 @@
               </template>
             </el-table-column>
             <el-table-column label="推理耗时(ms)" prop="inferenceMs" width="130" />
-            <el-table-column label="文件名" prop="originName" min-width="200" show-overflow-tooltip />
+            <el-table-column label="原始文件名" prop="originName" min-width="200" show-overflow-tooltip />
             <el-table-column label="创建时间" min-width="170">
               <template slot-scope="scope">
                 {{ formatDateTime(scope.row.createTime) }}
@@ -115,8 +115,8 @@ export default {
   computed: {
     overviewCards() {
       return [
-        { key: 'totalTaskCount', label: '总检测任务数', value: this.overview.totalTaskCount },
-        { key: 'todayTaskCount', label: '今日检测任务数', value: this.overview.todayTaskCount },
+        { key: 'totalTaskCount', label: '总检查任务数', value: this.overview.totalTaskCount },
+        { key: 'todayTaskCount', label: '今日检查任务数', value: this.overview.todayTaskCount },
         { key: 'successTaskCount', label: '成功任务数', value: this.overview.successTaskCount },
         { key: 'failedTaskCount', label: '失败任务数', value: this.overview.failedTaskCount },
         { key: 'avgInferenceMs', label: '平均推理耗时(ms)', value: Number(this.overview.avgInferenceMs || 0).toFixed(2) },
@@ -163,7 +163,7 @@ export default {
           this.renderDistributionChart()
         })
       } catch (e) {
-        this.$modal.msgError('加载首页统计数据失败')
+        this.$modal.msgError('加载监测总览数据失败')
       } finally {
         this.loading = false
       }
@@ -189,7 +189,7 @@ export default {
         },
         series: [
           {
-            name: '检测任务数',
+            name: '检查任务数',
             type: 'line',
             smooth: true,
             data: yData,
@@ -221,7 +221,7 @@ export default {
             label: {
               formatter: '{b}\n{d}%'
             },
-            data: data
+            data
           }
         ]
       })
@@ -233,8 +233,8 @@ export default {
     statusText(status) {
       if (status === 'SUCCESS') return '成功'
       if (status === 'FAILED') return '失败'
-      if (status === 'RUNNING') return '处理中'
-      if (status === 'PENDING') return '待处理'
+      if (status === 'RUNNING') return '执行中'
+      if (status === 'PENDING') return '待执行'
       return status || '-'
     },
     statusTagType(status) {

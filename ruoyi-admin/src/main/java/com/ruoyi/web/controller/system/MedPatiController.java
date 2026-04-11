@@ -28,6 +28,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2022-11-04
  */
 @RestController
+@Deprecated
 @RequestMapping("/system/pati")
 public class MedPatiController extends BaseController
 {

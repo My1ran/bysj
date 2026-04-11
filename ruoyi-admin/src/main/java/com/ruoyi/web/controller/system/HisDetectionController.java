@@ -46,6 +46,7 @@ import com.ruoyi.common.config.RuoYiConfig;
  * @date 2026-03-19
  */
 @RestController
+@Deprecated
 @RequestMapping("/system/detection")
 public class HisDetectionController extends BaseController
 {

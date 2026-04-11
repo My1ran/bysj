@@ -28,6 +28,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2022-12-03
  */
 @RestController
+@Deprecated
 @RequestMapping("/system/reg")
 public class HisRegController extends BaseController
 {

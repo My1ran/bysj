@@ -1,8 +1,8 @@
 package com.ruoyi.web.controller.polyp;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +33,7 @@ public class PolypTaskController extends BaseController
         this.polypDetectTaskService = polypDetectTaskService;
     }
 
-    @Log(title = "息肉检测任务创建", businessType = BusinessType.INSERT, isSaveResponseData = false)
+    @Log(title = "检查任务创建", businessType = BusinessType.INSERT, isSaveResponseData = false)
     @PreAuthorize("@ss.hasPermi('system:polyp:task:add')")
     @PostMapping("/task")
     public AjaxResult createTask(@RequestBody PolypTaskCreateRequest request)
@@ -50,7 +50,7 @@ public class PolypTaskController extends BaseController
         return AjaxResult.success(detail);
     }
 
-    @Log(title = "息肉检测详情查看", businessType = BusinessType.OTHER, isSaveResponseData = false)
+    @Log(title = "检查任务详情查看", businessType = BusinessType.OTHER, isSaveResponseData = false)
     @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
     @GetMapping("/task/{taskId}/view")
     public AjaxResult taskDetailForView(@PathVariable("taskId") Long taskId)
@@ -68,7 +68,7 @@ public class PolypTaskController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = "息肉检测任务", businessType = BusinessType.DELETE, isSaveResponseData = false)
+    @Log(title = "检查任务删除", businessType = BusinessType.DELETE, isSaveResponseData = false)
     @PreAuthorize("@ss.hasPermi('system:polyp:task:remove')")
     @DeleteMapping("/task/{taskIds}")
     public AjaxResult remove(@PathVariable Long[] taskIds)
@@ -76,13 +76,13 @@ public class PolypTaskController extends BaseController
         return toAjax(polypDetectTaskService.deleteTasks(taskIds));
     }
 
-    @Log(title = "息肉检测任务", businessType = BusinessType.EXPORT)
+    @Log(title = "检查任务导出", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:polyp:task:export')")
     @PostMapping("/task/export")
     public void export(HttpServletResponse response, PolypDetectTask query)
     {
         List<PolypTaskExportVO> list = polypDetectTaskService.selectTaskExportList(query);
         ExcelUtil<PolypTaskExportVO> util = new ExcelUtil<>(PolypTaskExportVO.class);
-        util.exportExcel(response, list, "息肉检测任务");
+        util.exportExcel(response, list, "检查任务数据");
     }
 }

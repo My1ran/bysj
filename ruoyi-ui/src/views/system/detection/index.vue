@@ -2,7 +2,7 @@
 <template>
   <div class="app-container">
     <el-card shadow="never">
-      <div slot="header"><span>息肉检测</span></div>
+      <div slot="header"><span>息肉检测中心</span></div>
       <el-row :gutter="16">
         <el-col :span="12">
           <div class="label">当前模型</div>
@@ -38,14 +38,14 @@
         <el-button type="text" class="upload-selected-remove" @click="handleRemoveFile">移除</el-button>
       </div>
       <div class="actions">
-        <el-button v-hasPermi="['system:polyp:file:upload']" type="primary" icon="el-icon-video-play" :loading="detecting" @click="submitDetect">上传并检测</el-button>
+        <el-button v-hasPermi="['system:polyp:file:upload']" type="primary" icon="el-icon-video-play" :loading="detecting" @click="submitDetect">提交检查</el-button>
       </div>
     </el-card>
 
     <el-card v-if="currentDetail && currentDetail.task" shadow="never" class="block-gap">
-      <div slot="header"><span>任务详情（ID: {{ currentDetail.task.taskId }}）</span></div>
+      <div slot="header"><span>检查任务详情（ID: {{ currentDetail.task.taskId }}）</span></div>
       <el-descriptions :column="3" border>
-        <el-descriptions-item label="任务编号">{{ currentDetail.task.taskNo }}</el-descriptions-item>
+        <el-descriptions-item label="检查任务编号">{{ currentDetail.task.taskNo }}</el-descriptions-item>
         <el-descriptions-item label="状态"><el-tag :type="statusTagType(currentDetail.task.status)">{{ statusText(currentDetail.task.status) }}</el-tag></el-descriptions-item>
         <el-descriptions-item label="推理耗时(ms)">{{ currentDetail.task.inferenceMs || '-' }}</el-descriptions-item>
         <el-descriptions-item label="媒体类型">{{ currentFileType === 'video' ? '视频' : '图片' }}</el-descriptions-item>
@@ -59,11 +59,11 @@
       </el-descriptions>
 
       <div v-if="currentFileType==='image' && currentImageUrl" class="block-gap">
-        <div class="label">图片结果</div>
+        <div class="label">检查结果图</div>
         <img :src="currentImageUrl" class="preview" alt="image">
       </div>
       <div v-if="currentFileType==='video' && currentVideoUrl" class="block-gap">
-        <div class="label">视频结果</div>
+        <div class="label">检查结果视频</div>
         <video ref="videoEl" :key="currentVideoKey" :src="currentVideoUrl" class="preview" preload="metadata" controls />
         <div class="video-toolbar">
           <span class="rate-label">播放速度：</span>
@@ -74,7 +74,7 @@
       </div>
 
       <div class="block-gap">
-        <div class="label">检测框列表</div>
+        <div class="label">检查结果明细</div>
         <el-table v-if="currentFileType==='video'" v-loading="frameRowsLoading" :data="pagedVideoHitRows" size="small" border empty-text="暂无命中帧数据" @row-click="jumpToVideoTimestamp">
           <el-table-column label="#" type="index" width="60" align="center" />
           <el-table-column label="帧号" prop="frameIndex" width="90" />
@@ -109,11 +109,11 @@
       </div>
     </el-card>
 
-    <el-card v-else shadow="never" class="block-gap"><el-empty description="暂无任务详情，请先上传并检测" /></el-card>
+    <el-card v-else shadow="never" class="block-gap"><el-empty description="暂无任务详情，请先提交检查" /></el-card>
     <el-card shadow="never" class="block-gap">
-      <div slot="header"><span>历史任务记录</span></div>
+      <div slot="header"><span>检查任务管理</span></div>
       <el-form ref="queryForm" :inline="true" size="small" :model="queryParams">
-        <el-form-item label="任务编号"><el-input v-model="queryParams.taskNo" placeholder="请输入任务编号" clearable @keyup.enter.native="handleQuery" /></el-form-item>
+        <el-form-item label="检查任务编号"><el-input v-model="queryParams.taskNo" placeholder="请输入检查任务编号" clearable @keyup.enter.native="handleQuery" /></el-form-item>
         <el-form-item label="状态">
           <el-select v-model="queryParams.status" placeholder="全部状态" clearable>
             <el-option label="待处理" value="PENDING" />
@@ -145,9 +145,9 @@
           <el-button v-hasPermi="['system:polyp:task:export']" type="warning" icon="el-icon-download" @click="handleExport">导出</el-button>
         </el-form-item>
       </el-form>
-      <el-table v-loading="listLoading" :data="taskList" border empty-text="暂无历史任务">
+      <el-table v-loading="listLoading" :data="taskList" border empty-text="暂无检查任务">
         <el-table-column label="任务ID" prop="taskId" width="90" />
-        <el-table-column label="任务编号" prop="taskNo" min-width="220" />
+        <el-table-column label="检查任务编号" prop="taskNo" min-width="220" />
         <el-table-column label="媒体类型" min-width="100">
           <template slot-scope="scope">
             <el-tag size="mini">{{ scope.row.mediaType === 'video' ? '视频' : '图片' }}</el-tag>
@@ -303,7 +303,7 @@ export default {
 
         await this.showDetail(taskId)
         await this.getTaskList()
-        this.$modal.msgSuccess(`任务已提交，任务ID=${taskId}，正在后台识别`)
+        this.$modal.msgSuccess(`检查任务已提交，任务ID=${taskId}，正在后台识别`)
         this.startTaskPolling(taskId)
       } catch (error) {
         const msg = (error && error.response && error.response.data && error.response.data.msg) || error.message || '检测失败'
@@ -345,12 +345,12 @@ export default {
           this.stopTaskPolling()
           await this.applyDetailData(detail)
           await this.getTaskList()
-          this.$modal.msgSuccess(`任务ID=${taskId} 识别已完成`)
+          this.$modal.msgSuccess(`检查任务ID=${taskId} 识别已完成`)
         } else if (task.status === 'FAILED') {
           this.stopTaskPolling()
           await this.applyDetailData(detail)
           await this.getTaskList()
-          this.$modal.msgError(`任务ID=${taskId} 识别失败：${task.errorMsg || '后台推理失败'}`)
+          this.$modal.msgError(`检查任务ID=${taskId} 识别失败：${task.errorMsg || '后台推理失败'}`)
         }
       } catch (e) {
         // ignore transient polling error
@@ -658,3 +658,4 @@ export default {
 .rate-label { color: #606266; font-size: 13px; margin-right: 8px; }
 .video-box-pagination { margin-top: 10px; text-align: right; }
 </style>
+
