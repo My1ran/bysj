@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <!--部门数据-->
+      <!--科室/组织数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
           <el-input
             v-model="deptName"
-            placeholder="请输入部门名称"
+            placeholder="请输入科室/组织名称"
             clearable
             size="small"
             prefix-icon="el-icon-search"
@@ -27,13 +27,13 @@
           />
         </div>
       </el-col>
-      <!--用户数据-->
+      <!--医护账号数据-->
       <el-col :span="20" :xs="24">
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="用户名称" prop="userName">
+          <el-form-item label="账号名称" prop="userName">
             <el-input
               v-model="queryParams.userName"
-              placeholder="请输入用户名称"
+              placeholder="请输入账号名称"
               clearable
               style="width: 240px"
               @keyup.enter.native="handleQuery"
@@ -51,7 +51,7 @@
           <el-form-item label="状态" prop="status">
             <el-select
               v-model="queryParams.status"
-              placeholder="用户状态"
+              placeholder="账号状态"
               clearable
               style="width: 240px"
             >
@@ -138,10 +138,10 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
-          <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="账号编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
+          <el-table-column label="账号名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="姓名" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="科室/组织" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
           <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
           <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
             <template slot-scope="scope">
@@ -202,18 +202,18 @@
       </el-col>
     </el-row>
 
-    <!-- 添加或修改用户配置对话框 -->
+    <!-- 添加或修改医护账号对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户昵称" prop="nickName">
-              <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
+            <el-form-item label="姓名" prop="nickName">
+              <el-input v-model="form.nickName" placeholder="请输入姓名" maxlength="30" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
+            <el-form-item label="归属科室/组织" prop="deptId">
+              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属科室/组织" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -231,19 +231,19 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
+            <el-form-item v-if="form.userId == undefined" label="账号名称" prop="userName">
+              <el-input v-model="form.userName" placeholder="请输入账号名称" maxlength="30" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
+            <el-form-item v-if="form.userId == undefined" label="账号密码" prop="password">
+              <el-input v-model="form.password" placeholder="请输入账号密码" type="password" maxlength="20" show-password/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户性别">
+            <el-form-item label="性别">
               <el-select v-model="form.sex" placeholder="请选择性别">
                 <el-option
                   v-for="dict in dict.type.sys_user_sex"
@@ -268,8 +268,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择岗位">
+            <el-form-item label="医疗岗位">
+              <el-select v-model="form.postIds" multiple placeholder="请选择医疗岗位">
                 <el-option
                   v-for="item in postOptions"
                   :key="item.postId"
@@ -308,7 +308,7 @@
       </div>
     </el-dialog>
 
-    <!-- 用户导入对话框 -->
+    <!-- 医护账号导入对话框 -->
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
       <el-upload
         ref="upload"
@@ -326,7 +326,7 @@
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip text-center" slot="tip">
           <div class="el-upload__tip" slot="tip">
-            <el-checkbox v-model="upload.updateSupport" /> 是否更新已经存在的用户数据
+            <el-checkbox v-model="upload.updateSupport" /> 是否更新已存在的医护账号数据
           </div>
           <span>仅允许导入xls、xlsx格式文件。</span>
           <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;" @click="importTemplate">下载模板</el-link>
@@ -364,7 +364,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 用户表格数据
+      // 医护账号表格数据
       userList: null,
       // 弹出层标题
       title: "",
@@ -388,11 +388,11 @@ export default {
         children: "children",
         label: "label"
       },
-      // 用户导入参数
+      // 医护账号导入参数
       upload: {
-        // 是否显示弹出层（用户导入）
+        // 是否显示弹出层（医护账号导入）
         open: false,
-        // 弹出层标题（用户导入）
+        // 弹出层标题（医护账号导入）
         title: "",
         // 是否禁用上传
         isUploading: false,
@@ -414,10 +414,10 @@ export default {
       },
       // 列信息
       columns: [
-        { key: 0, label: `用户编号`, visible: true },
-        { key: 1, label: `用户名称`, visible: true },
-        { key: 2, label: `用户昵称`, visible: true },
-        { key: 3, label: `部门`, visible: true },
+        { key: 0, label: `账号编号`, visible: true },
+        { key: 1, label: `账号名称`, visible: true },
+        { key: 2, label: `姓名`, visible: true },
+        { key: 3, label: `科室/组织`, visible: true },
         { key: 4, label: `手机号码`, visible: true },
         { key: 5, label: `状态`, visible: true },
         { key: 6, label: `创建时间`, visible: true }
@@ -425,15 +425,15 @@ export default {
       // 表单校验
       rules: {
         userName: [
-          { required: true, message: "用户名称不能为空", trigger: "blur" },
-          { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间', trigger: 'blur' }
+          { required: true, message: "账号名称不能为空", trigger: "blur" },
+          { min: 2, max: 20, message: '账号名称长度必须介于 2 和 20 之间', trigger: 'blur' }
         ],
         nickName: [
-          { required: true, message: "用户昵称不能为空", trigger: "blur" }
+          { required: true, message: "姓名不能为空", trigger: "blur" }
         ],
         password: [
-          { required: true, message: "用户密码不能为空", trigger: "blur" },
-          { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
+          { required: true, message: "账号密码不能为空", trigger: "blur" },
+          { min: 5, max: 20, message: '账号密码长度必须介于 5 和 20 之间', trigger: 'blur' }
         ],
         email: [
           {
@@ -466,7 +466,7 @@ export default {
     });
   },
   methods: {
-    /** 查询用户列表 */
+    /** 查询医护账号列表 */
     getList() {
       this.loading = true;
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -495,7 +495,7 @@ export default {
     // 用户状态修改
     handleStatusChange(row) {
       let text = row.status === "0" ? "启用" : "停用";
-      this.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗？').then(function() {
+      this.$modal.confirm('确认要"' + text + '"账号“' + row.userName + '”吗？').then(function() {
         return changeUserStatus(row.userId, row.status);
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
@@ -565,7 +565,7 @@ export default {
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
         this.open = true;
-        this.title = "添加用户";
+        this.title = "新增医护账号";
         this.form.password = this.initPassword;
       });
     },
@@ -580,7 +580,7 @@ export default {
         this.$set(this.form, "postIds", response.postIds);
         this.$set(this.form, "roleIds", response.roleIds);
         this.open = true;
-        this.title = "修改用户";
+        this.title = "编辑医护账号";
         this.form.password = "";
       });
     },
@@ -591,7 +591,7 @@ export default {
         cancelButtonText: "取消",
         closeOnClickModal: false,
         inputPattern: /^.{5,20}$/,
-        inputErrorMessage: "用户密码长度必须介于 5 和 20 之间"
+        inputErrorMessage: "账号密码长度必须介于 5 和 20 之间"
       }).then(({ value }) => {
           resetUserPwd(row.userId, value).then(response => {
             this.$modal.msgSuccess("修改成功，新密码是：" + value);
@@ -626,7 +626,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const userIds = row.userId || this.ids;
-      this.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除账号编号为"' + userIds + '"的数据项？').then(function() {
         return delUser(userIds);
       }).then(() => {
         this.getList();
@@ -641,7 +641,7 @@ export default {
     },
     /** 导入按钮操作 */
     handleImport() {
-      this.upload.title = "用户导入";
+      this.upload.title = "医护账号导入";
       this.upload.open = true;
     },
     /** 下载模板操作 */
