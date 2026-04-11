@@ -153,19 +153,23 @@
 
     <select id="selectDashboardOverview" resultType="java.util.HashMap">
         select
-            (select count(1) from polyp_detect_task) as totalTaskCount,
-            (select count(1) from polyp_detect_task where date(create_time) = curdate()) as todayTaskCount,
-            (select count(1) from polyp_detect_task where status = 'SUCCESS') as successTaskCount,
-            (select count(1) from polyp_detect_task where status = 'FAILED') as failedTaskCount,
-            (select ifnull(round(avg(inference_ms), 2), 0) from polyp_detect_task where status = 'SUCCESS' and inference_ms is not null) as avgInferenceMs,
-            (select ifnull(sum(polyp_count), 0) from his_detection_result) as totalPolypCount
+            (select count(1) from polyp_detect_task where status != 'DELETED') as totalTaskCount,
+            (select count(1) from polyp_detect_task where status != 'DELETED' and date(create_time) = curdate()) as todayTaskCount,
+            (select count(1) from polyp_detect_task where status = 'SUCCESS' and status != 'DELETED') as successTaskCount,
+            (select count(1) from polyp_detect_task where status = 'FAILED' and status != 'DELETED') as failedTaskCount,
+            (select ifnull(round(avg(inference_ms), 2), 0) from polyp_detect_task where status = 'SUCCESS' and status != 'DELETED' and inference_ms is not null) as avgInferenceMs,
+            (select ifnull(sum(r.polyp_count), 0)
+             from his_detection_result r
+             join polyp_detect_task t on t.result_id = r.result_id
+             where t.status != 'DELETED') as totalPolypCount
     </select>
 
     <select id="selectDashboardTrend" resultType="java.util.HashMap">
         select date_format(create_time, '%Y-%m-%d') as statDate,
                count(1) as taskCount
         from polyp_detect_task
-        where create_time >= date_sub(curdate(), interval 6 day)
+        where status != 'DELETED'
+          and create_time >= date_sub(curdate(), interval 6 day)
         group by date_format(create_time, '%Y-%m-%d')
         order by statDate asc
     </select>
@@ -179,6 +183,7 @@
                     end as media_type
              from polyp_detect_task t
              left join file_asset f on f.file_id = t.source_file_id
+             where t.status != 'DELETED'
         ) a
         group by media_type
     </select>
@@ -186,6 +191,7 @@
     <select id="selectDashboardStatusDistribution" resultType="java.util.HashMap">
         select status, count(1) as taskCount
         from polyp_detect_task
+        where status != 'DELETED'
         group by status
     </select>
 
@@ -202,6 +208,7 @@
                f.origin_name as originName
         from polyp_detect_task t
         left join file_asset f on f.file_id = t.source_file_id
+        where t.status != 'DELETED'
         order by t.task_id desc
         limit #{limit}
     </select>

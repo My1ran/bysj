@@ -412,38 +412,38 @@ export default {
     },
     async fetchFrames(detailData) {
       const summary = detailData.inferenceSummary || {}
-      const rawFrames = detailData.frames || []
+      if (this.resultFramesUrl) {
+        try {
+          const fetchUrl = this.ensureHttpsForSeetaCloud(this.resultFramesUrl)
+          const resp = await window.fetch(fetchUrl, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store',
+            headers: {
+              Accept: 'application/json,text/plain,*/*'
+            }
+          })
+          if (resp.ok) {
+            const textPayload = await resp.text()
+            const payload = JSON.parse(textPayload.replace(/^\uFEFF/, ''))
+            this.videoFps = this.toNumber(payload.fps, detailData.fps, summary.fps, 0)
+            return this.normalizeFrames(payload.frames || [])
+          }
+        } catch (e) {
+          if (!this.framesLoadErrorNotified) {
+            const err = e && e.message ? e.message : '未知错误'
+            this.$modal.msgError(`读取命中帧失败：${err}`)
+            this.framesLoadErrorNotified = true
+          }
+        }
+      }
+      const rawFrames = detailData.frames || summary.frames || []
       if (rawFrames.length) {
         this.videoFps = this.toNumber(detailData.fps, summary.fps, 0)
         return this.normalizeFrames(rawFrames)
       }
-      if (!this.resultFramesUrl) {
-        return []
-      }
-      try {
-        const fetchUrl = this.ensureHttpsForSeetaCloud(this.resultFramesUrl)
-        const resp = await window.fetch(fetchUrl, {
-          method: 'GET',
-          mode: 'cors',
-          credentials: 'omit',
-          cache: 'no-store',
-          headers: {
-            Accept: 'application/json,text/plain,*/*'
-          }
-        })
-        if (!resp.ok) return []
-        const textPayload = await resp.text()
-        const payload = JSON.parse(textPayload.replace(/^\uFEFF/, ''))
-        this.videoFps = this.toNumber(payload.fps, detailData.fps, summary.fps, 0)
-        return this.normalizeFrames(payload.frames || [])
-      } catch (e) {
-        if (!this.framesLoadErrorNotified) {
-          const err = e && e.message ? e.message : '未知错误'
-          this.$modal.msgError(`读取命中帧失败：${err}`)
-          this.framesLoadErrorNotified = true
-        }
-        return []
-      }
+      return []
     },
     normalizeFrames(frames) {
       return (frames || []).map(item => ({
