@@ -24,6 +24,7 @@ import com.ruoyi.polyp.domain.PolypDetectTask;
 import com.ruoyi.polyp.domain.PolypModel;
 import com.ruoyi.polyp.domain.PolypTaskStatus;
 import com.ruoyi.polyp.domain.dto.PolypTaskCreateRequest;
+import com.ruoyi.polyp.domain.vo.PolypTaskExportVO;
 import com.ruoyi.polyp.inference.InferBox;
 import com.ruoyi.polyp.inference.InferResponse;
 import com.ruoyi.polyp.inference.PolypInferenceClient;
@@ -145,6 +146,11 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         String resultImageUrl = normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultImageUrl")));
         String resultVideoUrl = normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultVideoUrl")));
         String resultFramesUrl = normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultFramesUrl")));
+        Long frameCount = longValue(inferenceSummary.get("frameCount"));
+        Long detectedFrameCount = longValue(inferenceSummary.get("detectedFrameCount"));
+        Long boxCount = longValue(inferenceSummary.get("boxCount"));
+        BigDecimal maxConfidence = decimalValue(inferenceSummary.get("maxConfidence"));
+        BigDecimal fps = decimalValue(inferenceSummary.get("fps"));
         if (StringUtils.isEmpty(resultVideoUrl) && PolypFileTypeUtils.TYPE_VIDEO.equals(fileType))
         {
             resultVideoUrl = normalizePublicMediaUrl(fileAssetService.resolvePlayableVideoUrl(sourceFile));
@@ -155,6 +161,11 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         result.put("resultImageUrl", resultImageUrl);
         result.put("resultVideoUrl", resultVideoUrl);
         result.put("resultFramesUrl", resultFramesUrl);
+        result.put("frameCount", frameCount == null ? 0L : frameCount);
+        result.put("detectedFrameCount", detectedFrameCount == null ? 0L : detectedFrameCount);
+        result.put("boxCount", boxCount == null ? 0L : boxCount);
+        result.put("maxConfidence", maxConfidence == null ? BigDecimal.ZERO : maxConfidence);
+        result.put("fps", fps == null ? BigDecimal.ZERO : fps);
         result.put("inferenceSummary", inferenceSummary);
         Object framesObj = inferenceSummary.get("frames");
         result.put("frames", framesObj instanceof List ? framesObj : Collections.emptyList());
@@ -165,11 +176,22 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
             List<HisPolypDetail> details = hisPolypDetailService.selectHisPolypDetailByResultId(task.getResultId());
             result.put("detectionResult", detectionResult);
             result.put("boxes", details);
+            result.put("polypCount", details == null ? 0 : details.size());
+            if ((boxCount == null || boxCount <= 0) && details != null)
+            {
+                result.put("boxCount", (long) details.size());
+            }
+            if ((maxConfidence == null || maxConfidence.compareTo(BigDecimal.ZERO) <= 0)
+                && detectionResult != null && detectionResult.getAvgConfidence() != null)
+            {
+                result.put("maxConfidence", detectionResult.getAvgConfidence());
+            }
         }
         else
         {
             result.put("detectionResult", null);
             result.put("boxes", new ArrayList<>());
+            result.put("polypCount", 0);
         }
         return result;
     }
@@ -178,6 +200,44 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
     public List<PolypDetectTask> selectPolypDetectTaskList(PolypDetectTask query)
     {
         return polypDetectTaskMapper.selectPolypDetectTaskList(query);
+    }
+
+    @Override
+    public int deleteTasks(Long[] taskIds)
+    {
+        if (taskIds == null || taskIds.length == 0)
+        {
+            return 0;
+        }
+        return polypDetectTaskMapper.logicDeletePolypDetectTaskByTaskIds(taskIds, DateUtils.getNowDate());
+    }
+
+    @Override
+    public List<PolypTaskExportVO> selectTaskExportList(PolypDetectTask query)
+    {
+        List<Map<String, Object>> rows = polypDetectTaskMapper.selectPolypTaskExportList(query);
+        List<PolypTaskExportVO> result = new ArrayList<>();
+        if (rows == null)
+        {
+            return result;
+        }
+        for (Map<String, Object> row : rows)
+        {
+            PolypTaskExportVO item = new PolypTaskExportVO();
+            item.setTaskId(longValue(row.get("taskId")));
+            item.setTaskNo(stringValue(row.get("taskNo")));
+            item.setMediaType(stringValue(row.get("mediaType")));
+            item.setStatus(stringValue(row.get("status")));
+            item.setInferenceMs(longValue(row.get("inferenceMs")));
+            item.setPolypCount(intValue(row.get("polypCount")));
+            item.setCreateTime(dateValue(row.get("createTime")));
+
+            Map<String, Object> inferenceSummary = parseInferenceSummary(stringValue(row.get("remark")));
+            item.setResultImageUrl(normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultImageUrl"))));
+            item.setResultVideoUrl(normalizePublicMediaUrl(stringValue(inferenceSummary.get("resultVideoUrl"))));
+            result.add(item);
+        }
+        return result;
     }
 
     private void executeTaskAsync(Long taskId)
@@ -440,6 +500,67 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
     private int nvl(Integer value)
     {
         return value == null ? 0 : value;
+    }
+
+    private Long longValue(Object value)
+    {
+        if (value == null || StringUtils.isEmpty(String.valueOf(value)))
+        {
+            return null;
+        }
+        try
+        {
+            return Long.valueOf(String.valueOf(value));
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    private Integer intValue(Object value)
+    {
+        if (value == null || StringUtils.isEmpty(String.valueOf(value)))
+        {
+            return 0;
+        }
+        try
+        {
+            return Integer.valueOf(String.valueOf(value));
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+    }
+
+    private BigDecimal decimalValue(Object value)
+    {
+        if (value == null || StringUtils.isEmpty(String.valueOf(value)))
+        {
+            return null;
+        }
+        try
+        {
+            return new BigDecimal(String.valueOf(value)).setScale(6, RoundingMode.HALF_UP);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    private Date dateValue(Object value)
+    {
+        if (value == null)
+        {
+            return null;
+        }
+        if (value instanceof Date)
+        {
+            return (Date) value;
+        }
+        return DateUtils.parseDate(value);
     }
 
     private String generateTaskNo()

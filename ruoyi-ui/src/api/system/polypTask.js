@@ -43,6 +43,13 @@ export function listPolypTask(query) {
   })
 }
 
+export function deletePolypTask(taskIds) {
+  return request({
+    url: '/system/polyp/task/' + taskIds,
+    method: 'delete'
+  })
+}
+
 export function getCurrentPolypModel() {
   return request({
     url: '/system/polyp/model/current',

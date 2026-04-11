@@ -15,6 +15,8 @@
         <result property="resultId" column="result_id"/>
         <result property="inferenceMs" column="inference_ms"/>
         <result property="errorMsg" column="error_msg"/>
+        <result property="mediaType" column="media_type"/>
+        <result property="polypCount" column="polyp_count"/>
         <result property="startTime" column="start_time"/>
         <result property="finishTime" column="finish_time"/>
         <result property="createBy" column="create_by"/>
@@ -60,16 +62,93 @@
     </select>
 
     <select id="selectPolypDetectTaskList" parameterType="PolypDetectTask" resultMap="PolypDetectTaskResult">
-        select task_id, task_no, patient_id, source_file_id, model_id, status, conf_threshold, result_id, inference_ms, error_msg,
-               start_time, finish_time, create_by, create_time, update_by, update_time, remark
-        from polyp_detect_task
+        select t.task_id, t.task_no, t.patient_id, t.source_file_id, t.model_id, t.status, t.conf_threshold, t.result_id,
+               t.inference_ms, t.error_msg, t.start_time, t.finish_time, t.create_by, t.create_time, t.update_by, t.update_time,
+               t.remark,
+               case
+                   when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video'
+                   else 'image'
+               end as media_type,
+               ifnull(r.polyp_count, 0) as polyp_count
+        from polyp_detect_task t
+        left join file_asset f on f.file_id = t.source_file_id
+        left join his_detection_result r on r.result_id = t.result_id
         <where>
-            <if test="taskNo != null and taskNo != ''">and task_no like concat('%', #{taskNo}, '%')</if>
-            <if test="patientId != null">and patient_id = #{patientId}</if>
-            <if test="modelId != null">and model_id = #{modelId}</if>
-            <if test="status != null and status != ''">and status = #{status}</if>
+            and t.status != 'DELETED'
+            <if test="taskNo != null and taskNo != ''">and t.task_no like concat('%', #{taskNo}, '%')</if>
+            <if test="patientId != null">and t.patient_id = #{patientId}</if>
+            <if test="modelId != null">and t.model_id = #{modelId}</if>
+            <if test="status != null and status != ''">and t.status = #{status}</if>
+            <if test="mediaType != null and mediaType != ''">
+                <choose>
+                    <when test="mediaType == 'video'">
+                        and lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv')
+                    </when>
+                    <otherwise>
+                        and lower(ifnull(f.ext_name, '')) not in ('mp4', 'avi', 'mov', 'mkv')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params != null and params.beginTime != null and params.beginTime != ''">
+                and t.create_time &gt;= concat(#{params.beginTime}, ' 00:00:00')
+            </if>
+            <if test="params != null and params.endTime != null and params.endTime != ''">
+                and t.create_time &lt;= concat(#{params.endTime}, ' 23:59:59')
+            </if>
         </where>
-        order by task_id desc
+        order by t.task_id desc
+    </select>
+
+    <update id="logicDeletePolypDetectTaskByTaskIds">
+        update polyp_detect_task
+        set status = 'DELETED',
+            update_time = #{updateTime}
+        where status != 'DELETED'
+          and task_id in
+          <foreach item="taskId" collection="taskIds" open="(" separator="," close=")">
+              #{taskId}
+          </foreach>
+    </update>
+
+    <select id="selectPolypTaskExportList" parameterType="PolypDetectTask" resultType="java.util.HashMap">
+        select t.task_id as taskId,
+               t.task_no as taskNo,
+               t.status as status,
+               t.inference_ms as inferenceMs,
+               t.create_time as createTime,
+               t.remark as remark,
+               case
+                   when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video'
+                   else 'image'
+               end as mediaType,
+               ifnull(r.polyp_count, 0) as polypCount
+        from polyp_detect_task t
+        left join file_asset f on f.file_id = t.source_file_id
+        left join his_detection_result r on r.result_id = t.result_id
+        <where>
+            and t.status != 'DELETED'
+            <if test="taskNo != null and taskNo != ''">and t.task_no like concat('%', #{taskNo}, '%')</if>
+            <if test="patientId != null">and t.patient_id = #{patientId}</if>
+            <if test="modelId != null">and t.model_id = #{modelId}</if>
+            <if test="status != null and status != ''">and t.status = #{status}</if>
+            <if test="mediaType != null and mediaType != ''">
+                <choose>
+                    <when test="mediaType == 'video'">
+                        and lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv')
+                    </when>
+                    <otherwise>
+                        and lower(ifnull(f.ext_name, '')) not in ('mp4', 'avi', 'mov', 'mkv')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params != null and params.beginTime != null and params.beginTime != ''">
+                and t.create_time &gt;= concat(#{params.beginTime}, ' 00:00:00')
+            </if>
+            <if test="params != null and params.endTime != null and params.endTime != ''">
+                and t.create_time &lt;= concat(#{params.endTime}, ' 23:59:59')
+            </if>
+        </where>
+        order by t.task_id desc
     </select>
 
     <select id="selectDashboardOverview" resultType="java.util.HashMap">

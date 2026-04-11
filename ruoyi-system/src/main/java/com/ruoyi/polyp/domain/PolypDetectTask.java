@@ -21,6 +21,8 @@ public class PolypDetectTask extends BaseEntity
     private Long resultId;
     private Long inferenceMs;
     private String errorMsg;
+    private String mediaType;
+    private Integer polypCount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -126,6 +128,26 @@ public class PolypDetectTask extends BaseEntity
         this.errorMsg = errorMsg;
     }
 
+    public String getMediaType()
+    {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType)
+    {
+        this.mediaType = mediaType;
+    }
+
+    public Integer getPolypCount()
+    {
+        return polypCount;
+    }
+
+    public void setPolypCount(Integer polypCount)
+    {
+        this.polypCount = polypCount;
+    }
+
     public Date getStartTime()
     {
         return startTime;
@@ -160,6 +182,8 @@ public class PolypDetectTask extends BaseEntity
             .append("resultId", getResultId())
             .append("inferenceMs", getInferenceMs())
             .append("errorMsg", getErrorMsg())
+            .append("mediaType", getMediaType())
+            .append("polypCount", getPolypCount())
             .append("startTime", getStartTime())
             .append("finishTime", getFinishTime())
             .append("createBy", getCreateBy())

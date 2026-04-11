@@ -48,6 +48,14 @@
         <el-descriptions-item label="任务编号">{{ currentDetail.task.taskNo }}</el-descriptions-item>
         <el-descriptions-item label="状态"><el-tag :type="statusTagType(currentDetail.task.status)">{{ statusText(currentDetail.task.status) }}</el-tag></el-descriptions-item>
         <el-descriptions-item label="推理耗时(ms)">{{ currentDetail.task.inferenceMs || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="媒体类型">{{ currentFileType === 'video' ? '视频' : '图片' }}</el-descriptions-item>
+        <el-descriptions-item label="检测框数量">{{ Number(currentDetail.boxCount || 0) }}</el-descriptions-item>
+        <el-descriptions-item label="最大置信度">{{ Number(currentDetail.maxConfidence || 0).toFixed(4) }}</el-descriptions-item>
+        <el-descriptions-item label="总帧数">{{ Number(currentDetail.frameCount || 0) }}</el-descriptions-item>
+        <el-descriptions-item label="命中帧数">{{ Number(currentDetail.detectedFrameCount || 0) }}</el-descriptions-item>
+        <el-descriptions-item label="结果帧JSON">
+          <span>{{ currentDetail.resultFramesUrl || '-' }}</span>
+        </el-descriptions-item>
       </el-descriptions>
 
       <div v-if="currentFileType==='image' && currentImageUrl" class="block-gap">
@@ -114,18 +122,47 @@
             <el-option label="失败" value="FAILED" />
           </el-select>
         </el-form-item>
+        <el-form-item label="媒体类型">
+          <el-select v-model="queryParams.mediaType" placeholder="全部类型" clearable>
+            <el-option label="图片" value="image" />
+            <el-option label="视频" value="video" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="创建时间">
+          <el-date-picker
+            v-model="dateRange"
+            type="daterange"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            clearable
+          />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+          <el-button v-hasPermi="['system:polyp:task:export']" type="warning" icon="el-icon-download" @click="handleExport">导出</el-button>
         </el-form-item>
       </el-form>
       <el-table v-loading="listLoading" :data="taskList" border empty-text="暂无历史任务">
         <el-table-column label="任务ID" prop="taskId" width="90" />
         <el-table-column label="任务编号" prop="taskNo" min-width="220" />
+        <el-table-column label="媒体类型" min-width="100">
+          <template slot-scope="scope">
+            <el-tag size="mini">{{ scope.row.mediaType === 'video' ? '视频' : '图片' }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="状态" min-width="100"><template slot-scope="scope"><el-tag :type="statusTagType(scope.row.status)">{{ statusText(scope.row.status) }}</el-tag></template></el-table-column>
         <el-table-column label="推理耗时(ms)" prop="inferenceMs" min-width="120" />
+        <el-table-column label="息肉数量" prop="polypCount" min-width="100" />
         <el-table-column label="创建时间" prop="createTime" min-width="180" />
-        <el-table-column label="操作" width="120" align="center"><template slot-scope="scope"><el-button size="mini" type="text" @click="showDetail(scope.row.taskId)">查看</el-button></template></el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="showDetail(scope.row.taskId)">查看</el-button>
+            <el-button v-hasPermi="['system:polyp:task:remove']" size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getTaskList" />
     </el-card>
@@ -133,7 +170,7 @@
 </template>
 
 <script>
-import { uploadPolypFile, createPolypTask, getPolypTaskDetail, getPolypTaskDetailForView, getCurrentPolypModel, listPolypTask } from '@/api/system/polypTask'
+import { uploadPolypFile, createPolypTask, getPolypTaskDetail, getPolypTaskDetailForView, getCurrentPolypModel, listPolypTask, deletePolypTask } from '@/api/system/polypTask'
 
 export default {
   name: 'Detection',
@@ -167,12 +204,13 @@ export default {
       taskList: [],
       total: 0,
       listLoading: false,
+      dateRange: [],
       acceptTypes: '.jpg,.jpeg,.png,.bmp,.mp4,.avi,.mov,.mkv',
       imageExts: ['jpg', 'jpeg', 'png', 'bmp'],
       videoExts: ['mp4', 'avi', 'mov', 'mkv'],
       maxImageBytes: 10 * 1024 * 1024,
       maxVideoBytes: 500 * 1024 * 1024,
-      queryParams: { pageNum: 1, pageSize: 10, taskNo: undefined, status: undefined }
+      queryParams: { pageNum: 1, pageSize: 10, taskNo: undefined, status: undefined, mediaType: undefined }
     }
   },
   computed: {
@@ -324,15 +362,25 @@ export default {
       await this.applyDetailData((await getPolypTaskDetailForView(taskId)).data || {})
     },
     async applyDetailData(data) {
-      this.currentDetail = data
+      const normalizedDetail = {
+        ...data,
+        frameCount: this.toNumber(data.frameCount, 0),
+        detectedFrameCount: this.toNumber(data.detectedFrameCount, 0),
+        boxCount: this.toNumber(data.boxCount, 0),
+        maxConfidence: this.toNumber(data.maxConfidence, 0),
+        resultImageUrl: this.normalizeFileUrl(data.resultImageUrl || ''),
+        resultVideoUrl: this.normalizeFileUrl(data.resultVideoUrl || ''),
+        resultFramesUrl: this.normalizeFileUrl(data.resultFramesUrl || '')
+      }
+      this.currentDetail = normalizedDetail
       this.currentBoxes = data.boxes || []
       this.imageBoxRows = []
       const sourceFile = data.sourceFile || {}
       this.currentFileType = data.mediaType || this.getFileTypeByName(sourceFile.originName || sourceFile.fileUrl || '')
       const sourceFileUrl = this.normalizeFileUrl(data.sourceFileUrl || sourceFile.fileUrl || '')
-      const resultImageUrl = this.normalizeFileUrl(data.resultImageUrl || '')
-      const resultVideoUrl = this.normalizeFileUrl(data.resultVideoUrl || '')
-      this.resultFramesUrl = this.normalizeFileUrl(data.resultFramesUrl || '')
+      const resultImageUrl = normalizedDetail.resultImageUrl
+      const resultVideoUrl = normalizedDetail.resultVideoUrl
+      this.resultFramesUrl = normalizedDetail.resultFramesUrl
       this.framesLoadErrorNotified = false
       this.currentImageUrl = this.currentFileType === 'image' ? (resultImageUrl || sourceFileUrl) : ''
       this.currentVideoUrl = this.currentFileType === 'video' ? (resultVideoUrl || sourceFileUrl) : ''
@@ -364,9 +412,9 @@ export default {
     },
     async fetchFrames(detailData) {
       const summary = detailData.inferenceSummary || {}
-      const rawFrames = detailData.frames || summary.frames || []
+      const rawFrames = detailData.frames || []
       if (rawFrames.length) {
-        this.videoFps = this.toNumber(summary.fps, 0)
+        this.videoFps = this.toNumber(detailData.fps, summary.fps, 0)
         return this.normalizeFrames(rawFrames)
       }
       if (!this.resultFramesUrl) {
@@ -386,7 +434,7 @@ export default {
         if (!resp.ok) return []
         const textPayload = await resp.text()
         const payload = JSON.parse(textPayload.replace(/^\uFEFF/, ''))
-        this.videoFps = this.toNumber(payload.fps, summary.fps, 0)
+        this.videoFps = this.toNumber(payload.fps, detailData.fps, summary.fps, 0)
         return this.normalizeFrames(payload.frames || [])
       } catch (e) {
         if (!this.framesLoadErrorNotified) {
@@ -551,7 +599,8 @@ export default {
     async getTaskList() {
       this.listLoading = true
       try {
-        const res = await listPolypTask(this.queryParams)
+        const query = this.addDateRange({ ...this.queryParams }, this.dateRange)
+        const res = await listPolypTask(query)
         this.taskList = res.rows || []
         this.total = res.total || 0
       } finally {
@@ -564,7 +613,30 @@ export default {
     },
     resetQuery() {
       this.resetForm('queryForm')
+      this.dateRange = []
       this.handleQuery()
+    },
+    handleDelete(row) {
+      const taskIds = row && row.taskId ? [row.taskId] : []
+      if (!taskIds.length) {
+        return
+      }
+      this.$modal.confirm(`确认删除任务ID为“${taskIds.join(',')}”的数据项吗？`).then(() => {
+        return deletePolypTask(taskIds.join(','))
+      }).then(() => {
+        if (this.currentDetail && this.currentDetail.task && taskIds.indexOf(this.currentDetail.task.taskId) >= 0) {
+          this.currentDetail = null
+          this.currentImageUrl = ''
+          this.currentVideoUrl = ''
+          this.videoHitRows = []
+        }
+        this.$modal.msgSuccess('删除成功')
+        this.getTaskList()
+      }).catch(() => {})
+    },
+    handleExport() {
+      const query = this.addDateRange({ ...this.queryParams }, this.dateRange)
+      this.download('system/polyp/task/export', query, `polyp_task_${new Date().getTime()}.xlsx`)
     }
   }
 }

@@ -15,6 +15,10 @@ public interface PolypDetectTaskMapper
 
     List<PolypDetectTask> selectPolypDetectTaskList(PolypDetectTask query);
 
+    int logicDeletePolypDetectTaskByTaskIds(@Param("taskIds") Long[] taskIds, @Param("updateTime") java.util.Date updateTime);
+
+    List<Map<String, Object>> selectPolypTaskExportList(PolypDetectTask query);
+
     Map<String, Object> selectDashboardOverview();
 
     List<Map<String, Object>> selectDashboardTrend();
