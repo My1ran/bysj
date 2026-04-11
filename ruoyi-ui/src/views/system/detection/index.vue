@@ -17,25 +17,28 @@
         </el-col>
       </el-row>
       <el-upload
-        ref="uploader"
+        :key="uploadInputKey"
+        ref="detectUpload"
         class="upload-block"
         action="#"
         drag
         :auto-upload="false"
-        :limit="1"
-        :show-file-list="true"
+        :show-file-list="false"
         :accept="acceptTypes"
         :before-upload="alwaysManualUpload"
         :on-change="handleFileChange"
-        :on-remove="handleRemoveFile"
       >
         <i class="el-icon-upload" />
         <div class="el-upload__text">将图片或视频拖到此处，或 <em>点击选择文件</em></div>
         <div slot="tip" class="el-upload__tip">支持：jpg/jpeg/png/bmp/mp4（可选：avi/mov/mkv）</div>
       </el-upload>
+      <div v-if="selectedFileName" class="upload-selected-panel">
+        <i class="el-icon-document upload-selected-icon" />
+        <span class="upload-selected-name">{{ selectedFileName }}</span>
+        <el-button type="text" class="upload-selected-remove" @click="handleRemoveFile">移除</el-button>
+      </div>
       <div class="actions">
         <el-button v-hasPermi="['system:polyp:file:upload']" type="primary" icon="el-icon-video-play" :loading="detecting" @click="submitDetect">上传并检测</el-button>
-        <span v-if="selectedFileName" class="selected-file">已选择：{{ selectedFileName }}</span>
       </div>
     </el-card>
 
@@ -137,6 +140,7 @@ export default {
   data() {
     return {
       detecting: false,
+      uploadInputKey: 0,
       selectedFile: null,
       selectedFileName: '',
       currentModel: null,
@@ -200,23 +204,28 @@ export default {
       return status || '-'
     },
     alwaysManualUpload() { return false },
+    resetUploadSelection() {
+      this.selectedFile = null
+      this.selectedFileName = ''
+      if (this.$refs.detectUpload) {
+        this.$refs.detectUpload.clearFiles()
+      }
+      this.uploadInputKey += 1
+    },
     handleFileChange(uploadFile) {
       const rawFile = uploadFile && (uploadFile.raw || uploadFile)
       if (!rawFile) {
-        this.selectedFile = null
-        this.selectedFileName = ''
+        this.resetUploadSelection()
         return
       }
       const validateResult = this.validateSelectedFile(rawFile)
       if (!validateResult.valid) {
         this.$modal.msgError(validateResult.message)
-        this.selectedFile = null
-        this.selectedFileName = ''
-        this.$refs.uploader && this.$refs.uploader.clearFiles()
+        this.resetUploadSelection()
         return
       }
       this.selectedFile = rawFile
-      this.selectedFileName = rawFile.name
+      this.selectedFileName = rawFile.name || ''
     },
     validateSelectedFile(file) {
       const ext = (file.name.split('.').pop() || '').toLowerCase()
@@ -225,14 +234,15 @@ export default {
       return { valid: false, message: '仅支持 jpg/jpeg/png/bmp/mp4（可选 avi/mov/mkv）格式' }
     },
     handleRemoveFile() {
-      this.selectedFile = null
-      this.selectedFileName = ''
+      this.resetUploadSelection()
     },
     async loadCurrentModel() {
       try { this.currentModel = (await getCurrentPolypModel()).data || null } catch (e) { this.currentModel = null }
     },
     async submitDetect() {
-      if (!this.selectedFile) {
+      const selectedFile = this.selectedFile
+      const selectedFileName = this.selectedFileName
+      if (!selectedFile) {
         this.$modal.msgError('请先选择图片或视频文件')
         return
       }
@@ -240,9 +250,9 @@ export default {
       this.detecting = true
       this.$modal.loading('正在提交任务，请稍候...')
       try {
-        const uploadRes = await uploadPolypFile(this.selectedFile)
+        const uploadRes = await uploadPolypFile(selectedFile)
         const sourceFileId = uploadRes && uploadRes.data ? uploadRes.data.fileId : null
-        if (!sourceFileId) throw new Error('文件上传成功，但未返回 fileId')
+        if (!sourceFileId) throw new Error(`文件${selectedFileName || ''}上传成功，但未返回 fileId`)
 
         const req = { sourceFileId }
         if (this.currentModel && this.currentModel.modelId) {
@@ -261,6 +271,7 @@ export default {
         const msg = (error && error.response && error.response.data && error.response.data.msg) || error.message || '检测失败'
         this.$modal.msgError(msg)
       } finally {
+        this.resetUploadSelection()
         this.$modal.closeLoading()
         this.detecting = false
       }
@@ -563,7 +574,10 @@ export default {
 .block-gap { margin-top: 16px; }
 .upload-block { margin-top: 16px; }
 .actions { margin-top: 12px; }
-.selected-file { margin-left: 12px; color: #606266; font-size: 13px; }
+.upload-selected-panel { margin-top: 8px; padding: 8px 12px; border: 1px solid #ebeef5; border-radius: 4px; background: #fafafa; display: flex; align-items: center; gap: 8px; }
+.upload-selected-icon { color: #909399; font-size: 16px; }
+.upload-selected-name { color: #606266; font-size: 13px; flex: 1; min-width: 0; word-break: break-all; }
+.upload-selected-remove { padding: 0; }
 .label { font-weight: 600; margin-bottom: 8px; }
 .meta { margin-left: 12px; color: #606266; }
 .align-right { text-align: right; }
