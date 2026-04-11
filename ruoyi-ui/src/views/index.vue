@@ -1,142 +1,323 @@
 <template>
-  <div class="app-container home">
-
-    <el-row :gutter="20">
-      <el-col :sm="24" :lg="24">
-        <blockquote class="text-warning" style="font-size: 28px">
-          数据统计2
-        </blockquote>
-        <hr />
+  <div class="app-container polyp-dashboard">
+    <el-row :gutter="16" class="card-row">
+      <el-col v-for="card in overviewCards" :key="card.key" :xs="24" :sm="12" :lg="8" :xl="4">
+        <el-card shadow="hover" class="metric-card">
+          <div class="metric-label">{{ card.label }}</div>
+          <div class="metric-value">{{ card.value }}</div>
+        </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
-      <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>肠道息肉检测系统</h2>
-        <p>
-          医疗设施的建设力度逐渐增加，接诊患者的数量逐渐增加，外加医院运营过程中产生的各类海量的数据和医疗信息，使医院管理难度增大，医院各部门之间的信息无法有效共享。除此之外，医疗机构内存有海量的就诊信息，但是由于缺乏有效的集成、管理手段，导致对信息的有效利用程度较低，则对医疗服务水平的提升造成较大影响        </p>
-      </el-col>
 
-      <el-col :sm="24" :lg="12" style="padding-left: 50px">
-        <el-row>
-          <el-col :span="12">
-            <h2>技术栈</h2>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <h4>后端技术</h4>
-            <ul>
-              <li>SpringBoot</li>
-              <li>Spring Security</li>
-              <li>JWT</li>
-              <li>MyBatis</li>
-              <li><Docker></Docker></li>
-            </ul>
-          </el-col>
-          <el-col :span="6">
-            <h4>前端技术</h4>
-            <ul>
-              <li>Vue</li>
-              <li>Vuex</li>
-              <li>Element-ui</li>
-              <li>Axios</li>
-            </ul>
-          </el-col>
-        </el-row>
+    <el-row :gutter="16" class="chart-row">
+      <el-col :xs="24" :lg="16">
+        <el-card shadow="never">
+          <div slot="header">
+            <span>最近 7 天检测趋势</span>
+          </div>
+          <div ref="trendChart" class="chart-box" />
+        </el-card>
+      </el-col>
+      <el-col :xs="24" :lg="8">
+        <el-card shadow="never">
+          <div slot="header">
+            <span>图片/视频任务占比</span>
+          </div>
+          <div ref="distributionChart" class="chart-box" />
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="16" class="status-row">
+      <el-col :span="24">
+        <el-card shadow="never">
+          <div slot="header">
+            <span>任务状态分布</span>
+          </div>
+          <div class="status-wrap">
+            <div v-for="item in statusItems" :key="item.status" class="status-item">
+              <div class="status-header">
+                <span>{{ statusText(item.status) }}</span>
+                <span>{{ item.count }}</span>
+              </div>
+              <el-progress :percentage="statusPercent(item.count)" :show-text="false" :stroke-width="10" />
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="16" class="table-row">
+      <el-col :span="24">
+        <el-card shadow="never">
+          <div slot="header" class="table-header">
+            <span>最近任务（10条）</span>
+            <el-button type="primary" size="mini" @click="$router.push('/system/polyp')">进入检测中心</el-button>
+          </div>
+          <el-table v-loading="loading" :data="recentTasks" border size="small" empty-text="暂无任务数据">
+            <el-table-column label="任务ID" prop="taskId" width="90" align="center" />
+            <el-table-column label="任务编号" prop="taskNo" min-width="220" />
+            <el-table-column label="类型" width="100">
+              <template slot-scope="scope">
+                <el-tag size="mini">{{ scope.row.mediaType === 'video' ? '视频' : '图片' }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="状态" width="100">
+              <template slot-scope="scope">
+                <el-tag size="mini" :type="statusTagType(scope.row.status)">{{ statusText(scope.row.status) }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="推理耗时(ms)" prop="inferenceMs" width="130" />
+            <el-table-column label="文件名" prop="originName" min-width="200" show-overflow-tooltip />
+            <el-table-column label="创建时间" min-width="170">
+              <template slot-scope="scope">
+                {{ formatDateTime(scope.row.createTime) }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import echarts from 'echarts'
+import { parseTime } from '@/utils/ruoyi'
+import {
+  getPolypDashboardOverview,
+  getPolypDashboardTrend,
+  getPolypDashboardDistribution,
+  getPolypDashboardRecent
+} from '@/api/system/polypDashboard'
+
 export default {
-  name: "Index",
+  name: 'Index',
   data() {
     return {
-      like: true,
-      value1: 4154.564,
-      value2: 2222,
-      title: "今年的增长",
-      input: "Hello element UI!",
-      // 版本号
-      version: "3.8.4",
-    };
+      loading: false,
+      overview: {
+        totalTaskCount: 0,
+        todayTaskCount: 0,
+        successTaskCount: 0,
+        failedTaskCount: 0,
+        avgInferenceMs: 0,
+        totalPolypCount: 0
+      },
+      trendData: [],
+      mediaItems: [],
+      statusItems: [],
+      recentTasks: [],
+      trendChartIns: null,
+      distributionChartIns: null
+    }
+  },
+  computed: {
+    overviewCards() {
+      return [
+        { key: 'totalTaskCount', label: '总检测任务数', value: this.overview.totalTaskCount },
+        { key: 'todayTaskCount', label: '今日检测任务数', value: this.overview.todayTaskCount },
+        { key: 'successTaskCount', label: '成功任务数', value: this.overview.successTaskCount },
+        { key: 'failedTaskCount', label: '失败任务数', value: this.overview.failedTaskCount },
+        { key: 'avgInferenceMs', label: '平均推理耗时(ms)', value: Number(this.overview.avgInferenceMs || 0).toFixed(2) },
+        { key: 'totalPolypCount', label: '累计识别息肉数量', value: this.overview.totalPolypCount }
+      ]
+    },
+    statusTotal() {
+      return this.statusItems.reduce((sum, item) => sum + Number(item.count || 0), 0)
+    }
+  },
+  mounted() {
+    this.loadDashboard()
+    window.addEventListener('resize', this.handleResize)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
+    if (this.trendChartIns) {
+      this.trendChartIns.dispose()
+      this.trendChartIns = null
+    }
+    if (this.distributionChartIns) {
+      this.distributionChartIns.dispose()
+      this.distributionChartIns = null
+    }
   },
   methods: {
-    goTarget(href) {
-      window.open(href, "_blank");
+    async loadDashboard() {
+      this.loading = true
+      try {
+        const [overviewRes, trendRes, distributionRes, recentRes] = await Promise.all([
+          getPolypDashboardOverview(),
+          getPolypDashboardTrend(),
+          getPolypDashboardDistribution(),
+          getPolypDashboardRecent(10)
+        ])
+        this.overview = overviewRes.data || this.overview
+        this.trendData = trendRes.data || []
+        const distribution = distributionRes.data || {}
+        this.mediaItems = distribution.media || []
+        this.statusItems = distribution.status || []
+        this.recentTasks = recentRes.data || []
+        this.$nextTick(() => {
+          this.renderTrendChart()
+          this.renderDistributionChart()
+        })
+      } catch (e) {
+        this.$modal.msgError('加载首页统计数据失败')
+      } finally {
+        this.loading = false
+      }
     },
-  },
-};
-</script>
-
-<style scoped lang="scss">
-
-  .like {
-    cursor: pointer;
-    font-size: 25px;
-    display: inline-block;
-  }
-.home {
-  blockquote {
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    font-size: 17.5px;
-    border-left: 5px solid #eee;
-  }
-  hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid #eee;
-  }
-  .col-item {
-    margin-bottom: 20px;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #676a6c;
-  overflow-x: hidden;
-
-  ul {
-    list-style-type: none;
-  }
-
-  h4 {
-    margin-top: 0px;
-  }
-
-  h2 {
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: 100;
-  }
-
-  p {
-    margin-top: 10px;
-
-    b {
-      font-weight: 700;
-    }
-  }
-
-  .update-log {
-    ol {
-      display: block;
-      list-style-type: decimal;
-      margin-block-start: 1em;
-      margin-block-end: 1em;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-      padding-inline-start: 40px;
+    renderTrendChart() {
+      if (!this.$refs.trendChart) return
+      if (!this.trendChartIns) {
+        this.trendChartIns = echarts.init(this.$refs.trendChart)
+      }
+      const xData = this.trendData.map(item => item.date)
+      const yData = this.trendData.map(item => item.taskCount || 0)
+      this.trendChartIns.setOption({
+        tooltip: { trigger: 'axis' },
+        grid: { left: 36, right: 20, top: 28, bottom: 24 },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: xData
+        },
+        yAxis: {
+          type: 'value',
+          minInterval: 1
+        },
+        series: [
+          {
+            name: '检测任务数',
+            type: 'line',
+            smooth: true,
+            data: yData,
+            areaStyle: { opacity: 0.15 },
+            lineStyle: { width: 2 },
+            itemStyle: { color: '#409EFF' }
+          }
+        ]
+      })
+    },
+    renderDistributionChart() {
+      if (!this.$refs.distributionChart) return
+      if (!this.distributionChartIns) {
+        this.distributionChartIns = echarts.init(this.$refs.distributionChart)
+      }
+      const data = (this.mediaItems || []).map(item => ({
+        name: item.type === 'video' ? '视频' : '图片',
+        value: Number(item.count || 0)
+      }))
+      this.distributionChartIns.setOption({
+        tooltip: { trigger: 'item' },
+        legend: { bottom: 0, left: 'center' },
+        series: [
+          {
+            type: 'pie',
+            radius: ['35%', '65%'],
+            center: ['50%', '45%'],
+            avoidLabelOverlap: false,
+            label: {
+              formatter: '{b}\n{d}%'
+            },
+            data: data
+          }
+        ]
+      })
+    },
+    handleResize() {
+      if (this.trendChartIns) this.trendChartIns.resize()
+      if (this.distributionChartIns) this.distributionChartIns.resize()
+    },
+    statusText(status) {
+      if (status === 'SUCCESS') return '成功'
+      if (status === 'FAILED') return '失败'
+      if (status === 'RUNNING') return '处理中'
+      if (status === 'PENDING') return '待处理'
+      return status || '-'
+    },
+    statusTagType(status) {
+      if (status === 'SUCCESS') return 'success'
+      if (status === 'FAILED') return 'danger'
+      if (status === 'RUNNING') return 'warning'
+      return 'info'
+    },
+    statusPercent(count) {
+      const total = this.statusTotal
+      if (!total) return 0
+      return Number(((Number(count || 0) / total) * 100).toFixed(2))
+    },
+    formatDateTime(value) {
+      if (!value) return '-'
+      return parseTime(value, '{y}-{m}-{d} {h}:{i}:{s}')
     }
   }
 }
-</style>
+</script>
 
+<style scoped lang="scss">
+.polyp-dashboard {
+  .card-row {
+    margin-bottom: 16px;
+  }
+
+  .metric-card {
+    margin-bottom: 12px;
+  }
+
+  .metric-label {
+    color: #606266;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    color: #303133;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .chart-row {
+    margin-bottom: 16px;
+  }
+
+  .chart-box {
+    width: 100%;
+    height: 300px;
+  }
+
+  .status-row {
+    margin-bottom: 16px;
+  }
+
+  .status-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .status-item {
+    border: 1px solid #ebeef5;
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: #fff;
+  }
+
+  .status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #303133;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+</style>

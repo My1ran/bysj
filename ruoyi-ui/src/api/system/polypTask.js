@@ -28,6 +28,13 @@ export function getPolypTaskDetail(taskId) {
   })
 }
 
+export function getPolypTaskDetailForView(taskId) {
+  return request({
+    url: '/system/polyp/task/' + taskId + '/view',
+    method: 'get'
+  })
+}
+
 export function listPolypTask(query) {
   return request({
     url: '/system/polyp/task/list',

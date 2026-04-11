@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { uploadPolypFile, createPolypTask, getPolypTaskDetail, getCurrentPolypModel, listPolypTask } from '@/api/system/polypTask'
+import { uploadPolypFile, createPolypTask, getPolypTaskDetail, getPolypTaskDetailForView, getCurrentPolypModel, listPolypTask } from '@/api/system/polypTask'
 
 export default {
   name: 'Detection',
@@ -321,7 +321,7 @@ export default {
       }
     },
     async showDetail(taskId) {
-      await this.applyDetailData((await getPolypTaskDetail(taskId)).data || {})
+      await this.applyDetailData((await getPolypTaskDetailForView(taskId)).data || {})
     },
     async applyDetailData(data) {
       this.currentDetail = data

@@ -72,4 +72,59 @@
         order by task_id desc
     </select>
 
+    <select id="selectDashboardOverview" resultType="java.util.HashMap">
+        select
+            (select count(1) from polyp_detect_task) as totalTaskCount,
+            (select count(1) from polyp_detect_task where date(create_time) = curdate()) as todayTaskCount,
+            (select count(1) from polyp_detect_task where status = 'SUCCESS') as successTaskCount,
+            (select count(1) from polyp_detect_task where status = 'FAILED') as failedTaskCount,
+            (select ifnull(round(avg(inference_ms), 2), 0) from polyp_detect_task where status = 'SUCCESS' and inference_ms is not null) as avgInferenceMs,
+            (select ifnull(sum(polyp_count), 0) from his_detection_result) as totalPolypCount
+    </select>
+
+    <select id="selectDashboardTrend" resultType="java.util.HashMap">
+        select date_format(create_time, '%Y-%m-%d') as statDate,
+               count(1) as taskCount
+        from polyp_detect_task
+        where create_time >= date_sub(curdate(), interval 6 day)
+        group by date_format(create_time, '%Y-%m-%d')
+        order by statDate asc
+    </select>
+
+    <select id="selectDashboardMediaDistribution" resultType="java.util.HashMap">
+        select media_type as mediaType, count(1) as taskCount
+        from (
+             select case
+                        when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video'
+                        else 'image'
+                    end as media_type
+             from polyp_detect_task t
+             left join file_asset f on f.file_id = t.source_file_id
+        ) a
+        group by media_type
+    </select>
+
+    <select id="selectDashboardStatusDistribution" resultType="java.util.HashMap">
+        select status, count(1) as taskCount
+        from polyp_detect_task
+        group by status
+    </select>
+
+    <select id="selectDashboardRecentTasks" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select t.task_id as taskId,
+               t.task_no as taskNo,
+               t.status as status,
+               t.inference_ms as inferenceMs,
+               t.create_time as createTime,
+               case
+                   when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video'
+                   else 'image'
+               end as mediaType,
+               f.origin_name as originName
+        from polyp_detect_task t
+        left join file_asset f on f.file_id = t.source_file_id
+        order by t.task_id desc
+        limit #{limit}
+    </select>
+
 </mapper>
