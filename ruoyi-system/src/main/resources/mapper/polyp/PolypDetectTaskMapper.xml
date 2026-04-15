@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.polyp.mapper.PolypDetectTaskMapper">
+
+    <resultMap id="PolypDetectTaskResult" type="PolypDetectTask">
+        <result property="taskId" column="task_id"/>
+        <result property="taskNo" column="task_no"/>
+        <result property="patientId" column="patient_id"/>
+        <result property="sourceFileId" column="source_file_id"/>
+        <result property="modelId" column="model_id"/>
+        <result property="status" column="status"/>
+        <result property="confThreshold" column="conf_threshold"/>
+        <result property="resultId" column="result_id"/>
+        <result property="inferenceMs" column="inference_ms"/>
+        <result property="errorMsg" column="error_msg"/>
+        <result property="mediaType" column="media_type"/>
+        <result property="resultImageUrl" column="result_image_url"/>
+        <result property="resultVideoUrl" column="result_video_url"/>
+        <result property="resultFramesUrl" column="result_frames_url"/>
+        <result property="frameCount" column="frame_count"/>
+        <result property="detectedFrameCount" column="detected_frame_count"/>
+        <result property="boxCount" column="box_count"/>
+        <result property="maxConfidence" column="max_confidence"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="polypCount" column="polyp_count"/>
+        <result property="startTime" column="start_time"/>
+        <result property="finishTime" column="finish_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <insert id="insertPolypDetectTask" parameterType="PolypDetectTask" useGeneratedKeys="true" keyProperty="taskId">
+        insert into polyp_detect_task
+        (task_no, patient_id, source_file_id, media_type, model_id, status, conf_threshold, result_id, inference_ms, error_msg,
+         result_image_url, result_video_url, result_frames_url, frame_count, detected_frame_count, box_count, max_confidence,
+         start_time, finish_time, create_by, create_time, remark, is_deleted)
+        values
+        (#{taskNo}, #{patientId}, #{sourceFileId}, #{mediaType}, #{modelId}, #{status}, #{confThreshold}, #{resultId}, #{inferenceMs}, #{errorMsg},
+         #{resultImageUrl}, #{resultVideoUrl}, #{resultFramesUrl}, #{frameCount}, #{detectedFrameCount}, #{boxCount}, #{maxConfidence},
+         #{startTime}, #{finishTime}, #{createBy}, #{createTime}, #{remark}, #{isDeleted})
+    </insert>
+
+    <update id="updatePolypDetectTask" parameterType="PolypDetectTask">
+        update polyp_detect_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskNo != null">task_no = #{taskNo},</if>
+            <if test="patientId != null">patient_id = #{patientId},</if>
+            <if test="sourceFileId != null">source_file_id = #{sourceFileId},</if>
+            <if test="mediaType != null and mediaType != ''">media_type = #{mediaType},</if>
+            <if test="modelId != null">model_id = #{modelId},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="confThreshold != null">conf_threshold = #{confThreshold},</if>
+            <if test="resultId != null">result_id = #{resultId},</if>
+            <if test="inferenceMs != null">inference_ms = #{inferenceMs},</if>
+            <if test="errorMsg != null">error_msg = #{errorMsg},</if>
+            <if test="resultImageUrl != null">result_image_url = #{resultImageUrl},</if>
+            <if test="resultVideoUrl != null">result_video_url = #{resultVideoUrl},</if>
+            <if test="resultFramesUrl != null">result_frames_url = #{resultFramesUrl},</if>
+            <if test="frameCount != null">frame_count = #{frameCount},</if>
+            <if test="detectedFrameCount != null">detected_frame_count = #{detectedFrameCount},</if>
+            <if test="boxCount != null">box_count = #{boxCount},</if>
+            <if test="maxConfidence != null">max_confidence = #{maxConfidence},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <select id="selectPolypDetectTaskByTaskId" parameterType="Long" resultMap="PolypDetectTaskResult">
+        select task_id, task_no, patient_id, source_file_id, media_type, model_id, status, conf_threshold, result_id, inference_ms,
+               error_msg, result_image_url, result_video_url, result_frames_url, frame_count, detected_frame_count, box_count,
+               max_confidence, is_deleted, start_time, finish_time, create_by, create_time, update_by, update_time, remark
+        from polyp_detect_task
+        where task_id = #{taskId}
+    </select>
+
+    <select id="selectPolypDetectTaskList" parameterType="PolypDetectTask" resultMap="PolypDetectTaskResult">
+        select t.task_id, t.task_no, t.patient_id, t.source_file_id, t.model_id, t.status, t.conf_threshold, t.result_id,
+               t.inference_ms, t.error_msg, t.result_image_url, t.result_video_url, t.result_frames_url, t.frame_count,
+               t.detected_frame_count, t.box_count, t.max_confidence, t.is_deleted, t.start_time, t.finish_time,
+               t.create_by, t.create_time, t.update_by, t.update_time, t.remark,
+               ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) as media_type,
+               ifnull(t.box_count, ifnull(r.polyp_count, 0)) as polyp_count
+        from polyp_detect_task t
+        left join file_asset f on f.file_id = t.source_file_id
+        left join his_detection_result r on r.result_id = t.result_id
+        <where>
+            and ifnull(t.is_deleted, 0) = 0
+            and t.status != 'DELETED'
+            <if test="taskNo != null and taskNo != ''">and t.task_no like concat('%', #{taskNo}, '%')</if>
+            <if test="patientId != null">and t.patient_id = #{patientId}</if>
+            <if test="modelId != null">and t.model_id = #{modelId}</if>
+            <if test="status != null and status != ''">and t.status = #{status}</if>
+            <if test="mediaType != null and mediaType != ''">
+                <choose>
+                    <when test="mediaType == 'video'">
+                        and ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) = 'video'
+                    </when>
+                    <otherwise>
+                        and ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) = 'image'
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params != null and params.beginTime != null and params.beginTime != ''">
+                and t.create_time &gt;= concat(#{params.beginTime}, ' 00:00:00')
+            </if>
+            <if test="params != null and params.endTime != null and params.endTime != ''">
+                and t.create_time &lt;= concat(#{params.endTime}, ' 23:59:59')
+            </if>
+        </where>
+        order by t.task_id desc
+    </select>
+
+    <update id="logicDeletePolypDetectTaskByTaskIds">
+        update polyp_detect_task
+        set is_deleted = 1,
+            status = 'DELETED',
+            update_time = #{updateTime}
+        where ifnull(is_deleted, 0) = 0
+          and task_id in
+          <foreach item="taskId" collection="taskIds" open="(" separator="," close=")">
+              #{taskId}
+          </foreach>
+    </update>
+
+    <select id="selectPolypTaskExportList" parameterType="PolypDetectTask" resultType="java.util.HashMap">
+        select t.task_id as taskId,
+               t.task_no as taskNo,
+               t.status as status,
+               t.inference_ms as inferenceMs,
+               t.create_time as createTime,
+               t.remark as remark,
+               t.result_image_url as resultImageUrl,
+               t.result_video_url as resultVideoUrl,
+               ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) as mediaType,
+               ifnull(t.box_count, ifnull(r.polyp_count, 0)) as polypCount
+        from polyp_detect_task t
+        left join file_asset f on f.file_id = t.source_file_id
+        left join his_detection_result r on r.result_id = t.result_id
+        <where>
+            and ifnull(t.is_deleted, 0) = 0
+            and t.status != 'DELETED'
+            <if test="taskNo != null and taskNo != ''">and t.task_no like concat('%', #{taskNo}, '%')</if>
+            <if test="patientId != null">and t.patient_id = #{patientId}</if>
+            <if test="modelId != null">and t.model_id = #{modelId}</if>
+            <if test="status != null and status != ''">and t.status = #{status}</if>
+            <if test="mediaType != null and mediaType != ''">
+                <choose>
+                    <when test="mediaType == 'video'">
+                        and ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) = 'video'
+                    </when>
+                    <otherwise>
+                        and ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) = 'image'
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params != null and params.beginTime != null and params.beginTime != ''">
+                and t.create_time &gt;= concat(#{params.beginTime}, ' 00:00:00')
+            </if>
+            <if test="params != null and params.endTime != null and params.endTime != ''">
+                and t.create_time &lt;= concat(#{params.endTime}, ' 23:59:59')
+            </if>
+        </where>
+        order by t.task_id desc
+    </select>
+
+    <select id="selectDashboardOverview" resultType="java.util.HashMap">
+        select
+            (select count(1) from polyp_detect_task where ifnull(is_deleted, 0) = 0 and status != 'DELETED') as totalTaskCount,
+            (select count(1) from polyp_detect_task where ifnull(is_deleted, 0) = 0 and status != 'DELETED' and date(create_time) = curdate()) as todayTaskCount,
+            (select count(1) from polyp_detect_task where status = 'SUCCESS' and ifnull(is_deleted, 0) = 0 and status != 'DELETED') as successTaskCount,
+            (select count(1) from polyp_detect_task where status = 'FAILED' and ifnull(is_deleted, 0) = 0 and status != 'DELETED') as failedTaskCount,
+            (select ifnull(round(avg(inference_ms), 2), 0) from polyp_detect_task where status = 'SUCCESS' and ifnull(is_deleted, 0) = 0 and status != 'DELETED' and inference_ms is not null) as avgInferenceMs,
+            (select ifnull(sum(r.polyp_count), 0)
+             from his_detection_result r
+             join polyp_detect_task t on t.result_id = r.result_id
+             where ifnull(t.is_deleted, 0) = 0 and t.status != 'DELETED') as totalPolypCount
+    </select>
+
+    <select id="selectDashboardTrend" resultType="java.util.HashMap">
+        select date_format(create_time, '%Y-%m-%d') as statDate,
+               count(1) as taskCount
+        from polyp_detect_task
+        where ifnull(is_deleted, 0) = 0
+          and status != 'DELETED'
+          and create_time >= date_sub(curdate(), interval 6 day)
+        group by date_format(create_time, '%Y-%m-%d')
+        order by statDate asc
+    </select>
+
+    <select id="selectDashboardMediaDistribution" resultType="java.util.HashMap">
+        select media_type as mediaType, count(1) as taskCount
+        from (
+             select ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) as media_type
+             from polyp_detect_task t
+             left join file_asset f on f.file_id = t.source_file_id
+             where ifnull(t.is_deleted, 0) = 0 and t.status != 'DELETED'
+        ) a
+        group by media_type
+    </select>
+
+    <select id="selectDashboardStatusDistribution" resultType="java.util.HashMap">
+        select status, count(1) as taskCount
+        from polyp_detect_task
+        where ifnull(is_deleted, 0) = 0
+          and status != 'DELETED'
+        group by status
+    </select>
+
+    <select id="selectDashboardRecentTasks" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select t.task_id as taskId,
+               t.task_no as taskNo,
+               t.status as status,
+               t.inference_ms as inferenceMs,
+               t.create_time as createTime,
+               ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) as mediaType,
+               f.origin_name as originName
+        from polyp_detect_task t
+        left join file_asset f on f.file_id = t.source_file_id
+        where ifnull(t.is_deleted, 0) = 0
+          and t.status != 'DELETED'
+        order by t.task_id desc
+        limit #{limit}
+    </select>
+
+</mapper>
