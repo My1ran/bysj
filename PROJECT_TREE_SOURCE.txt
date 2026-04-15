@@ -1,0 +1,1102 @@
+3bd3fd7c60a2086f
++---.claude
+|   |   settings.local.json
++---.github
+|   |   FUNDING.yml
++---.idea
+|   |   .gitignore
+|   |   compiler.xml
+|   |   encodings.xml
+|   |   jarRepositories.xml
+|   |   misc.xml
+|   |   workspace.xml
++---bin
+|   |   clean.bat
+|   |   package.bat
+|   |   run.bat
++---doc
+|   |   若依环境使用手册.docx
++---ruoyi-admin
+|   +---src
+|   |   +---main
+|   |   |   +---java
+|   |   |   |   +---com
+|   |   |   |   |   +---ruoyi
+|   |   |   |   |   |   +---web
+|   |   |   |   |   |   |   +---controller
+|   |   |   |   |   |   |   |   +---common
+|   |   |   |   |   |   |   |   |   |   CaptchaController.java
+|   |   |   |   |   |   |   |   |   |   CommonController.java
+|   |   |   |   |   |   |   |   +---monitor
+|   |   |   |   |   |   |   |   |   |   CacheController.java
+|   |   |   |   |   |   |   |   |   |   ServerController.java
+|   |   |   |   |   |   |   |   |   |   SysLogininforController.java
+|   |   |   |   |   |   |   |   |   |   SysOperlogController.java
+|   |   |   |   |   |   |   |   |   |   SysUserOnlineController.java
+|   |   |   |   |   |   |   |   +---system
+|   |   |   |   |   |   |   |   |   |   DrugController.java
+|   |   |   |   |   |   |   |   |   |   FactoryController.java
+|   |   |   |   |   |   |   |   |   |   HisDetectionController.java
+|   |   |   |   |   |   |   |   |   |   HisPatientController.java
+|   |   |   |   |   |   |   |   |   |   HisPolypController.java
+|   |   |   |   |   |   |   |   |   |   HisRegController.java
+|   |   |   |   |   |   |   |   |   |   HisReportController.java
+|   |   |   |   |   |   |   |   |   |   MedPatiController.java
+|   |   |   |   |   |   |   |   |   |   SupplierController.java
+|   |   |   |   |   |   |   |   |   |   SysConfigController.java
+|   |   |   |   |   |   |   |   |   |   SysDeptController.java
+|   |   |   |   |   |   |   |   |   |   SysDeptsController.java
+|   |   |   |   |   |   |   |   |   |   SysDictDataController.java
+|   |   |   |   |   |   |   |   |   |   SysDictTypeController.java
+|   |   |   |   |   |   |   |   |   |   SysDoctersController.java
+|   |   |   |   |   |   |   |   |   |   SysExamCostController.java
+|   |   |   |   |   |   |   |   |   |   SysIndexController.java
+|   |   |   |   |   |   |   |   |   |   SysLoginController.java
+|   |   |   |   |   |   |   |   |   |   SysMenuController.java
+|   |   |   |   |   |   |   |   |   |   SysNoticeController.java
+|   |   |   |   |   |   |   |   |   |   SysPostController.java
+|   |   |   |   |   |   |   |   |   |   SysProfileController.java
+|   |   |   |   |   |   |   |   |   |   SysRegisterController.java
+|   |   |   |   |   |   |   |   |   |   SysRegistrationCostController.java
+|   |   |   |   |   |   |   |   |   |   SysRoleController.java
+|   |   |   |   |   |   |   |   |   |   SysStudentController.java
+|   |   |   |   |   |   |   |   |   |   SysUserController.java
+|   |   |   |   |   |   |   |   +---tool
+|   |   |   |   |   |   |   |   |   |   SwaggerController.java
+|   |   |   |   |   |   |   |   |   |   TestController.java
+|   |   |   |   |   |   |   +---core
+|   |   |   |   |   |   |   |   +---config
+|   |   |   |   |   |   |   |   |   |   SwaggerConfig.java
+|   |   |   |   |   |   |   +---his
+|   |   |   |   |   |   |   |   |   AddPatiController.java
+|   |   |   |   |   |   |   |   |   HisChargedetailController.java
+|   |   |   |   |   |   |   |   |   HisDeptsController.java
+|   |   |   |   |   |   |   |   |   HisDoctersController.java
+|   |   |   |   |   |   |   |   |   HisPurchaseController.java
+|   |   |   |   |   |   |   |   |   HisPurchaseDataController.java
+|   |   |   |   |   |   |   |   |   HisPurController.java
+|   |   |   |   |   |   |   |   |   LoadingController.java
+|   |   |   |   |   |   |   +---webSocket
+|   |   |   |   |   |   |   |   |   WebSocketConfig.java
+|   |   |   |   |   |   |   |   |   WebSocketServiceImpl.java
+|   |   |   |   |   |   |   RuoYiApplication.java
+|   |   |   |   |   |   |   RuoYiServletInitializer.java
+|   |   |   +---resources
+|   |   |   |   +---i18n
+|   |   |   |   |   |   messages.properties
+|   |   |   |   +---META-INF
+|   |   |   |   |   |   spring-devtools.properties
+|   |   |   |   +---mybatis
+|   |   |   |   |   |   mybatis-config.xml
+|   |   |   |   |   application.yml
+|   |   |   |   |   application-druid.yml
+|   |   |   |   |   banner.txt
+|   |   |   |   |   logback.xml
+|   |   pom.xml
++---ruoyi-common
+|   +---src
+|   |   +---main
+|   |   |   +---java
+|   |   |   |   +---com
+|   |   |   |   |   +---ruoyi
+|   |   |   |   |   |   +---common
+|   |   |   |   |   |   |   +---annotation
+|   |   |   |   |   |   |   |   |   Anonymous.java
+|   |   |   |   |   |   |   |   |   DataScope.java
+|   |   |   |   |   |   |   |   |   DataSource.java
+|   |   |   |   |   |   |   |   |   Excel.java
+|   |   |   |   |   |   |   |   |   Excels.java
+|   |   |   |   |   |   |   |   |   Log.java
+|   |   |   |   |   |   |   |   |   RateLimiter.java
+|   |   |   |   |   |   |   |   |   RepeatSubmit.java
+|   |   |   |   |   |   |   +---config
+|   |   |   |   |   |   |   |   |   RuoYiConfig.java
+|   |   |   |   |   |   |   +---constant
+|   |   |   |   |   |   |   |   |   CacheConstants.java
+|   |   |   |   |   |   |   |   |   Constants.java
+|   |   |   |   |   |   |   |   |   GenConstants.java
+|   |   |   |   |   |   |   |   |   HttpStatus.java
+|   |   |   |   |   |   |   |   |   ScheduleConstants.java
+|   |   |   |   |   |   |   |   |   UserConstants.java
+|   |   |   |   |   |   |   +---core
+|   |   |   |   |   |   |   |   +---controller
+|   |   |   |   |   |   |   |   |   |   BaseController.java
+|   |   |   |   |   |   |   |   +---domain
+|   |   |   |   |   |   |   |   |   +---entity
+|   |   |   |   |   |   |   |   |   |   |   SysDept.java
+|   |   |   |   |   |   |   |   |   |   |   SysDictData.java
+|   |   |   |   |   |   |   |   |   |   |   SysDictType.java
+|   |   |   |   |   |   |   |   |   |   |   SysMenu.java
+|   |   |   |   |   |   |   |   |   |   |   SysRole.java
+|   |   |   |   |   |   |   |   |   |   |   SysUser.java
+|   |   |   |   |   |   |   |   |   +---model
+|   |   |   |   |   |   |   |   |   |   |   LoginBody.java
+|   |   |   |   |   |   |   |   |   |   |   LoginUser.java
+|   |   |   |   |   |   |   |   |   |   |   RegisterBody.java
+|   |   |   |   |   |   |   |   |   |   AjaxResult.java
+|   |   |   |   |   |   |   |   |   |   BaseEntity.java
+|   |   |   |   |   |   |   |   |   |   R.java
+|   |   |   |   |   |   |   |   |   |   TreeEntity.java
+|   |   |   |   |   |   |   |   |   |   TreeSelect.java
+|   |   |   |   |   |   |   |   +---page
+|   |   |   |   |   |   |   |   |   |   PageDomain.java
+|   |   |   |   |   |   |   |   |   |   TableDataInfo.java
+|   |   |   |   |   |   |   |   |   |   TableSupport.java
+|   |   |   |   |   |   |   |   +---redis
+|   |   |   |   |   |   |   |   |   |   RedisCache.java
+|   |   |   |   |   |   |   |   +---text
+|   |   |   |   |   |   |   |   |   |   CharsetKit.java
+|   |   |   |   |   |   |   |   |   |   Convert.java
+|   |   |   |   |   |   |   |   |   |   StrFormatter.java
+|   |   |   |   |   |   |   +---enums
+|   |   |   |   |   |   |   |   |   BusinessStatus.java
+|   |   |   |   |   |   |   |   |   BusinessType.java
+|   |   |   |   |   |   |   |   |   DataSourceType.java
+|   |   |   |   |   |   |   |   |   HttpMethod.java
+|   |   |   |   |   |   |   |   |   LimitType.java
+|   |   |   |   |   |   |   |   |   OperatorType.java
+|   |   |   |   |   |   |   |   |   UserStatus.java
+|   |   |   |   |   |   |   +---exception
+|   |   |   |   |   |   |   |   +---base
+|   |   |   |   |   |   |   |   |   |   BaseException.java
+|   |   |   |   |   |   |   |   +---file
+|   |   |   |   |   |   |   |   |   |   FileException.java
+|   |   |   |   |   |   |   |   |   |   FileNameLengthLimitExceededException.java
+|   |   |   |   |   |   |   |   |   |   FileSizeLimitExceededException.java
+|   |   |   |   |   |   |   |   |   |   InvalidExtensionException.java
+|   |   |   |   |   |   |   |   +---job
+|   |   |   |   |   |   |   |   |   |   TaskException.java
+|   |   |   |   |   |   |   |   +---user
+|   |   |   |   |   |   |   |   |   |   CaptchaException.java
+|   |   |   |   |   |   |   |   |   |   CaptchaExpireException.java
+|   |   |   |   |   |   |   |   |   |   UserException.java
+|   |   |   |   |   |   |   |   |   |   UserPasswordNotMatchException.java
+|   |   |   |   |   |   |   |   |   |   UserPasswordRetryLimitExceedException.java
+|   |   |   |   |   |   |   |   |   DemoModeException.java
+|   |   |   |   |   |   |   |   |   GlobalException.java
+|   |   |   |   |   |   |   |   |   ServiceException.java
+|   |   |   |   |   |   |   |   |   UtilException.java
+|   |   |   |   |   |   |   +---filter
+|   |   |   |   |   |   |   |   |   PropertyPreExcludeFilter.java
+|   |   |   |   |   |   |   |   |   RepeatableFilter.java
+|   |   |   |   |   |   |   |   |   RepeatedlyRequestWrapper.java
+|   |   |   |   |   |   |   |   |   XssFilter.java
+|   |   |   |   |   |   |   |   |   XssHttpServletRequestWrapper.java
+|   |   |   |   |   |   |   +---utils
+|   |   |   |   |   |   |   |   +---bean
+|   |   |   |   |   |   |   |   |   |   BeanUtils.java
+|   |   |   |   |   |   |   |   |   |   BeanValidators.java
+|   |   |   |   |   |   |   |   +---file
+|   |   |   |   |   |   |   |   |   |   FileTypeUtils.java
+|   |   |   |   |   |   |   |   |   |   FileUploadUtils.java
+|   |   |   |   |   |   |   |   |   |   FileUtils.java
+|   |   |   |   |   |   |   |   |   |   ImageUtils.java
+|   |   |   |   |   |   |   |   |   |   MimeTypeUtils.java
+|   |   |   |   |   |   |   |   +---html
+|   |   |   |   |   |   |   |   |   |   EscapeUtil.java
+|   |   |   |   |   |   |   |   |   |   HTMLFilter.java
+|   |   |   |   |   |   |   |   +---http
+|   |   |   |   |   |   |   |   |   |   HttpHelper.java
+|   |   |   |   |   |   |   |   |   |   HttpUtils.java
+|   |   |   |   |   |   |   |   +---ip
+|   |   |   |   |   |   |   |   |   |   AddressUtils.java
+|   |   |   |   |   |   |   |   |   |   IpUtils.java
+|   |   |   |   |   |   |   |   +---poi
+|   |   |   |   |   |   |   |   |   |   ExcelHandlerAdapter.java
+|   |   |   |   |   |   |   |   |   |   ExcelUtil.java
+|   |   |   |   |   |   |   |   +---reflect
+|   |   |   |   |   |   |   |   |   |   ReflectUtils.java
+|   |   |   |   |   |   |   |   +---sign
+|   |   |   |   |   |   |   |   |   |   Base64.java
+|   |   |   |   |   |   |   |   |   |   Md5Utils.java
+|   |   |   |   |   |   |   |   +---spring
+|   |   |   |   |   |   |   |   |   |   SpringUtils.java
+|   |   |   |   |   |   |   |   +---sql
+|   |   |   |   |   |   |   |   |   |   SqlUtil.java
+|   |   |   |   |   |   |   |   +---uuid
+|   |   |   |   |   |   |   |   |   |   IdUtils.java
+|   |   |   |   |   |   |   |   |   |   Seq.java
+|   |   |   |   |   |   |   |   |   |   UUID.java
+|   |   |   |   |   |   |   |   |   Arith.java
+|   |   |   |   |   |   |   |   |   DateUtils.java
+|   |   |   |   |   |   |   |   |   DictUtils.java
+|   |   |   |   |   |   |   |   |   ExceptionUtil.java
+|   |   |   |   |   |   |   |   |   LogUtils.java
+|   |   |   |   |   |   |   |   |   MessageUtils.java
+|   |   |   |   |   |   |   |   |   PageUtils.java
+|   |   |   |   |   |   |   |   |   SecurityUtils.java
+|   |   |   |   |   |   |   |   |   ServletUtils.java
+|   |   |   |   |   |   |   |   |   StringUtils.java
+|   |   |   |   |   |   |   |   |   Threads.java
+|   |   |   |   |   |   |   +---xss
+|   |   |   |   |   |   |   |   |   Xss.java
+|   |   |   |   |   |   |   |   |   XssValidator.java
+|   |   pom.xml
++---ruoyi-framework
+|   +---src
+|   |   +---main
+|   |   |   +---java
+|   |   |   |   +---com
+|   |   |   |   |   +---ruoyi
+|   |   |   |   |   |   +---framework
+|   |   |   |   |   |   |   +---aspectj
+|   |   |   |   |   |   |   |   |   DataScopeAspect.java
+|   |   |   |   |   |   |   |   |   DataSourceAspect.java
+|   |   |   |   |   |   |   |   |   LogAspect.java
+|   |   |   |   |   |   |   |   |   RateLimiterAspect.java
+|   |   |   |   |   |   |   +---config
+|   |   |   |   |   |   |   |   +---properties
+|   |   |   |   |   |   |   |   |   |   DruidProperties.java
+|   |   |   |   |   |   |   |   |   |   PermitAllUrlProperties.java
+|   |   |   |   |   |   |   |   |   ApplicationConfig.java
+|   |   |   |   |   |   |   |   |   CaptchaConfig.java
+|   |   |   |   |   |   |   |   |   DruidConfig.java
+|   |   |   |   |   |   |   |   |   FastJson2JsonRedisSerializer.java
+|   |   |   |   |   |   |   |   |   FilterConfig.java
+|   |   |   |   |   |   |   |   |   KaptchaTextCreator.java
+|   |   |   |   |   |   |   |   |   MyBatisConfig.java
+|   |   |   |   |   |   |   |   |   RedisConfig.java
+|   |   |   |   |   |   |   |   |   ResourcesConfig.java
+|   |   |   |   |   |   |   |   |   SecurityConfig.java
+|   |   |   |   |   |   |   |   |   ServerConfig.java
+|   |   |   |   |   |   |   |   |   ThreadPoolConfig.java
+|   |   |   |   |   |   |   +---datasource
+|   |   |   |   |   |   |   |   |   DynamicDataSource.java
+|   |   |   |   |   |   |   |   |   DynamicDataSourceContextHolder.java
+|   |   |   |   |   |   |   +---interceptor
+|   |   |   |   |   |   |   |   +---impl
+|   |   |   |   |   |   |   |   |   |   SameUrlDataInterceptor.java
+|   |   |   |   |   |   |   |   |   RepeatSubmitInterceptor.java
+|   |   |   |   |   |   |   +---manager
+|   |   |   |   |   |   |   |   +---factory
+|   |   |   |   |   |   |   |   |   |   AsyncFactory.java
+|   |   |   |   |   |   |   |   |   AsyncManager.java
+|   |   |   |   |   |   |   |   |   ShutdownManager.java
+|   |   |   |   |   |   |   +---security
+|   |   |   |   |   |   |   |   +---context
+|   |   |   |   |   |   |   |   |   |   AuthenticationContextHolder.java
+|   |   |   |   |   |   |   |   |   |   PermissionContextHolder.java
+|   |   |   |   |   |   |   |   +---filter
+|   |   |   |   |   |   |   |   |   |   JwtAuthenticationTokenFilter.java
+|   |   |   |   |   |   |   |   +---handle
+|   |   |   |   |   |   |   |   |   |   AuthenticationEntryPointImpl.java
+|   |   |   |   |   |   |   |   |   |   LogoutSuccessHandlerImpl.java
+|   |   |   |   |   |   |   +---web
+|   |   |   |   |   |   |   |   +---domain
+|   |   |   |   |   |   |   |   |   +---server
+|   |   |   |   |   |   |   |   |   |   |   Cpu.java
+|   |   |   |   |   |   |   |   |   |   |   Jvm.java
+|   |   |   |   |   |   |   |   |   |   |   Mem.java
+|   |   |   |   |   |   |   |   |   |   |   Sys.java
+|   |   |   |   |   |   |   |   |   |   |   SysFile.java
+|   |   |   |   |   |   |   |   |   |   Server.java
+|   |   |   |   |   |   |   |   +---exception
+|   |   |   |   |   |   |   |   |   |   GlobalExceptionHandler.java
+|   |   |   |   |   |   |   |   +---service
+|   |   |   |   |   |   |   |   |   |   PermissionService.java
+|   |   |   |   |   |   |   |   |   |   SysLoginService.java
+|   |   |   |   |   |   |   |   |   |   SysPasswordService.java
+|   |   |   |   |   |   |   |   |   |   SysPermissionService.java
+|   |   |   |   |   |   |   |   |   |   SysRegisterService.java
+|   |   |   |   |   |   |   |   |   |   TokenService.java
+|   |   |   |   |   |   |   |   |   |   UserDetailsServiceImpl.java
+|   |   pom.xml
++---ruoyi-generator
+|   +---src
+|   |   +---main
+|   |   |   +---java
+|   |   |   |   +---com
+|   |   |   |   |   +---ruoyi
+|   |   |   |   |   |   +---generator
+|   |   |   |   |   |   |   +---config
+|   |   |   |   |   |   |   |   |   GenConfig.java
+|   |   |   |   |   |   |   +---controller
+|   |   |   |   |   |   |   |   |   GenController.java
+|   |   |   |   |   |   |   +---domain
+|   |   |   |   |   |   |   |   |   GenTable.java
+|   |   |   |   |   |   |   |   |   GenTableColumn.java
+|   |   |   |   |   |   |   +---mapper
+|   |   |   |   |   |   |   |   |   GenTableColumnMapper.java
+|   |   |   |   |   |   |   |   |   GenTableMapper.java
+|   |   |   |   |   |   |   +---service
+|   |   |   |   |   |   |   |   |   GenTableColumnServiceImpl.java
+|   |   |   |   |   |   |   |   |   GenTableServiceImpl.java
+|   |   |   |   |   |   |   |   |   IGenTableColumnService.java
+|   |   |   |   |   |   |   |   |   IGenTableService.java
+|   |   |   |   |   |   |   +---util
+|   |   |   |   |   |   |   |   |   GenUtils.java
+|   |   |   |   |   |   |   |   |   VelocityInitializer.java
+|   |   |   |   |   |   |   |   |   VelocityUtils.java
+|   |   |   +---resources
+|   |   |   |   +---mapper
+|   |   |   |   |   +---generator
+|   |   |   |   |   |   |   GenTableColumnMapper.xml
+|   |   |   |   |   |   |   GenTableMapper.xml
+|   |   |   |   +---vm
+|   |   |   |   |   +---java
+|   |   |   |   |   |   |   controller.java.vm
+|   |   |   |   |   |   |   domain.java.vm
+|   |   |   |   |   |   |   mapper.java.vm
+|   |   |   |   |   |   |   service.java.vm
+|   |   |   |   |   |   |   serviceImpl.java.vm
+|   |   |   |   |   |   |   sub-domain.java.vm
+|   |   |   |   |   +---js
+|   |   |   |   |   |   |   api.js.vm
+|   |   |   |   |   +---sql
+|   |   |   |   |   |   |   sql.vm
+|   |   |   |   |   +---vue
+|   |   |   |   |   |   +---v3
+|   |   |   |   |   |   |   |   index.vue.vm
+|   |   |   |   |   |   |   |   index-tree.vue.vm
+|   |   |   |   |   |   |   |   readme.txt
+|   |   |   |   |   |   |   index.vue.vm
+|   |   |   |   |   |   |   index-tree.vue.vm
+|   |   |   |   |   +---xml
+|   |   |   |   |   |   |   mapper.xml.vm
+|   |   |   |   |   generator.yml
+|   |   pom.xml
++---ruoyi-quartz
+|   +---src
+|   |   +---main
+|   |   |   +---java
+|   |   |   |   +---com
+|   |   |   |   |   +---ruoyi
+|   |   |   |   |   |   +---quartz
+|   |   |   |   |   |   |   +---config
+|   |   |   |   |   |   |   |   |   ScheduleConfig.java
+|   |   |   |   |   |   |   +---controller
+|   |   |   |   |   |   |   |   |   SysJobController.java
+|   |   |   |   |   |   |   |   |   SysJobLogController.java
+|   |   |   |   |   |   |   +---domain
+|   |   |   |   |   |   |   |   |   SysJob.java
+|   |   |   |   |   |   |   |   |   SysJobLog.java
+|   |   |   |   |   |   |   +---mapper
+|   |   |   |   |   |   |   |   |   SysJobLogMapper.java
+|   |   |   |   |   |   |   |   |   SysJobMapper.java
+|   |   |   |   |   |   |   +---service
+|   |   |   |   |   |   |   |   +---impl
+|   |   |   |   |   |   |   |   |   |   SysJobLogServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysJobServiceImpl.java
+|   |   |   |   |   |   |   |   |   ISysJobLogService.java
+|   |   |   |   |   |   |   |   |   ISysJobService.java
+|   |   |   |   |   |   |   +---task
+|   |   |   |   |   |   |   |   |   RyTask.java
+|   |   |   |   |   |   |   +---util
+|   |   |   |   |   |   |   |   |   AbstractQuartzJob.java
+|   |   |   |   |   |   |   |   |   CronUtils.java
+|   |   |   |   |   |   |   |   |   JobInvokeUtil.java
+|   |   |   |   |   |   |   |   |   QuartzDisallowConcurrentExecution.java
+|   |   |   |   |   |   |   |   |   QuartzJobExecution.java
+|   |   |   |   |   |   |   |   |   ScheduleUtils.java
+|   |   |   +---resources
+|   |   |   |   +---mapper
+|   |   |   |   |   +---quartz
+|   |   |   |   |   |   |   SysJobLogMapper.xml
+|   |   |   |   |   |   |   SysJobMapper.xml
+|   |   pom.xml
++---ruoyi-system
+|   +---src
+|   |   +---main
+|   |   |   +---java
+|   |   |   |   +---com
+|   |   |   |   |   +---ruoyi
+|   |   |   |   |   |   +---his
+|   |   |   |   |   |   |   +---domain
+|   |   |   |   |   |   |   |   |   HisChargedetail.java
+|   |   |   |   |   |   |   |   |   HisDepts.java
+|   |   |   |   |   |   |   |   |   HisDocters.java
+|   |   |   |   |   |   |   |   |   HisPur.java
+|   |   |   |   |   |   |   |   |   HisPurchase.java
+|   |   |   |   |   |   |   |   |   HisPurchaseData.java
+|   |   |   |   |   |   |   |   |   HisPurchaseDrug.java
+|   |   |   |   |   |   |   +---mapper
+|   |   |   |   |   |   |   |   |   HisChargedetailMapper.java
+|   |   |   |   |   |   |   |   |   HisDeptsMapper.java
+|   |   |   |   |   |   |   |   |   HisDoctersMapper.java
+|   |   |   |   |   |   |   |   |   HisPurchaseDataMapper.java
+|   |   |   |   |   |   |   |   |   HisPurchaseMapper.java
+|   |   |   |   |   |   |   |   |   HisPurMapper.java
+|   |   |   |   |   |   |   +---service
+|   |   |   |   |   |   |   |   +---impl
+|   |   |   |   |   |   |   |   |   |   HisChargedetailServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisDeptsServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisDoctersServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisPurchaseDataServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisPurchaseServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisPurServiceImpl.java
+|   |   |   |   |   |   |   |   |   IHisChargedetailService.java
+|   |   |   |   |   |   |   |   |   IHisDeptsService.java
+|   |   |   |   |   |   |   |   |   IHisDoctersService.java
+|   |   |   |   |   |   |   |   |   IHisPurchaseDataService.java
+|   |   |   |   |   |   |   |   |   IHisPurchaseService.java
+|   |   |   |   |   |   |   |   |   IHisPurService.java
+|   |   |   |   |   |   +---system
+|   |   |   |   |   |   |   +---domain
+|   |   |   |   |   |   |   |   +---vo
+|   |   |   |   |   |   |   |   |   |   MetaVo.java
+|   |   |   |   |   |   |   |   |   |   RouterVo.java
+|   |   |   |   |   |   |   |   |   Drug.java
+|   |   |   |   |   |   |   |   |   Factory.java
+|   |   |   |   |   |   |   |   |   HisDetectionResult.java
+|   |   |   |   |   |   |   |   |   HisPatient.java
+|   |   |   |   |   |   |   |   |   HisPolypDetail.java
+|   |   |   |   |   |   |   |   |   HisReg.java
+|   |   |   |   |   |   |   |   |   MedPati.java
+|   |   |   |   |   |   |   |   |   Supplier.java
+|   |   |   |   |   |   |   |   |   SysCache.java
+|   |   |   |   |   |   |   |   |   SysConfig.java
+|   |   |   |   |   |   |   |   |   SysDepts.java
+|   |   |   |   |   |   |   |   |   SysDocters.java
+|   |   |   |   |   |   |   |   |   SysExamCost.java
+|   |   |   |   |   |   |   |   |   SysLogininfor.java
+|   |   |   |   |   |   |   |   |   SysNotice.java
+|   |   |   |   |   |   |   |   |   SysOperLog.java
+|   |   |   |   |   |   |   |   |   SysPost.java
+|   |   |   |   |   |   |   |   |   SysRegistrationCost.java
+|   |   |   |   |   |   |   |   |   SysRoleDept.java
+|   |   |   |   |   |   |   |   |   SysRoleMenu.java
+|   |   |   |   |   |   |   |   |   SysStudent.java
+|   |   |   |   |   |   |   |   |   SysUserOnline.java
+|   |   |   |   |   |   |   |   |   SysUserPost.java
+|   |   |   |   |   |   |   |   |   SysUserRole.java
+|   |   |   |   |   |   |   +---mapper
+|   |   |   |   |   |   |   |   |   DrugMapper.java
+|   |   |   |   |   |   |   |   |   FactoryMapper.java
+|   |   |   |   |   |   |   |   |   HisDetectionResultMapper.java
+|   |   |   |   |   |   |   |   |   HisPatientMapper.java
+|   |   |   |   |   |   |   |   |   HisPolypDetailMapper.java
+|   |   |   |   |   |   |   |   |   HisRegMapper.java
+|   |   |   |   |   |   |   |   |   MedPatiMapper.java
+|   |   |   |   |   |   |   |   |   SupplierMapper.java
+|   |   |   |   |   |   |   |   |   SysConfigMapper.java
+|   |   |   |   |   |   |   |   |   SysDeptMapper.java
+|   |   |   |   |   |   |   |   |   SysDeptsMapper.java
+|   |   |   |   |   |   |   |   |   SysDictDataMapper.java
+|   |   |   |   |   |   |   |   |   SysDictTypeMapper.java
+|   |   |   |   |   |   |   |   |   SysDoctersMapper.java
+|   |   |   |   |   |   |   |   |   SysExamCostMapper.java
+|   |   |   |   |   |   |   |   |   SysLogininforMapper.java
+|   |   |   |   |   |   |   |   |   SysMenuMapper.java
+|   |   |   |   |   |   |   |   |   SysNoticeMapper.java
+|   |   |   |   |   |   |   |   |   SysOperLogMapper.java
+|   |   |   |   |   |   |   |   |   SysPostMapper.java
+|   |   |   |   |   |   |   |   |   SysRegistrationCostMapper.java
+|   |   |   |   |   |   |   |   |   SysRoleDeptMapper.java
+|   |   |   |   |   |   |   |   |   SysRoleMapper.java
+|   |   |   |   |   |   |   |   |   SysRoleMenuMapper.java
+|   |   |   |   |   |   |   |   |   SysStudentMapper.java
+|   |   |   |   |   |   |   |   |   SysUserMapper.java
+|   |   |   |   |   |   |   |   |   SysUserPostMapper.java
+|   |   |   |   |   |   |   |   |   SysUserRoleMapper.java
+|   |   |   |   |   |   |   +---service
+|   |   |   |   |   |   |   |   +---impl
+|   |   |   |   |   |   |   |   |   |   DrugServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   FactoryServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisDetectionResultServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisPatientServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisPolypDetailServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   HisRegServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   MedPatiServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SupplierServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysConfigServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysDeptServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysDeptsServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysDictDataServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysDictTypeServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysDoctersServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysExamCostServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysLogininforServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysMenuServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysNoticeServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysOperLogServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysPostServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysRegistrationCostServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysRoleServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysStudentServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysUserOnlineServiceImpl.java
+|   |   |   |   |   |   |   |   |   |   SysUserServiceImpl.java
+|   |   |   |   |   |   |   |   |   IDrugService.java
+|   |   |   |   |   |   |   |   |   IFactoryService.java
+|   |   |   |   |   |   |   |   |   IHisDetectionResultService.java
+|   |   |   |   |   |   |   |   |   IHisPatientService.java
+|   |   |   |   |   |   |   |   |   IHisPolypDetailService.java
+|   |   |   |   |   |   |   |   |   IHisRegService.java
+|   |   |   |   |   |   |   |   |   IMedPatiService.java
+|   |   |   |   |   |   |   |   |   ISupplierService.java
+|   |   |   |   |   |   |   |   |   ISysConfigService.java
+|   |   |   |   |   |   |   |   |   ISysDeptService.java
+|   |   |   |   |   |   |   |   |   ISysDeptsService.java
+|   |   |   |   |   |   |   |   |   ISysDictDataService.java
+|   |   |   |   |   |   |   |   |   ISysDictTypeService.java
+|   |   |   |   |   |   |   |   |   ISysDoctersService.java
+|   |   |   |   |   |   |   |   |   ISysExamCostService.java
+|   |   |   |   |   |   |   |   |   ISysLogininforService.java
+|   |   |   |   |   |   |   |   |   ISysMenuService.java
+|   |   |   |   |   |   |   |   |   ISysNoticeService.java
+|   |   |   |   |   |   |   |   |   ISysOperLogService.java
+|   |   |   |   |   |   |   |   |   ISysPostService.java
+|   |   |   |   |   |   |   |   |   ISysRegistrationCostService.java
+|   |   |   |   |   |   |   |   |   ISysRoleService.java
+|   |   |   |   |   |   |   |   |   ISysStudentService.java
+|   |   |   |   |   |   |   |   |   ISysUserOnlineService.java
+|   |   |   |   |   |   |   |   |   ISysUserService.java
+|   |   |   |   |   |   |   +---yolo
+|   |   |   |   |   |   |   |   |   BoundingBox.java
+|   |   |   |   |   |   |   |   |   YoloResult.java
+|   |   |   |   |   |   |   |   |   YoloV5ServiceImpl.java
+|   |   |   +---resources
+|   |   |   |   +---mapper
+|   |   |   |   |   +---his
+|   |   |   |   |   |   |   HisChargedetailMapper.xml
+|   |   |   |   |   |   |   HisDeptsMapper.xml
+|   |   |   |   |   |   |   HisDoctersMapper.xml
+|   |   |   |   |   |   |   HisPurchaseDataMapper.xml
+|   |   |   |   |   |   |   HisPurchaseMapper.xml
+|   |   |   |   |   |   |   HisPurMapper.xml
+|   |   |   |   |   +---system
+|   |   |   |   |   |   |   DrugMapper.xml
+|   |   |   |   |   |   |   FactoryMapper.xml
+|   |   |   |   |   |   |   HisDetectionResultMapper.xml
+|   |   |   |   |   |   |   HisPatientMapper.xml
+|   |   |   |   |   |   |   HisPolypDetailMapper.xml
+|   |   |   |   |   |   |   HisRegMapper.xml
+|   |   |   |   |   |   |   MedPatiMapper.xml
+|   |   |   |   |   |   |   SupplierMapper.xml
+|   |   |   |   |   |   |   SysConfigMapper.xml
+|   |   |   |   |   |   |   SysDeptMapper.xml
+|   |   |   |   |   |   |   SysDeptsMapper.xml
+|   |   |   |   |   |   |   SysDictDataMapper.xml
+|   |   |   |   |   |   |   SysDictTypeMapper.xml
+|   |   |   |   |   |   |   SysDoctersMapper.xml
+|   |   |   |   |   |   |   SysExamCostMapper.xml
+|   |   |   |   |   |   |   SysLogininforMapper.xml
+|   |   |   |   |   |   |   SysMenuMapper.xml
+|   |   |   |   |   |   |   SysNoticeMapper.xml
+|   |   |   |   |   |   |   SysOperLogMapper.xml
+|   |   |   |   |   |   |   SysPostMapper.xml
+|   |   |   |   |   |   |   SysRegistrationCostMapper.xml
+|   |   |   |   |   |   |   SysRoleDeptMapper.xml
+|   |   |   |   |   |   |   SysRoleMapper.xml
+|   |   |   |   |   |   |   SysRoleMenuMapper.xml
+|   |   |   |   |   |   |   SysStudentMapper.xml
+|   |   |   |   |   |   |   SysUserMapper.xml
+|   |   |   |   |   |   |   SysUserPostMapper.xml
+|   |   |   |   |   |   |   SysUserRoleMapper.xml
+|   |   |   |   +---yolo
+|   |   |   |   |   |   detect.py
+|   |   |   |   |   |   requirements.txt
+|   |   pom.xml
++---ruoyi-ui
+|   +---bin
+|   |   |   build.bat
+|   |   |   package.bat
+|   |   |   run-web.bat
+|   +---build
+|   |   |   index.js
+|   +---public
+|   |   +---html
+|   |   |   |   ie.html
+|   |   |   favicon.ico
+|   |   |   index.html
+|   |   |   robots.txt
+|   +---src
+|   |   +---api
+|   |   |   +---his
+|   |   |   |   +---purchase
+|   |   |   |   |   |   data.js
+|   |   |   |   |   |   purchase.js
+|   |   |   |   |   chargedetail.js
+|   |   |   |   |   Data.js
+|   |   |   |   |   depts.js
+|   |   |   |   |   docters.js
+|   |   |   |   |   drug.js
+|   |   |   |   |   puradd.js
+|   |   |   +---monitor
+|   |   |   |   |   cache.js
+|   |   |   |   |   drug.js
+|   |   |   |   |   job.js
+|   |   |   |   |   jobLog.js
+|   |   |   |   |   logininfor.js
+|   |   |   |   |   online.js
+|   |   |   |   |   operlog.js
+|   |   |   |   |   server.js
+|   |   |   +---system
+|   |   |   |   +---dict
+|   |   |   |   |   |   data.js
+|   |   |   |   |   |   type.js
+|   |   |   |   +---purchase
+|   |   |   |   |   |   data.js
+|   |   |   |   |   |   type.js
+|   |   |   |   |   addpati.js
+|   |   |   |   |   config.js
+|   |   |   |   |   cost.js
+|   |   |   |   |   cost2.js
+|   |   |   |   |   dept.js
+|   |   |   |   |   depts.js
+|   |   |   |   |   detection.js
+|   |   |   |   |   docters.js
+|   |   |   |   |   drug.js
+|   |   |   |   |   factory.js
+|   |   |   |   |   menu.js
+|   |   |   |   |   notice.js
+|   |   |   |   |   pati.js
+|   |   |   |   |   patient.js
+|   |   |   |   |   polyp.js
+|   |   |   |   |   post.js
+|   |   |   |   |   purchase.js
+|   |   |   |   |   reg.js
+|   |   |   |   |   report.js
+|   |   |   |   |   role.js
+|   |   |   |   |   student.js
+|   |   |   |   |   supplier.js
+|   |   |   |   |   user.js
+|   |   |   +---tool
+|   |   |   |   |   gen.js
+|   |   |   |   login.js
+|   |   |   |   menu.js
+|   |   |   |   remote-search.js
+|   |   +---assets
+|   |   |   +---401_images
+|   |   |   |   |   401.gif
+|   |   |   +---404_images
+|   |   |   |   |   404.png
+|   |   |   |   |   404_cloud.png
+|   |   |   +---icons
+|   |   |   |   +---svg
+|   |   |   |   |   |   404.svg
+|   |   |   |   |   |   bug.svg
+|   |   |   |   |   |   build.svg
+|   |   |   |   |   |   button.svg
+|   |   |   |   |   |   cascader.svg
+|   |   |   |   |   |   chart.svg
+|   |   |   |   |   |   checkbox.svg
+|   |   |   |   |   |   clipboard.svg
+|   |   |   |   |   |   code.svg
+|   |   |   |   |   |   color.svg
+|   |   |   |   |   |   component.svg
+|   |   |   |   |   |   dashboard.svg
+|   |   |   |   |   |   date.svg
+|   |   |   |   |   |   date-range.svg
+|   |   |   |   |   |   dict.svg
+|   |   |   |   |   |   documentation.svg
+|   |   |   |   |   |   download.svg
+|   |   |   |   |   |   drag.svg
+|   |   |   |   |   |   druid.svg
+|   |   |   |   |   |   edit.svg
+|   |   |   |   |   |   education.svg
+|   |   |   |   |   |   email.svg
+|   |   |   |   |   |   example.svg
+|   |   |   |   |   |   excel.svg
+|   |   |   |   |   |   exit-fullscreen.svg
+|   |   |   |   |   |   eye.svg
+|   |   |   |   |   |   eye-open.svg
+|   |   |   |   |   |   form.svg
+|   |   |   |   |   |   fullscreen.svg
+|   |   |   |   |   |   github.svg
+|   |   |   |   |   |   guide.svg
+|   |   |   |   |   |   icon.svg
+|   |   |   |   |   |   input.svg
+|   |   |   |   |   |   international.svg
+|   |   |   |   |   |   job.svg
+|   |   |   |   |   |   language.svg
+|   |   |   |   |   |   link.svg
+|   |   |   |   |   |   list.svg
+|   |   |   |   |   |   lock.svg
+|   |   |   |   |   |   log.svg
+|   |   |   |   |   |   logininfor.svg
+|   |   |   |   |   |   message.svg
+|   |   |   |   |   |   money.svg
+|   |   |   |   |   |   monitor.svg
+|   |   |   |   |   |   nested.svg
+|   |   |   |   |   |   number.svg
+|   |   |   |   |   |   online.svg
+|   |   |   |   |   |   password.svg
+|   |   |   |   |   |   pdf.svg
+|   |   |   |   |   |   people.svg
+|   |   |   |   |   |   peoples.svg
+|   |   |   |   |   |   phone.svg
+|   |   |   |   |   |   post.svg
+|   |   |   |   |   |   qq.svg
+|   |   |   |   |   |   question.svg
+|   |   |   |   |   |   radio.svg
+|   |   |   |   |   |   rate.svg
+|   |   |   |   |   |   redis.svg
+|   |   |   |   |   |   redis-list.svg
+|   |   |   |   |   |   row.svg
+|   |   |   |   |   |   search.svg
+|   |   |   |   |   |   select.svg
+|   |   |   |   |   |   server.svg
+|   |   |   |   |   |   shopping.svg
+|   |   |   |   |   |   size.svg
+|   |   |   |   |   |   skill.svg
+|   |   |   |   |   |   slider.svg
+|   |   |   |   |   |   star.svg
+|   |   |   |   |   |   swagger.svg
+|   |   |   |   |   |   switch.svg
+|   |   |   |   |   |   system.svg
+|   |   |   |   |   |   tab.svg
+|   |   |   |   |   |   table.svg
+|   |   |   |   |   |   textarea.svg
+|   |   |   |   |   |   theme.svg
+|   |   |   |   |   |   time.svg
+|   |   |   |   |   |   time-range.svg
+|   |   |   |   |   |   tool.svg
+|   |   |   |   |   |   tree.svg
+|   |   |   |   |   |   tree-table.svg
+|   |   |   |   |   |   upload.svg
+|   |   |   |   |   |   user.svg
+|   |   |   |   |   |   validCode.svg
+|   |   |   |   |   |   wechat.svg
+|   |   |   |   |   |   zip.svg
+|   |   |   |   |   index.js
+|   |   |   |   |   svgo.yml
+|   |   |   +---images
+|   |   |   |   |   dark.svg
+|   |   |   |   |   light.svg
+|   |   |   |   |   login-background.jpg
+|   |   |   |   |   profile.jpg
+|   |   |   |   |   weichat.png
+|   |   |   +---logo
+|   |   |   |   |   logo.png
+|   |   |   +---styles
+|   |   |   |   |   btn.scss
+|   |   |   |   |   element-ui.scss
+|   |   |   |   |   element-variables.scss
+|   |   |   |   |   index.scss
+|   |   |   |   |   mixin.scss
+|   |   |   |   |   ruoyi.scss
+|   |   |   |   |   sidebar.scss
+|   |   |   |   |   transition.scss
+|   |   |   |   |   variables.scss
+|   |   +---components
+|   |   |   +---Breadcrumb
+|   |   |   |   |   index.vue
+|   |   |   +---Crontab
+|   |   |   |   |   day.vue
+|   |   |   |   |   hour.vue
+|   |   |   |   |   index.vue
+|   |   |   |   |   min.vue
+|   |   |   |   |   month.vue
+|   |   |   |   |   result.vue
+|   |   |   |   |   second.vue
+|   |   |   |   |   week.vue
+|   |   |   |   |   year.vue
+|   |   |   +---DictData
+|   |   |   |   |   index.js
+|   |   |   +---DictTag
+|   |   |   |   |   index.vue
+|   |   |   +---Editor
+|   |   |   |   |   index.vue
+|   |   |   +---FileUpload
+|   |   |   |   |   index.vue
+|   |   |   +---GithubCorner
+|   |   |   |   |   index.vue
+|   |   |   +---Hamburger
+|   |   |   |   |   index.vue
+|   |   |   +---HeaderSearch
+|   |   |   |   |   index.vue
+|   |   |   +---IconSelect
+|   |   |   |   |   index.vue
+|   |   |   |   |   requireIcons.js
+|   |   |   +---iFrame
+|   |   |   |   |   index.vue
+|   |   |   +---ImagePreview
+|   |   |   |   |   index.vue
+|   |   |   +---ImageUpload
+|   |   |   |   |   index.vue
+|   |   |   +---Pagination
+|   |   |   |   |   index.vue
+|   |   |   +---PanThumb
+|   |   |   |   |   index.vue
+|   |   |   +---ParentView
+|   |   |   |   |   index.vue
+|   |   |   +---RightPanel
+|   |   |   |   |   index.vue
+|   |   |   +---RightToolbar
+|   |   |   |   |   index.vue
+|   |   |   +---RuoYi
+|   |   |   |   +---Doc
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---Git
+|   |   |   |   |   |   index.vue
+|   |   |   +---Screenfull
+|   |   |   |   |   index.vue
+|   |   |   +---SizeSelect
+|   |   |   |   |   index.vue
+|   |   |   +---SvgIcon
+|   |   |   |   |   index.vue
+|   |   |   +---TextHoverEffect
+|   |   |   |   |   Mallki.vue
+|   |   |   +---ThemePicker
+|   |   |   |   |   index.vue
+|   |   |   +---TopNav
+|   |   |   |   |   index.vue
+|   |   +---directive
+|   |   |   +---dialog
+|   |   |   |   |   drag.js
+|   |   |   |   |   dragHeight.js
+|   |   |   |   |   dragWidth.js
+|   |   |   +---module
+|   |   |   |   |   clipboard.js
+|   |   |   +---permission
+|   |   |   |   |   hasPermi.js
+|   |   |   |   |   hasRole.js
+|   |   |   |   index.js
+|   |   +---layout
+|   |   |   +---components
+|   |   |   |   +---IframeToggle
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---InnerLink
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---Settings
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---Sidebar
+|   |   |   |   |   |   FixiOSBug.js
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   Item.vue
+|   |   |   |   |   |   Link.vue
+|   |   |   |   |   |   Logo.vue
+|   |   |   |   |   |   SidebarItem.vue
+|   |   |   |   +---TagsView
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   ScrollPane.vue
+|   |   |   |   |   AppMain.vue
+|   |   |   |   |   index.js
+|   |   |   |   |   Navbar.vue
+|   |   |   +---mixin
+|   |   |   |   |   ResizeHandler.js
+|   |   |   |   index.vue
+|   |   +---plugins
+|   |   |   |   auth.js
+|   |   |   |   cache.js
+|   |   |   |   download.js
+|   |   |   |   index.js
+|   |   |   |   modal.js
+|   |   |   |   tab.js
+|   |   +---router
+|   |   |   |   index.js
+|   |   +---store
+|   |   |   +---modules
+|   |   |   |   |   app.js
+|   |   |   |   |   dict.js
+|   |   |   |   |   permission.js
+|   |   |   |   |   settings.js
+|   |   |   |   |   tagsView.js
+|   |   |   |   |   user.js
+|   |   |   |   getters.js
+|   |   |   |   index.js
+|   |   +---utils
+|   |   |   +---dict
+|   |   |   |   |   Dict.js
+|   |   |   |   |   DictConverter.js
+|   |   |   |   |   DictData.js
+|   |   |   |   |   DictMeta.js
+|   |   |   |   |   DictOptions.js
+|   |   |   |   |   index.js
+|   |   |   +---generator
+|   |   |   |   |   config.js
+|   |   |   |   |   css.js
+|   |   |   |   |   drawingDefault.js
+|   |   |   |   |   html.js
+|   |   |   |   |   icon.json
+|   |   |   |   |   js.js
+|   |   |   |   |   render.js
+|   |   |   |   auth.js
+|   |   |   |   errorCode.js
+|   |   |   |   index.js
+|   |   |   |   jsencrypt.js
+|   |   |   |   permission.js
+|   |   |   |   request.js
+|   |   |   |   ruoyi.js
+|   |   |   |   scroll-to.js
+|   |   |   |   validate.js
+|   |   +---views
+|   |   |   +---components
+|   |   |   |   +---icons
+|   |   |   |   |   |   element-icons.js
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   svg-icons.js
+|   |   |   +---cost
+|   |   |   |   |   index.vue
+|   |   |   +---dashboard
+|   |   |   |   +---admin
+|   |   |   |   |   +---components
+|   |   |   |   |   |   +---mixins
+|   |   |   |   |   |   |   |   resize.js
+|   |   |   |   |   |   +---TodoList
+|   |   |   |   |   |   |   |   index.scss
+|   |   |   |   |   |   |   |   index.vue
+|   |   |   |   |   |   |   |   Todo.vue
+|   |   |   |   |   |   |   BarChart.vue
+|   |   |   |   |   |   |   BoxCard.vue
+|   |   |   |   |   |   |   LineChart.vue
+|   |   |   |   |   |   |   PanelGroup.vue
+|   |   |   |   |   |   |   PieChart.vue
+|   |   |   |   |   |   |   RaddarChart.vue
+|   |   |   |   |   |   |   TransactionTable.vue
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---mixins
+|   |   |   |   |   |   resize.js
+|   |   |   |   |   BarChart.vue
+|   |   |   |   |   LineChart.vue
+|   |   |   |   |   PanelGroup.vue
+|   |   |   |   |   PieChart.vue
+|   |   |   |   |   RaddarChart.vue
+|   |   |   +---error
+|   |   |   |   |   401.vue
+|   |   |   |   |   404.vue
+|   |   |   +---his
+|   |   |   |   +---addpati
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---chargedetail
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---chat
+|   |   |   |   |   |   FriendChat.vue
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   SayMana.vue
+|   |   |   |   |   |   x1.vue
+|   |   |   |   +---Data
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---depts
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---docters
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---drug
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---puradd
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---purchase
+|   |   |   |   |   |   data.vue
+|   |   |   |   |   |   index.vue
+|   |   |   +---monitor
+|   |   |   |   +---cache
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   list.vue
+|   |   |   |   +---druid
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---job
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   log.vue
+|   |   |   |   +---logininfor
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---online
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---operlog
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---server
+|   |   |   |   |   |   index.vue
+|   |   |   +---system
+|   |   |   |   +---addpati
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---config
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---cost
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---cost2
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---dept
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---depts
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---detection
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   realtime.vue
+|   |   |   |   +---dict
+|   |   |   |   |   |   data.vue
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---docters
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---drug
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---factory
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---menu
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---notice
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---pati
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   index3.vue
+|   |   |   |   +---patient
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---polyp
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---post
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---purchase
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---reg
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---regadd
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---role
+|   |   |   |   |   |   authUser.vue
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   selectUser.vue
+|   |   |   |   +---supplier
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---user
+|   |   |   |   |   +---profile
+|   |   |   |   |   |   |   index.vue
+|   |   |   |   |   |   |   resetPwd.vue
+|   |   |   |   |   |   |   userAvatar.vue
+|   |   |   |   |   |   |   userInfo.vue
+|   |   |   |   |   |   authRole.vue
+|   |   |   |   |   |   index.vue
+|   |   |   +---tool
+|   |   |   |   +---build
+|   |   |   |   |   |   CodeTypeDialog.vue
+|   |   |   |   |   |   DraggableItem.vue
+|   |   |   |   |   |   IconsDialog.vue
+|   |   |   |   |   |   index.vue
+|   |   |   |   |   |   RightPanel.vue
+|   |   |   |   |   |   TreeNodeDialog.vue
+|   |   |   |   +---gen
+|   |   |   |   |   |   basicInfoForm.vue
+|   |   |   |   |   |   editTable.vue
+|   |   |   |   |   |   genInfoForm.vue
+|   |   |   |   |   |   importTable.vue
+|   |   |   |   |   |   index.vue
+|   |   |   |   +---swagger
+|   |   |   |   |   |   index.vue
+|   |   |   |   index.vue
+|   |   |   |   index_v1.vue
+|   |   |   |   login.vue
+|   |   |   |   redirect.vue
+|   |   |   |   register.vue
+|   |   |   App.vue
+|   |   |   main.js
+|   |   |   permission.js
+|   |   |   settings.js
+|   |   .editorconfig
+|   |   .env.development
+|   |   .env.production
+|   |   .env.staging
+|   |   .eslintignore
+|   |   .eslintrc.js
+|   |   .gitignore
+|   |   babel.config.js
+|   |   package.json
+|   |   package-lock.json
+|   |   README.md
+|   |   vue.config.js
++---sql
+|   |   add_polyp_menu.sql
+|   |   his_reg_table.sql
+|   |   quartz.sql
+|   |   ry_20220822.sql
+|   |   ry-vue.sql
+|   |   yolo_polyp_detection.sql
+|   |   数据库参考B .sql
+|   .gitignore
+|   hs_err_pid32448.log
+|   hs_err_pid4448.log
+|   IMPLEMENTATION_SUMMARY.md
+|   LICENSE
+|   pom.xml
+|   PROJECT_TREE_FULL.txt
+|   PROJECT_TREE_SOURCE.txt
+|   replay_pid32448.log
+|   replay_pid4448.log
+|   ry.bat
+|   ry.sh

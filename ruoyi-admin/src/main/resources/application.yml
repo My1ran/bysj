@@ -1,0 +1,103 @@
+ruoyi:
+  name: RuoYi
+  version: 3.8.4
+  copyrightYear: 2022
+  demoEnabled: true
+  profile: M:/0NUIST/class/bysj/Medical-platform-master/uploadPath
+  addressEnabled: false
+  captchaType: math
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    threads:
+      max: 800
+      min-spare: 100
+
+logging:
+  level:
+    com.ruoyi: debug
+    org.springframework: warn
+
+user:
+  password:
+    maxRetryCount: 5
+    lockTime: 10
+
+spring:
+  messages:
+    basename: i18n/messages
+  profiles:
+    active: druid
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 520MB
+  devtools:
+    restart:
+      enabled: true
+  redis:
+    host: 47.95.179.218
+    port: 6379
+    database: 0
+    password: redis_RZHe2E
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+
+token:
+  header: Authorization
+  secret: abcdefghijklmnopqrstuvwxyz
+  expireTime: 30
+
+mybatis:
+  typeAliasesPackage: com.ruoyi.**.domain
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+swagger:
+  enabled: true
+  pathMapping: /dev-api
+
+xss:
+  enabled: true
+  excludes: /system/notice
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+polyp:
+  inference:
+    base-url: https://u231948-8c36-8d7654f5.westc.seetacloud.com:8443
+    timeout: ${POLYP_INFER_TIMEOUT:60000}
+    video-timeout: ${POLYP_INFER_VIDEO_TIMEOUT:900000}
+    send-model-path: ${POLYP_INFER_SEND_MODEL_PATH:false}
+    video-frame-stride: ${POLYP_INFER_VIDEO_FRAME_STRIDE:1}
+    video-max-frames: ${POLYP_INFER_VIDEO_MAX_FRAMES:0}
+    video-conf-thres: ${POLYP_INFER_VIDEO_CONF_THRES:0.25}
+    video-iou-thres: ${POLYP_INFER_VIDEO_IOU_THRES:0.45}
+    video-imgsz: ${POLYP_INFER_VIDEO_IMGSZ:640}
+    video-max-det: ${POLYP_INFER_VIDEO_MAX_DET:1000}
+    video-agnostic-nms: ${POLYP_INFER_VIDEO_AGNOSTIC_NMS:false}
+    video-augment: ${POLYP_INFER_VIDEO_AUGMENT:false}
+    include-frames: ${POLYP_INFER_INCLUDE_FRAMES:false}
+    generate-result-video: ${POLYP_INFER_GENERATE_RESULT_VIDEO:true}
+    default-model-id: ${POLYP_INFER_DEFAULT_MODEL_ID:1}
+  ffmpeg:
+    enabled: ${POLYP_FFMPEG_ENABLED:true}
+    path: M:\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe
+    timeout-seconds: ${POLYP_FFMPEG_TIMEOUT_SECONDS:300}
+    output-suffix: ${POLYP_FFMPEG_OUTPUT_SUFFIX:_web}
+  storage:
+    source-dir: polyp/source

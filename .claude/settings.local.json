@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(iconv -f gbk -t utf-8 'M:/0NUIST/class/bysj/Medical-platform-master/sql/数据库参考 B.sql')",
+      "Bash(cat *.sql)",
+      "Bash(find M:/0NUIST/class/bysj/Medical-platform-master -name *.xml -type f)",
+      "Bash(iconv -f GBK -t UTF-8 'M:/0NUIST/class/bysj/Medical-platform-master/sql/数据库参考 B .sql')",
+      "Bash(powershell -Command \"Get-Content 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql\\\\数据库参考 B.sql' -Encoding UTF8 -Head 100\")",
+      "Bash(powershell -Command \"Get-ChildItem 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql\\\\' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-Content 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql\\\\ݿοB.sql' -Head 200\")",
+      "Bash(powershell -Command \"Get-ChildItem 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql\\\\' | ForEach-Object { $_.Name; $_.Length }\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; dir\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content '.\\\\数据库参考 B.sql' -Encoding UTF8 | Select-Object -First 200\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'ry_20220822.sql' | Select-String -Pattern 'his' -Context 2\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'ry_20220822.sql' | Select-String -Pattern 'create table' | Select-Object -First 30\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'ry_20220822.sql' | Select-String -Pattern 'create table' | Measure-Object -Line\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content '.\\\\数据库参考 B.sql' -Encoding Unicode | Select-Object -First 50\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; $files = Get-ChildItem; foreach \\($f in $files\\) { if \\($f.Name -like '*B*'\\) { Write-Host $f.Name } }\")"
+    ]
+  }
+}
