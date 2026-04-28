@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medical.system.mapper.HisPatientMapper">
+
+    <resultMap type="HisPatient" id="HisPatientResult">
+        <result property="patiId"    column="pati_id"    />
+        <result property="patiName"    column="pati_name"    />
+        <result property="patiCode"    column="pati_code"    />
+        <result property="gender"    column="gender"    />
+        <result property="age"    column="age"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="phone"    column="phone"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="address"    column="address"    />
+        <result property="allergy"    column="allergy"    />
+        <result property="medicalHistory"    column="medical_history"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHisPatientVo">
+        select pati_id, pati_name, pati_code, gender, age, birthday, phone, id_card, address, allergy, medical_history, create_by, create_time, update_by, update_time, remark
+        from his_patient
+    </sql>
+
+    <select id="selectHisPatientList" parameterType="HisPatient" resultMap="HisPatientResult">
+        <include refid="selectHisPatientVo"/>
+        <where>
+            <if test="patiName != null  and patiName != ''"> and pati_name like concat('%', #{patiName}, '%')</if>
+            <if test="patiCode != null  and patiCode != ''"> and pati_code = #{patiCode}</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectHisPatientByPatiId" parameterType="Long" resultMap="HisPatientResult">
+        <include refid="selectHisPatientVo"/>
+        where pati_id = #{patiId}
+    </select>
+
+    <insert id="insertHisPatient" parameterType="HisPatient" useGeneratedKeys="true" keyProperty="patiId">
+        insert into his_patient
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patiName != null and patiName != ''">pati_name,</if>
+            <if test="patiCode != null">pati_code,</if>
+            <if test="gender != null">gender,</if>
+            <if test="age != null">age,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="phone != null">phone,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="address != null">address,</if>
+            <if test="allergy != null">allergy,</if>
+            <if test="medicalHistory != null">medical_history,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patiName != null and patiName != ''">#{patiName},</if>
+            <if test="patiCode != null">#{patiCode},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="age != null">#{age},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="address != null">#{address},</if>
+            <if test="allergy != null">#{allergy},</if>
+            <if test="medicalHistory != null">#{medicalHistory},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHisPatient" parameterType="HisPatient">
+        update his_patient
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patiName != null and patiName != ''">pati_name = #{patiName},</if>
+            <if test="patiCode != null">pati_code = #{patiCode},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="allergy != null">allergy = #{allergy},</if>
+            <if test="medicalHistory != null">medical_history = #{medicalHistory},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where pati_id = #{patiId}
+    </update>
+
+    <delete id="deleteHisPatientByPatiId" parameterType="Long">
+        delete from his_patient where pati_id = #{patiId}
+    </delete>
+
+    <delete id="deleteHisPatientByPatiIds" parameterType="String">
+        delete from his_patient where pati_id in
+        <foreach item="patiId" collection="array" open="(" separator="," close=")">
+            #{patiId}
+        </foreach>
+    </delete>
+</mapper>

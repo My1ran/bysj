@@ -15,13 +15,13 @@
 |   |   package.bat
 |   |   run.bat
 +---doc
-|   |   ÈôÒÀ»·¾³Ê¹ÓÃÊÖ²á.docx
-+---ruoyi-admin
+|   |   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ö²ï¿½.docx
++---admin
 |   +---src
 |   |   +---main
 |   |   |   +---java
 |   |   |   |   +---com
-|   |   |   |   |   +---ruoyi
+|   |   |   |   |   +---medical
 |   |   |   |   |   |   +---web
 |   |   |   |   |   |   |   +---controller
 |   |   |   |   |   |   |   |   +---common
@@ -79,8 +79,8 @@
 |   |   |   |   |   |   |   +---webSocket
 |   |   |   |   |   |   |   |   |   WebSocketConfig.java
 |   |   |   |   |   |   |   |   |   WebSocketServiceImpl.java
-|   |   |   |   |   |   |   RuoYiApplication.java
-|   |   |   |   |   |   |   RuoYiServletInitializer.java
+|   |   |   |   |   |   |   MedicalApplication.java
+|   |   |   |   |   |   |   MedicalServletInitializer.java
 |   |   |   +---resources
 |   |   |   |   +---i18n
 |   |   |   |   |   |   messages.properties
@@ -93,12 +93,12 @@
 |   |   |   |   |   banner.txt
 |   |   |   |   |   logback.xml
 |   |   pom.xml
-+---ruoyi-common
++---common
 |   +---src
 |   |   +---main
 |   |   |   +---java
 |   |   |   |   +---com
-|   |   |   |   |   +---ruoyi
+|   |   |   |   |   +---medical
 |   |   |   |   |   |   +---common
 |   |   |   |   |   |   |   +---annotation
 |   |   |   |   |   |   |   |   |   Anonymous.java
@@ -110,7 +110,7 @@
 |   |   |   |   |   |   |   |   |   RateLimiter.java
 |   |   |   |   |   |   |   |   |   RepeatSubmit.java
 |   |   |   |   |   |   |   +---config
-|   |   |   |   |   |   |   |   |   RuoYiConfig.java
+|   |   |   |   |   |   |   |   |   MedicalConfig.java
 |   |   |   |   |   |   |   +---constant
 |   |   |   |   |   |   |   |   |   CacheConstants.java
 |   |   |   |   |   |   |   |   |   Constants.java
@@ -232,12 +232,12 @@
 |   |   |   |   |   |   |   |   |   Xss.java
 |   |   |   |   |   |   |   |   |   XssValidator.java
 |   |   pom.xml
-+---ruoyi-framework
++---framework
 |   +---src
 |   |   +---main
 |   |   |   +---java
 |   |   |   |   +---com
-|   |   |   |   |   +---ruoyi
+|   |   |   |   |   +---medical
 |   |   |   |   |   |   +---framework
 |   |   |   |   |   |   |   +---aspectj
 |   |   |   |   |   |   |   |   |   DataScopeAspect.java
@@ -301,12 +301,12 @@
 |   |   |   |   |   |   |   |   |   |   TokenService.java
 |   |   |   |   |   |   |   |   |   |   UserDetailsServiceImpl.java
 |   |   pom.xml
-+---ruoyi-generator
++---generator
 |   +---src
 |   |   +---main
 |   |   |   +---java
 |   |   |   |   +---com
-|   |   |   |   |   +---ruoyi
+|   |   |   |   |   +---medical
 |   |   |   |   |   |   +---generator
 |   |   |   |   |   |   |   +---config
 |   |   |   |   |   |   |   |   |   GenConfig.java
@@ -355,12 +355,12 @@
 |   |   |   |   |   |   |   mapper.xml.vm
 |   |   |   |   |   generator.yml
 |   |   pom.xml
-+---ruoyi-quartz
++---quartz
 |   +---src
 |   |   +---main
 |   |   |   +---java
 |   |   |   |   +---com
-|   |   |   |   |   +---ruoyi
+|   |   |   |   |   +---medical
 |   |   |   |   |   |   +---quartz
 |   |   |   |   |   |   |   +---config
 |   |   |   |   |   |   |   |   |   ScheduleConfig.java
@@ -380,7 +380,7 @@
 |   |   |   |   |   |   |   |   |   ISysJobLogService.java
 |   |   |   |   |   |   |   |   |   ISysJobService.java
 |   |   |   |   |   |   |   +---task
-|   |   |   |   |   |   |   |   |   RyTask.java
+|   |   |   |   |   |   |   |   |   MedicalTask.java
 |   |   |   |   |   |   |   +---util
 |   |   |   |   |   |   |   |   |   AbstractQuartzJob.java
 |   |   |   |   |   |   |   |   |   CronUtils.java
@@ -394,12 +394,12 @@
 |   |   |   |   |   |   |   SysJobLogMapper.xml
 |   |   |   |   |   |   |   SysJobMapper.xml
 |   |   pom.xml
-+---ruoyi-system
++---system
 |   +---src
 |   |   +---main
 |   |   |   +---java
 |   |   |   |   +---com
-|   |   |   |   |   +---ruoyi
+|   |   |   |   |   +---medical
 |   |   |   |   |   |   +---his
 |   |   |   |   |   |   |   +---domain
 |   |   |   |   |   |   |   |   |   HisChargedetail.java
@@ -586,7 +586,7 @@
 |   |   |   |   |   |   detect.py
 |   |   |   |   |   |   requirements.txt
 |   |   pom.xml
-+---ruoyi-ui
++---ui
 |   +---bin
 |   |   |   build.bat
 |   |   |   package.bat
@@ -764,7 +764,7 @@
 |   |   |   |   |   element-variables.scss
 |   |   |   |   |   index.scss
 |   |   |   |   |   mixin.scss
-|   |   |   |   |   ruoyi.scss
+|   |   |   |   |   medical.scss
 |   |   |   |   |   sidebar.scss
 |   |   |   |   |   transition.scss
 |   |   |   |   |   variables.scss
@@ -814,7 +814,7 @@
 |   |   |   |   |   index.vue
 |   |   |   +---RightToolbar
 |   |   |   |   |   index.vue
-|   |   |   +---RuoYi
+|   |   |   +---Medical
 |   |   |   |   +---Doc
 |   |   |   |   |   |   index.vue
 |   |   |   |   +---Git
@@ -907,7 +907,7 @@
 |   |   |   |   jsencrypt.js
 |   |   |   |   permission.js
 |   |   |   |   request.js
-|   |   |   |   ruoyi.js
+|   |   |   |   medical.js
 |   |   |   |   scroll-to.js
 |   |   |   |   validate.js
 |   |   +---views
@@ -1084,10 +1084,10 @@
 |   |   add_polyp_menu.sql
 |   |   his_reg_table.sql
 |   |   quartz.sql
-|   |   ry_20220822.sql
-|   |   ry-vue.sql
+|   |   medical_20220822.sql
+|   |   medical-vue.sql
 |   |   yolo_polyp_detection.sql
-|   |   Êý¾Ý¿â²Î¿¼B .sql
+|   |   ï¿½ï¿½ï¿½Ý¿ï¿½Î¿ï¿½B .sql
 |   .gitignore
 |   hs_err_pid32448.log
 |   hs_err_pid4448.log
@@ -1098,5 +1098,5 @@
 |   PROJECT_TREE_SOURCE.txt
 |   replay_pid32448.log
 |   replay_pid4448.log
-|   ry.bat
-|   ry.sh
+|   medical.bat
+|   medical.sh

@@ -11,9 +11,9 @@
       "Bash(powershell -Command \"Get-ChildItem 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql\\\\' | ForEach-Object { $_.Name; $_.Length }\")",
       "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; dir\")",
       "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content '.\\\\数据库参考 B.sql' -Encoding UTF8 | Select-Object -First 200\")",
-      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'ry_20220822.sql' | Select-String -Pattern 'his' -Context 2\")",
-      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'ry_20220822.sql' | Select-String -Pattern 'create table' | Select-Object -First 30\")",
-      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'ry_20220822.sql' | Select-String -Pattern 'create table' | Measure-Object -Line\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'medical_20220822.sql' | Select-String -Pattern 'his' -Context 2\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'medical_20220822.sql' | Select-String -Pattern 'create table' | Select-Object -First 30\")",
+      "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content 'medical_20220822.sql' | Select-String -Pattern 'create table' | Measure-Object -Line\")",
       "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; Get-Content '.\\\\数据库参考 B.sql' -Encoding Unicode | Select-Object -First 50\")",
       "Bash(powershell -Command \"cd 'M:\\\\0NUIST\\\\class\\\\bysj\\\\Medical-platform-master\\\\sql'; $files = Get-ChildItem; foreach \\($f in $files\\) { if \\($f.Name -like '*B*'\\) { Write-Host $f.Name } }\")"
     ]

@@ -24,7 +24,7 @@
 ## 二、后端新增文件
 
 ### 1. 实体类（Domain）- 3 个
-**位置**: `ruoyi-system/src/main/java/com/ruoyi/system/domain/`
+**位置**: `system/src/main/java/com/medical/system/domain/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -33,7 +33,7 @@
 | `HisPolypDetail.java` | 息肉详情实体 |
 
 ### 2. Mapper 接口 - 3 个
-**位置**: `ruoyi-system/src/main/java/com/ruoyi/system/mapper/`
+**位置**: `system/src/main/java/com/medical/system/mapper/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -42,7 +42,7 @@
 | `HisPolypDetailMapper.java` | 息肉详情 Mapper |
 
 ### 3. Mapper XML - 3 个
-**位置**: `ruoyi-system/src/main/resources/mapper/system/`
+**位置**: `system/src/main/resources/mapper/system/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -51,7 +51,7 @@
 | `HisPolypDetailMapper.xml` | 息肉详情 SQL 映射 |
 
 ### 4. Service 接口 - 3 个
-**位置**: `ruoyi-system/src/main/java/com/ruoyi/system/service/`
+**位置**: `system/src/main/java/com/medical/system/service/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -60,7 +60,7 @@
 | `IHisPolypDetailService.java` | 息肉详情服务接口 |
 
 ### 5. Service 实现 - 3 个
-**位置**: `ruoyi-system/src/main/java/com/ruoyi/system/service/impl/`
+**位置**: `system/src/main/java/com/medical/system/service/impl/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -69,7 +69,7 @@
 | `HisPolypDetailServiceImpl.java` | 息肉详情服务实现 |
 
 ### 6. YOLOv5 检测模块 - 4 个
-**位置**: `ruoyi-system/src/main/java/com/ruoyi/system/yolo/`
+**位置**: `system/src/main/java/com/medical/system/yolo/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -80,7 +80,7 @@
 | `requirements.txt` | Python 依赖 |
 
 ### 7. Controller - 3 个
-**位置**: `ruoyi-admin/src/main/java/com/ruoyi/web/controller/system/`
+**位置**: `admin/src/main/java/com/medical/web/controller/system/`
 
 | 文件名 | 接口路径 | 说明 |
 |--------|----------|------|
@@ -93,7 +93,7 @@
 ## 三、前端新增文件
 
 ### 1. API 接口 - 3 个
-**位置**: `ruoyi-ui/src/api/system/`
+**位置**: `ui/src/api/system/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -102,7 +102,7 @@
 | `report.js` | 报告管理 API |
 
 ### 2. 页面视图 - 3 个
-**位置**: `ruoyi-ui/src/views/system/`
+**位置**: `ui/src/views/system/`
 
 | 文件名 | 说明 |
 |--------|------|
@@ -146,7 +146,7 @@
 ### 1. 用户管理模块
 - **登录注册**: 复用现有系统功能
 - **个人中心**: 复用现有系统功能
-- **权限控制**: 基于若依框架的权限管理
+- **权限控制**: 基于医疗平台框架的权限管理
 
 ### 2. 核心检测模块
 - **图片上传检测**:
@@ -189,13 +189,13 @@
 ### 1. 数据库配置
 ```bash
 # 执行 SQL 脚本创建表
-mysql -u root -p ry-vue < sql/yolo_polyp_detection.sql
+mysql -u root -p medical-vue < sql/yolo_polyp_detection.sql
 ```
 
 ### 2. Python 环境配置
 ```bash
 # 进入 YOLO 目录
-cd ruoyi-system/src/main/resources/yolo
+cd system/src/main/resources/yolo
 
 # 安装依赖
 pip install torch torchvision opencv-python numpy ultralytics pandas
@@ -214,11 +214,11 @@ pip install torch torchvision opencv-python numpy ultralytics pandas
 ### 5. 启动项目
 ```bash
 # 后端启动
-cd ruoyi-admin
+cd admin
 mvn spring-boot:run
 
 # 前端启动
-cd ruoyi-ui
+cd ui
 npm install
 npm run dev
 ```
@@ -251,14 +251,14 @@ npm run dev
 ## 八、关键文件路径汇总
 
 ### 后端核心
-- `ruoyi-system/src/main/java/com/ruoyi/system/yolo/YoloV5ServiceImpl.java`
-- `ruoyi-system/src/main/resources/yolo/detect.py`
-- `ruoyi-admin/src/main/java/com/ruoyi/web/controller/system/HisDetectionController.java`
+- `system/src/main/java/com/medical/system/yolo/YoloV5ServiceImpl.java`
+- `system/src/main/resources/yolo/detect.py`
+- `admin/src/main/java/com/medical/web/controller/system/HisDetectionController.java`
 
 ### 前端核心
-- `ruoyi-ui/src/views/system/detection/index.vue` - 检测列表
-- `ruoyi-ui/src/views/system/detection/realtime.vue` - 实时检测
-- `ruoyi-ui/src/api/system/detection.js` - 检测 API
+- `ui/src/views/system/detection/index.vue` - 检测列表
+- `ui/src/views/system/detection/realtime.vue` - 实时检测
+- `ui/src/api/system/detection.js` - 检测 API
 
 ### 数据库
 - `sql/yolo_polyp_detection.sql` - 建表脚本
@@ -287,7 +287,7 @@ npm run dev
 1. **Python 依赖**: 确保安装 torch、opencv-python 等依赖
 2. **模型文件**: 需自行准备 YOLOv5 息肉检测模型 (.pt 文件)
 3. **路径配置**: 根据实际部署环境修改路径配置
-4. **权限配置**: 在若依后台添加对应的菜单和权限
+4. **权限配置**: 在医疗平台后台添加对应的菜单和权限
 5. **摄像头权限**: 实时检测需要浏览器授予摄像头权限
 
 ---
@@ -296,20 +296,20 @@ npm run dev
 
 ### 本次修改
 
-1. **删除"若依官网"和"李杰的项目源码"**
-   - 修改 `Navbar.vue`，移除 `RuoYiGit` 和 `RuoYiDoc` 组件引用
+1. **删除"医疗平台官网"和"李杰的项目源码"**
+   - 修改 `Navbar.vue`，移除 `MedicalGit` 和 `MedicalDoc` 组件引用
    - 移除了"李杰的项目源码" tooltip
 
 2. **新增息肉详情前端页面**
-   - 新增 `ruoyi-ui/src/api/system/polyp.js` - 息肉详情 API
-   - 新增 `ruoyi-ui/src/views/system/polyp/index.vue` - 息肉详情管理页面
+   - 新增 `ui/src/api/system/polyp.js` - 息肉详情 API
+   - 新增 `ui/src/views/system/polyp/index.vue` - 息肉详情管理页面
 
 3. **新增息肉详情 Controller**
-   - 新增 `ruoyi-admin/src/main/java/com/ruoyi/web/controller/system/HisPolypController.java`
+   - 新增 `admin/src/main/java/com/medical/web/controller/system/HisPolypController.java`
    - 接口路径：`/system/polyp/*`
    - 支持：列表查询、按检测结果ID查询、增删改查
 
-### 菜单配置（需在若依后台添加）
+### 菜单配置（需在医疗平台后台添加）
 
 | 菜单名称 | 路由地址 | 组件路径 |
 |----------|----------|----------|

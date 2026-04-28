@@ -1,6 +1,6 @@
 -- =============================================
 -- 息肉检测系统菜单配置
--- 执行方式: mysql -u root -p ry-vue < sql/add_polyp_menu.sql
+-- 执行方式: mysql -u root -p medical-vue < sql/add_polyp_menu.sql
 -- 或直接在数据库中执行以下 SQL
 -- =============================================
 

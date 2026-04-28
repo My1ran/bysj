@@ -10,7 +10,7 @@ logs/
 output/
 tmp/
 uploadPath/
-ruoyi-ui/node_modules/
+ui/node_modules/
 **/target/
 **/__pycache__/
 python-infer-service/.venv/

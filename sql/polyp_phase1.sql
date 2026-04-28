@@ -1,4 +1,4 @@
-﻿-- Phase 1: YOLOv5 息肉检测最小闭环表结构
+-- Phase 1: YOLOv5 息肉检测最小闭环表结构
 -- 执行顺序：先建基础表，再初始化默认模型
 
 CREATE TABLE IF NOT EXISTS `file_asset` (
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `polyp_detect_task` (
 
 -- 初始化默认模型（按需修改model_path）
 INSERT INTO `polyp_model` (`model_name`, `model_version`, `model_path`, `status`, `is_default`, `conf_threshold`, `remark`)
-SELECT 'yolov5-polyp', 'v1', 'M:/0NUIST/class/bysj/Medical-platform-master/ruoyi-system/src/main/resources/yolo/polyp.pt', 'ACTIVE', 1, 0.5000, 'Phase1默认模型'
+SELECT 'yolov5-polyp', 'v1', 'M:/0NUIST/class/bysj/Medical-platform-master/system/src/main/resources/yolo/polyp.pt', 'ACTIVE', 1, 0.5000, 'Phase1默认模型'
 WHERE NOT EXISTS (
   SELECT 1 FROM `polyp_model` WHERE `is_default` = 1 AND `status` = 'ACTIVE'
 );
