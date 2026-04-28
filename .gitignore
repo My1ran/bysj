@@ -50,11 +50,18 @@ __pycache__/
 .codex-temp-*/
 data/
 logs/
+tmp/
+output/
+deploy/
+config/
+sql/
 uploadPath/
 python-infer-service/.venv/
 python-infer-service/outputs/
 hs_err_pid*.log
 replay_pid*.log
+deploy/.env
+deploy/runtime/
 
 !*/build/*.java
 !*/build/*.html

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 101.132.91.249_3306
+ Source Server         : 北京服务器
  Source Server Type    : MySQL
- Source Server Version : 80041
- Source Host           : 101.132.91.249:3306
+ Source Server Version : 80042
+ Source Host           : 47.95.179.218:3306
  Source Schema         : ry-vue
 
  Target Server Type    : MySQL
- Target Server Version : 80041
+ Target Server Version : 80042
  File Encoding         : 65001
 
- Date: 23/03/2026 13:37:55
+ Date: 12/04/2026 00:39:41
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `charge`  (
   `Order_status` int NOT NULL COMMENT '订单状态',
   `Creation_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of charge
@@ -52,7 +52,7 @@ CREATE TABLE `chargedetail`  (
   `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '状态(1：已支付，0：未支付)',
   `id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of chargedetail
@@ -92,7 +92,7 @@ CREATE TABLE `check_mode`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   `filename` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '系统自动生成的图片名称-----fileName',
   `filesite` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图片地址-----filesite'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of check_mode
@@ -111,7 +111,7 @@ CREATE TABLE `doctor_work_records`  (
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者 createBy',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间 createTime',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注 remark'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of doctor_work_records
@@ -141,7 +141,7 @@ CREATE TABLE `drug`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   PRIMARY KEY (`drug_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of drug
@@ -170,7 +170,7 @@ CREATE TABLE `drug_sales_records`  (
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者 createBy',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间 createTime',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注 remark'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of drug_sales_records
@@ -195,7 +195,7 @@ CREATE TABLE `factory`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   PRIMARY KEY (`fac_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of factory
@@ -210,6 +210,75 @@ INSERT INTO `factory` VALUES (7, '太极集团有限公司', '589700', '雷大�
 INSERT INTO `factory` VALUES (8, '北京同仁堂集团有限公司', '224882', '雷大哥', '0871-66350538', 'ynby', '云南', 0, 'admin', '2026-02-22 23:54:30', 0x61646D696E, '2026-02-22 23:54:30', '生产厂家');
 INSERT INTO `factory` VALUES (9, '湖南九芝堂股份有限公司', '101857', '雷大哥', '0871-66350538', 'ynby', '云南', 0, 'admin', '2026-02-22 23:54:30', 0x61646D696E, '2026-02-22 23:54:30', '生产厂家');
 INSERT INTO `factory` VALUES (10, '新疆新特药民族药业有限责任公司', '85191', '雷大哥', '0871-66350538', 'ynby', '云南', 0, 'admin', '2026-02-22 23:54:30', 0x61646D696E, '2026-02-22 23:54:30', '生产厂家');
+
+-- ----------------------------
+-- Table structure for file_asset
+-- ----------------------------
+DROP TABLE IF EXISTS `file_asset`;
+CREATE TABLE `file_asset`  (
+  `file_id` bigint NOT NULL AUTO_INCREMENT COMMENT '文件ID',
+  `biz_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '业务类型：SOURCE_IMAGE/RESULT_IMAGE',
+  `origin_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '原始文件名',
+  `ext_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文件扩展名',
+  `mime_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'MIME类型',
+  `size_bytes` bigint NULL DEFAULT NULL COMMENT '文件大小(字节)',
+  `store_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件绝对路径',
+  `file_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '访问URL(例如/profile/upload/...)',
+  `sha256` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文件哈希(预留)',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`file_id`) USING BTREE,
+  INDEX `idx_biz_type`(`biz_type`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件资源表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of file_asset
+-- ----------------------------
+INSERT INTO `file_asset` VALUES (1, 'SOURCE_IMAGE', '404.png', 'png', 'image/png', 98071, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\04\\404_20260404000121A001.png', '/profile/upload\\polyp/source/2026/04/04/404_20260404000121A001.png', NULL, NULL, '2026-04-04 00:01:21');
+INSERT INTO `file_asset` VALUES (2, 'SOURCE_IMAGE', '404.png', 'png', 'image/png', 98071, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\04\\404_20260404000710A001.png', '/profile/upload/polyp/source/2026/04/04/404_20260404000710A001.png', NULL, NULL, '2026-04-04 00:07:11');
+INSERT INTO `file_asset` VALUES (3, 'SOURCE_IMAGE', '404.png', 'png', 'image/png', 98071, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\04\\404_20260404001328A001.png', '/profile/upload/polyp/source/2026/04/04/404_20260404001328A001.png', NULL, NULL, '2026-04-04 00:13:28');
+INSERT INTO `file_asset` VALUES (4, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409155410A001.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409155410A001.mp4', NULL, NULL, '2026-04-09 15:54:11');
+INSERT INTO `file_asset` VALUES (5, 'SOURCE_IMAGE', 'preview_train_white.jpg', 'jpg', 'image/jpeg', 449477, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\preview_train_white_20260409164534A001.jpg', '/profile/upload/polyp/source/2026/04/09/preview_train_white_20260409164534A001.jpg', NULL, NULL, '2026-04-09 16:45:35');
+INSERT INTO `file_asset` VALUES (6, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409171659A001.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409171659A001.mp4', NULL, NULL, '2026-04-09 17:17:00');
+INSERT INTO `file_asset` VALUES (7, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409171804A002.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409171804A002.mp4', NULL, NULL, '2026-04-09 17:18:04');
+INSERT INTO `file_asset` VALUES (8, 'SOURCE_IMAGE', 'preview_train_white.jpg', 'jpg', 'image/jpeg', 449477, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\preview_train_white_20260409171830A003.jpg', '/profile/upload/polyp/source/2026/04/09/preview_train_white_20260409171830A003.jpg', NULL, NULL, '2026-04-09 17:18:31');
+INSERT INTO `file_asset` VALUES (9, 'SOURCE_IMAGE', 'preview_train_white.jpg', 'jpg', 'image/jpeg', 449477, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\preview_train_white_20260409172818A004.jpg', '/profile/upload/polyp/source/2026/04/09/preview_train_white_20260409172818A004.jpg', NULL, NULL, '2026-04-09 17:28:19');
+INSERT INTO `file_asset` VALUES (10, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409172836A005.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409172836A005.mp4', NULL, NULL, '2026-04-09 17:28:36');
+INSERT INTO `file_asset` VALUES (11, 'SOURCE_IMAGE', 'cju1fuoa4wmc50835qfd11sp9.jpg', 'jpg', 'image/jpeg', 27677, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\cju1fuoa4wmc50835qfd11sp9_20260409173929A006.jpg', '/profile/upload/polyp/source/2026/04/09/cju1fuoa4wmc50835qfd11sp9_20260409173929A006.jpg', NULL, NULL, '2026-04-09 17:39:29');
+INSERT INTO `file_asset` VALUES (12, 'SOURCE_IMAGE', 'cju1cvkfwqrec0993wbp1jlzm.jpg', 'jpg', 'image/jpeg', 24059, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\cju1cvkfwqrec0993wbp1jlzm_20260409215450A001.jpg', '/profile/upload/polyp/source/2026/04/09/cju1cvkfwqrec0993wbp1jlzm_20260409215450A001.jpg', NULL, NULL, '2026-04-09 21:54:50');
+INSERT INTO `file_asset` VALUES (13, 'SOURCE_IMAGE', 'cju1cvkfwqrec0993wbp1jlzm.jpg', 'jpg', 'image/jpeg', 24059, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\cju1cvkfwqrec0993wbp1jlzm_20260409215517A002.jpg', '/profile/upload/polyp/source/2026/04/09/cju1cvkfwqrec0993wbp1jlzm_20260409215517A002.jpg', NULL, NULL, '2026-04-09 21:55:18');
+INSERT INTO `file_asset` VALUES (14, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'application/octet-stream', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409223345A001.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409223345A001.mp4', NULL, NULL, '2026-04-09 22:33:46');
+INSERT INTO `file_asset` VALUES (15, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409225806A001.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409225806A001.mp4', NULL, NULL, '2026-04-09 22:58:06');
+INSERT INTO `file_asset` VALUES (16, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409231331A001.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409231331A001.mp4', NULL, NULL, '2026-04-09 23:13:31');
+INSERT INTO `file_asset` VALUES (17, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\09\\WL_20260409232148A001.mp4', '/profile/upload/polyp/source/2026/04/09/WL_20260409232148A001.mp4', NULL, NULL, '2026-04-09 23:21:49');
+INSERT INTO `file_asset` VALUES (18, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410001742A001.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410001742A001.mp4', NULL, NULL, '2026-04-10 00:17:42');
+INSERT INTO `file_asset` VALUES (19, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410002346A001.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410002346A001.mp4', NULL, NULL, '2026-04-10 00:23:46');
+INSERT INTO `file_asset` VALUES (20, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410002606A001.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410002606A001.mp4', NULL, NULL, '2026-04-10 00:26:07');
+INSERT INTO `file_asset` VALUES (21, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410010046A001.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410010046A001.jpg', NULL, NULL, '2026-04-10 01:00:46');
+INSERT INTO `file_asset` VALUES (22, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410010508A001.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410010508A001.jpg', NULL, NULL, '2026-04-10 01:05:09');
+INSERT INTO `file_asset` VALUES (23, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410010542A002.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410010542A002.mp4', NULL, NULL, '2026-04-10 01:05:43');
+INSERT INTO `file_asset` VALUES (24, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410012936A003.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410012936A003.mp4', NULL, NULL, '2026-04-10 01:29:37');
+INSERT INTO `file_asset` VALUES (25, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410015933A001.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410015933A001.mp4', NULL, NULL, '2026-04-10 01:59:34');
+INSERT INTO `file_asset` VALUES (26, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410020051A002.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410020051A002.jpg', NULL, NULL, '2026-04-10 02:00:51');
+INSERT INTO `file_asset` VALUES (27, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410135613A001.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410135613A001.mp4', NULL, NULL, '2026-04-10 13:56:13');
+INSERT INTO `file_asset` VALUES (28, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410140100A002.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410140100A002.mp4', NULL, NULL, '2026-04-10 14:01:01');
+INSERT INTO `file_asset` VALUES (29, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410141313A003.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410141313A003.mp4', NULL, NULL, '2026-04-10 14:13:14');
+INSERT INTO `file_asset` VALUES (30, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410141524A004.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410141524A004.jpg', NULL, NULL, '2026-04-10 14:15:25');
+INSERT INTO `file_asset` VALUES (31, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410144637A001.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410144637A001.jpg', NULL, NULL, '2026-04-10 14:46:38');
+INSERT INTO `file_asset` VALUES (32, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410144754A002.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410144754A002.mp4', NULL, NULL, '2026-04-10 14:47:54');
+INSERT INTO `file_asset` VALUES (33, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410151756A003.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410151756A003.mp4', NULL, NULL, '2026-04-10 15:17:57');
+INSERT INTO `file_asset` VALUES (34, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410151927A004.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410151927A004.jpg', NULL, NULL, '2026-04-10 15:19:28');
+INSERT INTO `file_asset` VALUES (35, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410153523A005.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410153523A005.jpg', NULL, NULL, '2026-04-10 15:35:23');
+INSERT INTO `file_asset` VALUES (36, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\wlp_20260410190834A001.jpg', '/profile/upload/polyp/source/2026/04/10/wlp_20260410190834A001.jpg', NULL, NULL, '2026-04-10 19:08:34');
+INSERT INTO `file_asset` VALUES (37, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\10\\WL_20260410190855A002.mp4', '/profile/upload/polyp/source/2026/04/10/WL_20260410190855A002.mp4', NULL, NULL, '2026-04-10 19:08:56');
+INSERT INTO `file_asset` VALUES (38, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'uploadPath\\upload\\polyp\\source\\2026\\04\\11\\wlp_20260411002502A001.jpg', '/profile/upload/polyp/source/2026/04/11/wlp_20260411002502A001.jpg', NULL, NULL, '2026-04-11 00:25:02');
+INSERT INTO `file_asset` VALUES (39, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'uploadPath\\upload\\polyp\\source\\2026\\04\\11\\wlp_20260411003113A001.jpg', '/profile/upload/polyp/source/2026/04/11/wlp_20260411003113A001.jpg', NULL, NULL, '2026-04-11 00:31:14');
+INSERT INTO `file_asset` VALUES (40, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'uploadPath\\upload\\polyp\\source\\2026\\04\\11\\wlp_20260411004416A002.jpg', '/profile/upload/polyp/source/2026/04/11/wlp_20260411004416A002.jpg', NULL, NULL, '2026-04-11 00:44:17');
+INSERT INTO `file_asset` VALUES (41, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'uploadPath\\upload\\polyp\\source\\2026\\04\\11\\wlp_20260411131847A001.jpg', '/profile/upload/polyp/source/2026/04/11/wlp_20260411131847A001.jpg', NULL, NULL, '2026-04-11 13:18:48');
+INSERT INTO `file_asset` VALUES (42, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'uploadPath\\upload\\polyp\\source\\2026\\04\\11\\WL_20260411131908A002.mp4', '/profile/upload/polyp/source/2026/04/11/WL_20260411131908A002.mp4', NULL, NULL, '2026-04-11 13:19:08');
+INSERT INTO `file_asset` VALUES (43, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\11\\wlp_20260411182051A001.jpg', '/profile/upload/polyp/source/2026/04/11/wlp_20260411182051A001.jpg', NULL, NULL, '2026-04-11 18:20:52');
+INSERT INTO `file_asset` VALUES (44, 'SOURCE_IMAGE', 'wlp.jpg', 'jpg', 'image/jpeg', 24904, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\11\\wlp_20260411211549A001.jpg', '/profile/upload/polyp/source/2026/04/11/wlp_20260411211549A001.jpg', NULL, NULL, '2026-04-11 21:15:49');
+INSERT INTO `file_asset` VALUES (45, 'SOURCE_VIDEO', 'WL.mp4', 'mp4', 'video/mp4', 3633750, 'M:/0NUIST/class/bysj/Medical-platform-master/uploadPath\\upload\\polyp\\source\\2026\\04\\11\\WL_20260411211619A002.mp4', '/profile/upload/polyp/source/2026/04/11/WL_20260411211619A002.mp4', NULL, NULL, '2026-04-11 21:16:19');
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -237,7 +306,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -271,11 +340,181 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for his_detection_result
+-- ----------------------------
+DROP TABLE IF EXISTS `his_detection_result`;
+CREATE TABLE `his_detection_result`  (
+  `result_id` bigint NOT NULL AUTO_INCREMENT COMMENT '检测结果 ID',
+  `pati_id` bigint NULL DEFAULT NULL COMMENT '患者 ID',
+  `pati_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '患者姓名 (冗余)',
+  `detection_type` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '检测类型 (0 图片检测 1 视频检测 2 实时检测)',
+  `sample_number` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '样本编号',
+  `original_file` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '原始文件路径',
+  `result_file` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '结果文件路径',
+  `polyp_count` int NULL DEFAULT 0 COMMENT '息肉数量',
+  `max_size` decimal(10, 2) NULL DEFAULT NULL COMMENT '最大尺寸 (mm)',
+  `min_size` decimal(10, 2) NULL DEFAULT NULL COMMENT '最小尺寸 (mm)',
+  `avg_confidence` decimal(5, 2) NULL DEFAULT NULL COMMENT '平均置信度',
+  `positions` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '息肉位置分布 (JSON)',
+  `detection_time` datetime NULL DEFAULT NULL COMMENT '检测时间',
+  `report_generated` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '是否已生成报告 (0 否 1 是)',
+  `report_file` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '报告文件路径',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`result_id`) USING BTREE,
+  INDEX `idx_pati_id`(`pati_id`) USING BTREE,
+  INDEX `idx_detection_time`(`detection_time`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '检测结果表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of his_detection_result
+-- ----------------------------
+INSERT INTO `his_detection_result` VALUES (1, NULL, '', '0', 'PDT20260404000121878EF5', '/profile/upload\\polyp/source/2026/04/04/404_20260404000121A001.png', NULL, 1, 226.27, 226.27, 0.75, NULL, '2026-04-04 00:01:22', '0', NULL, '', '2026-04-04 00:01:22', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (2, NULL, '', '0', 'PDT202604040007101089B5', '/profile/upload/polyp/source/2026/04/04/404_20260404000710A001.png', NULL, 1, 226.27, 226.27, 0.69, NULL, '2026-04-04 00:07:11', '0', NULL, '', '2026-04-04 00:07:11', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (3, NULL, '', '0', 'PDT202604040013287C6AEE', '/profile/upload/polyp/source/2026/04/04/404_20260404001328A001.png', NULL, 1, 226.27, 226.27, 0.54, NULL, '2026-04-04 00:13:29', '0', NULL, '', '2026-04-04 00:13:29', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (4, NULL, '', '1', 'PDT20260409155411EF2FCD', '/profile/upload/polyp/source/2026/04/09/WL_20260409155410A001.mp4', NULL, 1, 325.27, 325.27, 0.70, NULL, '2026-04-09 15:54:14', '0', NULL, '', '2026-04-09 15:54:14', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (5, NULL, '', '0', 'PDT20260409164535B70C2F', '/profile/upload/polyp/source/2026/04/09/preview_train_white_20260409164534A001.jpg', NULL, 1, 557.38, 557.38, 0.70, NULL, '2026-04-09 16:45:36', '0', NULL, '', '2026-04-09 16:45:36', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (6, NULL, '', '1', 'PDT20260409171700F7D958', '/profile/upload/polyp/source/2026/04/09/WL_20260409171659A001.mp4', NULL, 1, 325.27, 325.27, 0.70, NULL, '2026-04-09 17:17:04', '0', NULL, '', '2026-04-09 17:17:04', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (7, NULL, '', '1', 'PDT20260409171805FED624', '/profile/upload/polyp/source/2026/04/09/WL_20260409171804A002.mp4', NULL, 1, 325.27, 325.27, 0.70, NULL, '2026-04-09 17:18:08', '0', NULL, '', '2026-04-09 17:18:08', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (8, NULL, '', '0', 'PDT20260409171831B39DA2', '/profile/upload/polyp/source/2026/04/09/preview_train_white_20260409171830A003.jpg', NULL, 1, 557.38, 557.38, 0.70, NULL, '2026-04-09 17:18:32', '0', NULL, '', '2026-04-09 17:18:32', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (9, NULL, '', '0', 'PDT20260409172818C9F266', '/profile/upload/polyp/source/2026/04/09/preview_train_white_20260409172818A004.jpg', NULL, 1, 557.38, 557.38, 0.70, NULL, '2026-04-09 17:28:20', '0', NULL, '', '2026-04-09 17:28:20', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (10, NULL, '', '1', 'PDT20260409172836BD5E60', '/profile/upload/polyp/source/2026/04/09/WL_20260409172836A005.mp4', NULL, 1, 325.27, 325.27, 0.70, NULL, '2026-04-09 17:28:40', '0', NULL, '', '2026-04-09 17:28:40', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (11, NULL, '', '0', 'PDT20260409173929710B7F', '/profile/upload/polyp/source/2026/04/09/cju1fuoa4wmc50835qfd11sp9_20260409173929A006.jpg', NULL, 1, 281.28, 281.28, 0.70, NULL, '2026-04-09 17:39:30', '0', NULL, '', '2026-04-09 17:39:30', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (12, NULL, '', '0', 'PDT20260409215450B50BBA', '/profile/upload/polyp/source/2026/04/09/cju1cvkfwqrec0993wbp1jlzm_20260409215450A001.jpg', NULL, 1, 202.47, 202.47, 0.82, NULL, '2026-04-09 21:54:52', '0', NULL, '', '2026-04-09 21:54:52', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (13, NULL, '', '0', 'PDT20260409215518086BD7', '/profile/upload/polyp/source/2026/04/09/cju1cvkfwqrec0993wbp1jlzm_20260409215517A002.jpg', NULL, 1, 202.47, 202.47, 0.82, NULL, '2026-04-09 21:55:19', '0', NULL, '', '2026-04-09 21:55:19', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (14, NULL, '', '1', 'PDT202604092258068A6E4E', '/profile/upload/polyp/source/2026/04/09/WL_20260409225806A001.mp4', NULL, 1, 242.26, 242.26, 0.85, NULL, '2026-04-09 22:58:13', '0', NULL, '', '2026-04-09 22:58:13', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (15, NULL, '', '1', 'PDT20260409231331FC97F1', '/profile/upload/polyp/source/2026/04/09/WL_20260409231331A001.mp4', NULL, 1, 242.26, 242.26, 0.85, NULL, '2026-04-09 23:13:38', '0', NULL, '', '2026-04-09 23:13:38', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (16, NULL, '', '1', 'PDT2026040923215342A517', '/profile/upload/polyp/source/2026/04/09/WL_20260409232148A001.mp4', NULL, 1, 242.26, 242.26, 0.85, NULL, '2026-04-09 23:21:58', '0', NULL, '', '2026-04-09 23:21:58', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (17, NULL, '', '1', 'PDT20260410001742E35663', '/profile/upload/polyp/source/2026/04/10/WL_20260410001742A001.mp4', NULL, 1, 249.63, 249.63, 0.87, NULL, '2026-04-10 00:17:59', '0', NULL, '', '2026-04-10 00:17:59', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (18, NULL, '', '1', 'PDT20260410002347F29202', '/profile/upload/polyp/source/2026/04/10/WL_20260410002346A001.mp4', NULL, 1, 249.63, 249.63, 0.87, NULL, '2026-04-10 00:24:00', '0', NULL, '', '2026-04-10 00:24:00', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (19, NULL, '', '1', 'PDT20260410002611FC2B2B', '/profile/upload/polyp/source/2026/04/10/WL_20260410002606A001.mp4', NULL, 1, 249.63, 249.63, 0.87, NULL, '2026-04-10 00:26:23', '0', NULL, '', '2026-04-10 00:26:23', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (20, NULL, '', '0', 'PDT2026041001004637C95A', '/profile/upload/polyp/source/2026/04/10/wlp_20260410010046A001.jpg', NULL, 1, 267.92, 267.92, 0.93, NULL, '2026-04-10 01:00:48', '0', NULL, '', '2026-04-10 01:00:48', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (21, NULL, '', '0', 'PDT2026041001050911A01E', '/profile/upload/polyp/source/2026/04/10/wlp_20260410010508A001.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 01:05:15', '0', NULL, '', '2026-04-10 01:05:15', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (22, NULL, '', '1', 'PDT202604100105466BD6C3', '/profile/upload/polyp/source/2026/04/10/WL_20260410010542A002.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 01:05:57', '0', NULL, '', '2026-04-10 01:05:57', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (23, NULL, '', '1', 'PDT20260410012941F84476', '/profile/upload/polyp/source/2026/04/10/WL_20260410012936A003.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 01:30:02', '0', NULL, '', '2026-04-10 01:30:02', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (24, NULL, '', '1', 'PDT202604100159376E4C39', '/profile/upload/polyp/source/2026/04/10/WL_20260410015933A001.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 02:00:00', '0', NULL, '', '2026-04-10 02:00:00', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (25, NULL, '', '0', 'PDT2026041002005186B8BF', '/profile/upload/polyp/source/2026/04/10/wlp_20260410020051A002.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 02:00:52', '0', NULL, '', '2026-04-10 02:00:52', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (26, NULL, '', '1', 'PDT20260410141318270A2E', '/profile/upload/polyp/source/2026/04/10/WL_20260410141313A003.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 14:13:42', '0', NULL, '', '2026-04-10 14:13:42', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (27, NULL, '', '0', 'PDT20260410141524DB2533', '/profile/upload/polyp/source/2026/04/10/wlp_20260410141524A004.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 14:15:26', '0', NULL, '', '2026-04-10 14:15:26', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (28, NULL, '', '0', 'PDT202604101446384DF3D6', '/profile/upload/polyp/source/2026/04/10/wlp_20260410144637A001.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 14:46:44', '0', NULL, '', '2026-04-10 14:46:44', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (29, NULL, '', '1', 'PDT20260410144758056681', '/profile/upload/polyp/source/2026/04/10/WL_20260410144754A002.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 14:48:17', '0', NULL, '', '2026-04-10 14:48:17', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (30, NULL, '', '1', 'PDT20260410151802F5F4AA', '/profile/upload/polyp/source/2026/04/10/WL_20260410151756A003.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 15:18:27', '0', NULL, '', '2026-04-10 15:18:27', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (31, NULL, '', '0', 'PDT20260410151928C70AE4', '/profile/upload/polyp/source/2026/04/10/wlp_20260410151927A004.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 15:19:29', '0', NULL, '', '2026-04-10 15:19:29', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (32, NULL, '', '0', 'PDT202604101535240B4EB5', '/profile/upload/polyp/source/2026/04/10/wlp_20260410153523A005.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 15:35:25', '0', NULL, '', '2026-04-10 15:35:25', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (33, NULL, '', '0', 'PDT20260410190834B0AEB8', '/profile/upload/polyp/source/2026/04/10/wlp_20260410190834A001.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-10 19:08:40', '0', NULL, '', '2026-04-10 19:08:40', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (34, NULL, '', '1', 'PDT2026041019085906158C', '/profile/upload/polyp/source/2026/04/10/WL_20260410190855A002.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-10 19:09:20', '0', NULL, '', '2026-04-10 19:09:20', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (35, NULL, '', '0', 'PDT2026041100311447685F', '/profile/upload/polyp/source/2026/04/11/wlp_20260411003113A001.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-11 00:31:15', '0', NULL, '', '2026-04-11 00:31:15', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (36, NULL, '', '0', 'PDT202604110044174BC3DC', '/profile/upload/polyp/source/2026/04/11/wlp_20260411004416A002.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-11 00:44:18', '0', NULL, '', '2026-04-11 00:44:18', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (37, NULL, '', '0', 'PDT20260411131847EF66FA', '/profile/upload/polyp/source/2026/04/11/wlp_20260411131847A001.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-11 13:18:54', '0', NULL, '', '2026-04-11 13:18:54', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (38, NULL, '', '1', 'PDT202604111319126316B3', '/profile/upload/polyp/source/2026/04/11/WL_20260411131908A002.mp4', NULL, 1, 291.45, 291.45, 0.91, NULL, '2026-04-11 13:19:33', '0', NULL, '', '2026-04-11 13:19:33', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (39, NULL, '', '0', 'PDT2026041118205220DC4E', '/profile/upload/polyp/source/2026/04/11/wlp_20260411182051A001.jpg', NULL, 1, 265.22, 265.22, 0.92, NULL, '2026-04-11 18:20:59', '0', NULL, '', '2026-04-11 18:20:59', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (40, NULL, '', '0', 'PDT20260411211549329F42', '/profile/upload/polyp/source/2026/04/11/wlp_20260411211549A001.jpg', 'https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411211555_aac9a66f.jpg', 1, 265.22, 265.22, 0.92, NULL, '2026-04-11 21:15:55', '0', NULL, '', '2026-04-11 21:15:55', '', NULL, NULL);
+INSERT INTO `his_detection_result` VALUES (41, NULL, '', '1', 'PDT20260411211624567ADB', '/profile/upload/polyp/source/2026/04/11/WL_20260411211619A002.mp4', 'https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411211629_738d1d1b.mp4', 1, 291.45, 291.45, 0.91, NULL, '2026-04-11 21:16:45', '0', NULL, '', '2026-04-11 21:16:45', '', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for his_patient
+-- ----------------------------
+DROP TABLE IF EXISTS `his_patient`;
+CREATE TABLE `his_patient`  (
+  `pati_id` bigint NOT NULL AUTO_INCREMENT COMMENT '患者 ID',
+  `pati_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '患者姓名',
+  `pati_code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '病历号',
+  `gender` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '性别 (0 男 1 女)',
+  `age` int NULL DEFAULT NULL COMMENT '年龄',
+  `birthday` date NULL DEFAULT NULL COMMENT '出生日期',
+  `phone` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `id_card` varchar(18) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '身份证号',
+  `address` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '联系地址',
+  `allergy` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '过敏史',
+  `medical_history` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '既往病史',
+  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`pati_id`) USING BTREE,
+  UNIQUE INDEX `uk_pati_code`(`pati_code`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '患者信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of his_patient
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for his_polyp_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `his_polyp_detail`;
+CREATE TABLE `his_polyp_detail`  (
+  `polyp_id` bigint NOT NULL AUTO_INCREMENT COMMENT '息肉 ID',
+  `result_id` bigint NOT NULL COMMENT '检测结果 ID',
+  `polyp_index` int NULL DEFAULT NULL COMMENT '息肉序号',
+  `confidence` decimal(5, 2) NULL DEFAULT NULL COMMENT '置信度',
+  `size_mm` decimal(10, 2) NULL DEFAULT NULL COMMENT '尺寸 (mm)',
+  `position` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '位置',
+  `bbox_x` int NULL DEFAULT NULL COMMENT '边界框 X 坐标',
+  `bbox_y` int NULL DEFAULT NULL COMMENT '边界框 Y 坐标',
+  `bbox_width` int NULL DEFAULT NULL COMMENT '边界框宽度',
+  `bbox_height` int NULL DEFAULT NULL COMMENT '边界框高度',
+  `classification` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分类',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`polyp_id`) USING BTREE,
+  INDEX `idx_result_id`(`result_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '息肉详情表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of his_polyp_detail
+-- ----------------------------
+INSERT INTO `his_polyp_detail` VALUES (1, 1, 1, 0.75, 226.27, 'x1=220,y1=140,x2=380,y2=300', 220, 140, 160, 160, 'polyp', '2026-04-04 00:01:22');
+INSERT INTO `his_polyp_detail` VALUES (2, 2, 1, 0.69, 226.27, 'x1=220,y1=140,x2=380,y2=300', 220, 140, 160, 160, 'polyp', '2026-04-04 00:07:11');
+INSERT INTO `his_polyp_detail` VALUES (3, 3, 1, 0.54, 226.27, 'x1=220,y1=140,x2=380,y2=300', 220, 140, 160, 160, 'polyp', '2026-04-04 00:13:29');
+INSERT INTO `his_polyp_detail` VALUES (4, 4, 1, 0.70, 325.27, 'x1=192,y1=115,x2=422,y2=345', 192, 115, 230, 230, 'polyp', '2026-04-09 15:54:14');
+INSERT INTO `his_polyp_detail` VALUES (5, 5, 1, 0.70, 557.38, 'x1=320,y1=202,x2=704,y2=606', 320, 202, 384, 404, 'polyp', '2026-04-09 16:45:36');
+INSERT INTO `his_polyp_detail` VALUES (6, 6, 1, 0.70, 325.27, 'x1=192,y1=115,x2=422,y2=345', 192, 115, 230, 230, 'polyp', '2026-04-09 17:17:04');
+INSERT INTO `his_polyp_detail` VALUES (7, 7, 1, 0.70, 325.27, 'x1=192,y1=115,x2=422,y2=345', 192, 115, 230, 230, 'polyp', '2026-04-09 17:18:08');
+INSERT INTO `his_polyp_detail` VALUES (8, 8, 1, 0.70, 557.38, 'x1=320,y1=202,x2=704,y2=606', 320, 202, 384, 404, 'polyp', '2026-04-09 17:18:32');
+INSERT INTO `his_polyp_detail` VALUES (9, 9, 1, 0.70, 557.38, 'x1=320,y1=202,x2=704,y2=606', 320, 202, 384, 404, 'polyp', '2026-04-09 17:28:20');
+INSERT INTO `his_polyp_detail` VALUES (10, 10, 1, 0.70, 325.27, 'x1=192,y1=115,x2=422,y2=345', 192, 115, 230, 230, 'polyp', '2026-04-09 17:28:40');
+INSERT INTO `his_polyp_detail` VALUES (11, 11, 1, 0.70, 281.28, 'x1=155,y1=105,x2=341,y2=316', 155, 105, 186, 211, 'polyp', '2026-04-09 17:39:30');
+INSERT INTO `his_polyp_detail` VALUES (12, 12, 1, 0.82, 202.47, 'x1=239,y1=335,x2=389,y2=471', 239, 335, 150, 136, 'polyp', '2026-04-09 21:54:52');
+INSERT INTO `his_polyp_detail` VALUES (13, 13, 1, 0.82, 202.47, 'x1=239,y1=335,x2=389,y2=471', 239, 335, 150, 136, 'polyp', '2026-04-09 21:55:19');
+INSERT INTO `his_polyp_detail` VALUES (14, 14, 1, 0.85, 242.26, 'x1=199,y1=302,x2=396,y2=443', 199, 302, 197, 141, 'polyp', '2026-04-09 22:58:13');
+INSERT INTO `his_polyp_detail` VALUES (15, 15, 1, 0.85, 242.26, 'x1=199,y1=302,x2=396,y2=443', 199, 302, 197, 141, 'polyp', '2026-04-09 23:13:38');
+INSERT INTO `his_polyp_detail` VALUES (16, 16, 1, 0.85, 242.26, 'x1=199,y1=302,x2=396,y2=443', 199, 302, 197, 141, 'polyp', '2026-04-09 23:21:58');
+INSERT INTO `his_polyp_detail` VALUES (17, 17, 1, 0.87, 249.63, 'x1=211,y1=266,x2=417,y2=407', 211, 266, 206, 141, 'polyp', '2026-04-10 00:17:59');
+INSERT INTO `his_polyp_detail` VALUES (18, 18, 1, 0.87, 249.63, 'x1=211,y1=266,x2=417,y2=407', 211, 266, 206, 141, 'polyp', '2026-04-10 00:24:00');
+INSERT INTO `his_polyp_detail` VALUES (19, 19, 1, 0.87, 249.63, 'x1=211,y1=266,x2=417,y2=407', 211, 266, 206, 141, 'polyp', '2026-04-10 00:26:23');
+INSERT INTO `his_polyp_detail` VALUES (20, 20, 1, 0.93, 267.92, 'x1=279,y1=139,x2=413,y2=371', 279, 139, 134, 232, 'polyp', '2026-04-10 01:00:48');
+INSERT INTO `his_polyp_detail` VALUES (21, 21, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 01:05:15');
+INSERT INTO `his_polyp_detail` VALUES (22, 22, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 01:05:57');
+INSERT INTO `his_polyp_detail` VALUES (23, 23, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 01:30:02');
+INSERT INTO `his_polyp_detail` VALUES (24, 24, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 02:00:00');
+INSERT INTO `his_polyp_detail` VALUES (25, 25, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 02:00:52');
+INSERT INTO `his_polyp_detail` VALUES (26, 26, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 14:13:43');
+INSERT INTO `his_polyp_detail` VALUES (27, 27, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 14:15:26');
+INSERT INTO `his_polyp_detail` VALUES (28, 28, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 14:46:44');
+INSERT INTO `his_polyp_detail` VALUES (29, 29, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 14:48:17');
+INSERT INTO `his_polyp_detail` VALUES (30, 30, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 15:18:27');
+INSERT INTO `his_polyp_detail` VALUES (31, 31, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 15:19:29');
+INSERT INTO `his_polyp_detail` VALUES (32, 32, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 15:35:25');
+INSERT INTO `his_polyp_detail` VALUES (33, 33, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-10 19:08:40');
+INSERT INTO `his_polyp_detail` VALUES (34, 34, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-10 19:09:20');
+INSERT INTO `his_polyp_detail` VALUES (35, 35, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-11 00:31:15');
+INSERT INTO `his_polyp_detail` VALUES (36, 36, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-11 00:44:18');
+INSERT INTO `his_polyp_detail` VALUES (37, 37, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-11 13:18:54');
+INSERT INTO `his_polyp_detail` VALUES (38, 38, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-11 13:19:33');
+INSERT INTO `his_polyp_detail` VALUES (39, 39, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-11 18:20:59');
+INSERT INTO `his_polyp_detail` VALUES (40, 40, 1, 0.92, 265.22, 'x1=277,y1=142,x2=419,y2=366', 277, 142, 142, 224, 'polyp', '2026-04-11 21:15:55');
+INSERT INTO `his_polyp_detail` VALUES (41, 41, 1, 0.91, 291.45, 'x1=131,y1=310,x2=352,y2=500', 131, 310, 221, 190, 'polyp', '2026-04-11 21:16:45');
 
 -- ----------------------------
 -- Table structure for his_reg
@@ -299,7 +538,7 @@ CREATE TABLE `his_reg`  (
   `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`reg_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '挂号表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '挂号表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of his_reg
@@ -324,7 +563,7 @@ CREATE TABLE `med_case`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间--createTime',
   `update_by` varbinary(255) NULL DEFAULT NULL COMMENT '更新者----updateBy',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of med_case
@@ -346,7 +585,7 @@ CREATE TABLE `med_case_check`  (
   `update_by` varbinary(255) NULL DEFAULT NULL COMMENT '更新者----updateBy',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   PRIMARY KEY (`check_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of med_case_check
@@ -371,7 +610,7 @@ CREATE TABLE `med_case_medical`  (
   `update_by` varbinary(255) NULL DEFAULT NULL COMMENT '更新者----updateBy',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   PRIMARY KEY (`medical_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of med_case_medical
@@ -398,7 +637,7 @@ CREATE TABLE `med_pati`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   PRIMARY KEY (`pati_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of med_pati
@@ -424,11 +663,126 @@ CREATE TABLE `med_reg`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间--createTime',
   `update_by` varbinary(255) NULL DEFAULT NULL COMMENT '更新者----updateBy',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of med_reg
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for polyp_detect_task
+-- ----------------------------
+DROP TABLE IF EXISTS `polyp_detect_task`;
+CREATE TABLE `polyp_detect_task`  (
+  `task_id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+  `task_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '任务编号',
+  `patient_id` bigint NULL DEFAULT NULL COMMENT '患者ID(可空)',
+  `source_file_id` bigint NOT NULL COMMENT '原图文件ID(file_asset.file_id)',
+  `media_type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'media type: image/video',
+  `model_id` bigint NOT NULL COMMENT '模型ID(polyp_model.model_id)',
+  `status` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '任务状态：PENDING/RUNNING/SUCCESS/FAILED',
+  `conf_threshold` decimal(5, 4) NULL DEFAULT NULL COMMENT '本次任务阈值',
+  `result_id` bigint NULL DEFAULT NULL COMMENT '检测结果ID(复用his_detection_result.result_id)',
+  `inference_ms` bigint NULL DEFAULT NULL COMMENT '推理耗时(ms)',
+  `error_msg` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '失败原因',
+  `result_image_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'result image url',
+  `result_video_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'result video url',
+  `result_frames_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'result frames json url',
+  `frame_count` int NULL DEFAULT NULL COMMENT 'total frame count',
+  `detected_frame_count` int NULL DEFAULT NULL COMMENT 'detected frame count',
+  `box_count` int NULL DEFAULT NULL COMMENT 'total detection boxes',
+  `max_confidence` decimal(10, 6) NULL DEFAULT NULL COMMENT 'max confidence',
+  `start_time` datetime NULL DEFAULT NULL COMMENT '开始时间',
+  `finish_time` datetime NULL DEFAULT NULL COMMENT '结束时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remark` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '推理摘要与扩展信息',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'logical delete: 0 active, 1 deleted',
+  PRIMARY KEY (`task_id`) USING BTREE,
+  UNIQUE INDEX `uk_task_no`(`task_no`) USING BTREE,
+  INDEX `idx_status`(`status`) USING BTREE,
+  INDEX `idx_source_file_id`(`source_file_id`) USING BTREE,
+  INDEX `idx_model_id`(`model_id`) USING BTREE,
+  INDEX `idx_polyp_task_is_deleted`(`is_deleted`) USING BTREE,
+  INDEX `idx_polyp_task_media_type`(`media_type`) USING BTREE,
+  INDEX `idx_polyp_task_create_time`(`create_time`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '息肉检测任务表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of polyp_detect_task
+-- ----------------------------
+INSERT INTO `polyp_detect_task` VALUES (1, 'PDT20260404000121878EF5', NULL, 1, NULL, 1, 'SUCCESS', 0.5000, 1, 56, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-04 00:01:22', '2026-04-04 00:01:22', NULL, '2026-04-04 00:01:22', '', '2026-04-04 00:01:22', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (2, 'PDT202604040007101089B5', NULL, 2, NULL, 1, 'SUCCESS', 0.5000, 2, 59, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-04 00:07:11', '2026-04-04 00:07:11', NULL, '2026-04-04 00:07:11', '', '2026-04-04 00:07:11', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (3, 'PDT202604040013287C6AEE', NULL, 3, NULL, 1, 'SUCCESS', 0.5000, 3, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-04 00:13:29', '2026-04-04 00:13:29', NULL, '2026-04-04 00:13:28', '', '2026-04-04 00:13:29', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (4, 'PDT20260409155411EF2FCD', NULL, 4, NULL, 1, 'SUCCESS', 0.5000, 4, 460, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 15:54:11', '2026-04-09 15:54:14', NULL, '2026-04-09 15:54:11', '', '2026-04-09 15:54:14', '{\"imageWidth\":768,\"frameCount\":701,\"maxConfidence\":0.7,\"boxCount\":1,\"detectedFrameCount\":141,\"inferenceMs\":460,\"fileType\":\"video\",\"imageHeight\":576}', 0);
+INSERT INTO `polyp_detect_task` VALUES (5, 'PDT20260409164535B70C2F', NULL, 5, NULL, 1, 'SUCCESS', 0.5000, 5, 41, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 16:45:35', '2026-04-09 16:45:36', NULL, '2026-04-09 16:45:35', '', '2026-04-09 16:45:36', '{\"imageWidth\":1280,\"frameCount\":1,\"maxConfidence\":0.7,\"representativeBoxes\":[{\"x1\":320,\"y1\":202,\"x2\":704,\"y2\":606,\"score\":0.7,\"class_name\":\"polyp\"}],\"boxCount\":1,\"frames\":[],\"fps\":null,\"detectedFrameCount\":1,\"inferenceMs\":41,\"fileType\":\"image\",\"imageHeight\":1010}', 0);
+INSERT INTO `polyp_detect_task` VALUES (6, 'PDT20260409171700F7D958', NULL, 6, NULL, 1, 'RUNNING', 0.5000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 17:17:00', NULL, NULL, '2026-04-09 17:17:00', '', '2026-04-09 17:17:00', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (7, 'PDT20260409171805FED624', NULL, 7, NULL, 1, 'RUNNING', 0.5000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 17:18:05', NULL, NULL, '2026-04-09 17:18:05', '', '2026-04-09 17:18:05', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (8, 'PDT20260409171831B39DA2', NULL, 8, NULL, 1, 'SUCCESS', 0.5000, 8, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 17:18:31', '2026-04-09 17:18:32', NULL, '2026-04-09 17:18:31', '', '2026-04-09 17:18:32', '{\"imageWidth\":1280,\"frameCount\":1,\"maxConfidence\":0.7,\"representativeBoxes\":[{\"x1\":320,\"y1\":202,\"x2\":704,\"y2\":606,\"score\":0.7,\"class_name\":\"polyp\"}],\"boxCount\":1,\"frames\":[],\"fps\":null,\"detectedFrameCount\":1,\"inferenceMs\":31,\"fileType\":\"image\",\"imageHeight\":1010}', 0);
+INSERT INTO `polyp_detect_task` VALUES (9, 'PDT20260409172818C9F266', NULL, 9, NULL, 1, 'SUCCESS', 0.5000, 9, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 17:28:19', '2026-04-09 17:28:20', NULL, '2026-04-09 17:28:19', '', '2026-04-09 17:28:20', '{\"imageWidth\":1280,\"frameCount\":1,\"maxConfidence\":0.7,\"representativeBoxes\":[{\"x1\":320,\"y1\":202,\"x2\":704,\"y2\":606,\"score\":0.7,\"class_name\":\"polyp\"}],\"boxCount\":1,\"frames\":[],\"fps\":null,\"detectedFrameCount\":1,\"inferenceMs\":38,\"fileType\":\"image\",\"imageHeight\":1010}', 0);
+INSERT INTO `polyp_detect_task` VALUES (10, 'PDT20260409172836BD5E60', NULL, 10, NULL, 1, 'SUCCESS', 0.5000, 10, 420, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 17:28:37', '2026-04-09 17:28:40', NULL, '2026-04-09 17:28:37', '', '2026-04-09 17:28:40', '{\"imageWidth\":768,\"frameCount\":701,\"maxConfidence\":0.7,\"representativeBoxes\":[{\"x1\":192,\"y1\":115,\"x2\":422,\"y2\":345,\"score\":0.7,\"class_name\":\"polyp\"}],\"boxCount\":1,\"frames\":[{\"boxes\":[],\"frame_index\":0,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":5,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":10,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":15,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":20,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":25,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":30,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":35,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":40,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":45,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":50,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":55,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":60,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":65,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":70,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":75,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":80,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":85,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":90,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":95,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":100,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":105,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":110,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":115,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":120,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":125,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":130,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":135,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":140,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7},{\"boxes\":[],\"frame_index\":145,\"timestamp_sec\":null,\"box_count\":1,\"max_confidence\":0.7}],\"fps\":null,\"detectedFrameCount\":141,\"inferenceMs\":420,\"fileType\":\"video\",\"imageHeight\":576}', 0);
+INSERT INTO `polyp_detect_task` VALUES (11, 'PDT20260409173929710B7F', NULL, 11, NULL, 1, 'SUCCESS', 0.5000, 11, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 17:39:30', '2026-04-09 17:39:30', NULL, '2026-04-09 17:39:30', '', '2026-04-09 17:39:30', '{\"imageWidth\":621,\"frameCount\":1,\"maxConfidence\":0.7,\"representativeBoxes\":[{\"x1\":155,\"y1\":105,\"x2\":341,\"y2\":316,\"score\":0.7,\"class_name\":\"polyp\"}],\"boxCount\":1,\"frames\":[],\"fps\":null,\"detectedFrameCount\":1,\"inferenceMs\":6,\"fileType\":\"image\",\"imageHeight\":528}', 0);
+INSERT INTO `polyp_detect_task` VALUES (12, 'PDT20260409215450B50BBA', NULL, 12, NULL, 1, 'SUCCESS', 0.5000, 12, 58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 21:54:51', '2026-04-09 21:54:52', NULL, '2026-04-09 21:54:51', '', '2026-04-09 21:54:52', '{\"imageWidth\":622,\"maxConfidence\":0.823371,\"frames\":[],\"fps\":0.0,\"inferenceMs\":58,\"imageHeight\":531,\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":239,\"y1\":335,\"x2\":389,\"y2\":471,\"score\":0.823371,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (13, 'PDT20260409215518086BD7', NULL, 13, NULL, 1, 'SUCCESS', 0.5000, 13, 37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 21:55:18', '2026-04-09 21:55:19', NULL, '2026-04-09 21:55:18', '', '2026-04-09 21:55:19', '{\"imageWidth\":622,\"maxConfidence\":0.823371,\"frames\":[],\"fps\":0.0,\"inferenceMs\":37,\"imageHeight\":531,\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":239,\"y1\":335,\"x2\":389,\"y2\":471,\"score\":0.823371,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (14, 'PDT202604092258068A6E4E', NULL, 15, NULL, 1, 'SUCCESS', 0.5000, 14, 2128, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 22:58:07', '2026-04-09 22:58:13', NULL, '2026-04-09 22:58:07', '', '2026-04-09 22:58:13', '{\"imageWidth\":768,\"maxConfidence\":0.849007,\"frames\":[{\"boxes\":[],\"frame_index\":0,\"timestamp_sec\":0.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":5,\"timestamp_sec\":0.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":10,\"timestamp_sec\":0.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":15,\"timestamp_sec\":0.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":20,\"timestamp_sec\":0.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":25,\"timestamp_sec\":1.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":30,\"timestamp_sec\":1.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":35,\"timestamp_sec\":1.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":40,\"timestamp_sec\":1.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":45,\"timestamp_sec\":1.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":50,\"timestamp_sec\":2.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":55,\"timestamp_sec\":2.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":60,\"timestamp_sec\":2.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":65,\"timestamp_sec\":2.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":70,\"timestamp_sec\":2.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":75,\"timestamp_sec\":3.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":80,\"timestamp_sec\":3.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":85,\"timestamp_sec\":3.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":90,\"timestamp_sec\":3.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":95,\"timestamp_sec\":3.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":100,\"timestamp_sec\":4.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":105,\"timestamp_sec\":4.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":110,\"timestamp_sec\":4.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":115,\"timestamp_sec\":4.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":120,\"timestamp_sec\":4.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":125,\"timestamp_sec\":5.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":130,\"timestamp_sec\":5.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":135,\"timestamp_sec\":5.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":140,\"timestamp_sec\":5.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":145,\"timestamp_sec\":5.8,\"box_count\":0,\"max_confidence\":0.0}],\"fps\":25.0,\"inferenceMs\":2128,\"imageHeight\":576,\"resultVideoUrl\":\"\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":199,\"y1\":302,\"x2\":396,\"y2\":443,\"score\":0.849007,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":3,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (15, 'PDT20260409231331FC97F1', NULL, 16, NULL, 1, 'SUCCESS', 0.5000, 15, 1998, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 23:13:32', '2026-04-09 23:13:38', NULL, '2026-04-09 23:13:32', '', '2026-04-09 23:13:38', '{\"imageWidth\":768,\"maxConfidence\":0.849007,\"frames\":[{\"boxes\":[],\"frame_index\":0,\"timestamp_sec\":0.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":5,\"timestamp_sec\":0.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":10,\"timestamp_sec\":0.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":15,\"timestamp_sec\":0.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":20,\"timestamp_sec\":0.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":25,\"timestamp_sec\":1.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":30,\"timestamp_sec\":1.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":35,\"timestamp_sec\":1.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":40,\"timestamp_sec\":1.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":45,\"timestamp_sec\":1.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":50,\"timestamp_sec\":2.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":55,\"timestamp_sec\":2.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":60,\"timestamp_sec\":2.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":65,\"timestamp_sec\":2.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":70,\"timestamp_sec\":2.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":75,\"timestamp_sec\":3.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":80,\"timestamp_sec\":3.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":85,\"timestamp_sec\":3.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":90,\"timestamp_sec\":3.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":95,\"timestamp_sec\":3.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":100,\"timestamp_sec\":4.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":105,\"timestamp_sec\":4.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":110,\"timestamp_sec\":4.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":115,\"timestamp_sec\":4.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":120,\"timestamp_sec\":4.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":125,\"timestamp_sec\":5.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":130,\"timestamp_sec\":5.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":135,\"timestamp_sec\":5.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":140,\"timestamp_sec\":5.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":145,\"timestamp_sec\":5.8,\"box_count\":0,\"max_confidence\":0.0}],\"fps\":25.0,\"inferenceMs\":1998,\"imageHeight\":576,\"resultVideoUrl\":\"\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":199,\"y1\":302,\"x2\":396,\"y2\":443,\"score\":0.849007,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":3,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (16, 'PDT2026040923215342A517', NULL, 17, NULL, 1, 'SUCCESS', 0.5000, 16, 1965, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-09 23:21:53', '2026-04-09 23:21:58', NULL, '2026-04-09 23:21:53', '', '2026-04-09 23:21:58', '{\"imageWidth\":768,\"maxConfidence\":0.849007,\"frames\":[{\"boxes\":[],\"frame_index\":0,\"timestamp_sec\":0.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":5,\"timestamp_sec\":0.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":10,\"timestamp_sec\":0.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":15,\"timestamp_sec\":0.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":20,\"timestamp_sec\":0.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":25,\"timestamp_sec\":1.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":30,\"timestamp_sec\":1.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":35,\"timestamp_sec\":1.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":40,\"timestamp_sec\":1.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":45,\"timestamp_sec\":1.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":50,\"timestamp_sec\":2.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":55,\"timestamp_sec\":2.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":60,\"timestamp_sec\":2.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":65,\"timestamp_sec\":2.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":70,\"timestamp_sec\":2.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":75,\"timestamp_sec\":3.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":80,\"timestamp_sec\":3.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":85,\"timestamp_sec\":3.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":90,\"timestamp_sec\":3.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":95,\"timestamp_sec\":3.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":100,\"timestamp_sec\":4.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":105,\"timestamp_sec\":4.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":110,\"timestamp_sec\":4.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":115,\"timestamp_sec\":4.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":120,\"timestamp_sec\":4.8,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":125,\"timestamp_sec\":5.0,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":130,\"timestamp_sec\":5.2,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":135,\"timestamp_sec\":5.4,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":140,\"timestamp_sec\":5.6,\"box_count\":0,\"max_confidence\":0.0},{\"boxes\":[],\"frame_index\":145,\"timestamp_sec\":5.8,\"box_count\":0,\"max_confidence\":0.0}],\"fps\":25.0,\"inferenceMs\":1965,\"imageHeight\":576,\"resultVideoUrl\":\"/profile/upload/polyp/source/2026/04/09/WL_20260409232148A001_web.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":199,\"y1\":302,\"x2\":396,\"y2\":443,\"score\":0.849007,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":3,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (17, 'PDT20260410001742E35663', NULL, 18, NULL, 1, 'SUCCESS', 0.5000, 17, 6551, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 00:17:43', '2026-04-10 00:17:59', NULL, '2026-04-10 00:17:43', '', '2026-04-10 00:17:59', '{\"imageWidth\":768,\"maxConfidence\":0.866281,\"fps\":25.0,\"inferenceMs\":6551,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410001753_e7742f7c_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410001753_e7742f7c_raw.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":211,\"y1\":266,\"x2\":417,\"y2\":407,\"score\":0.866281,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":15,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (18, 'PDT20260410002347F29202', NULL, 19, NULL, 1, 'SUCCESS', 0.5000, 18, 7917, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 00:23:47', '2026-04-10 00:24:01', NULL, '2026-04-10 00:23:47', '', '2026-04-10 00:24:01', '{\"imageWidth\":768,\"maxConfidence\":0.866281,\"fps\":25.0,\"inferenceMs\":7917,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410002353_40840ba7_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410002353_40840ba7_raw.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":211,\"y1\":266,\"x2\":417,\"y2\":407,\"score\":0.866281,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":15,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (19, 'PDT20260410002611FC2B2B', NULL, 20, NULL, 1, 'SUCCESS', 0.5000, 19, 7504, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 00:26:11', '2026-04-10 00:26:24', NULL, '2026-04-10 00:26:11', '', '2026-04-10 00:26:24', '{\"imageWidth\":768,\"maxConfidence\":0.866281,\"fps\":25.0,\"inferenceMs\":7504,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410002617_f6cd2b2c_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410002617_f6cd2b2c_raw.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":211,\"y1\":266,\"x2\":417,\"y2\":407,\"score\":0.866281,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":15,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (20, 'PDT2026041001004637C95A', NULL, 21, NULL, 1, 'SUCCESS', 0.5000, 20, 137, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 01:00:47', '2026-04-10 01:00:48', NULL, '2026-04-10 01:00:47', '', '2026-04-10 01:00:48', '{\"imageWidth\":549,\"maxConfidence\":0.931596,\"fps\":0.0,\"inferenceMs\":137,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":279,\"y1\":139,\"x2\":413,\"y2\":371,\"score\":0.931596,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (21, 'PDT2026041001050911A01E', NULL, 22, NULL, 1, 'SUCCESS', 0.5000, 21, 233, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 01:05:09', '2026-04-10 01:05:15', NULL, '2026-04-10 01:05:09', '', '2026-04-10 01:05:15', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":233,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (22, 'PDT202604100105466BD6C3', NULL, 23, NULL, 1, 'SUCCESS', 0.5000, 22, 7733, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 01:05:47', '2026-04-10 01:05:57', NULL, '2026-04-10 01:05:47', '', '2026-04-10 01:05:57', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":7733,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410010550_2da61c83_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410010550_2da61c83_raw.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (23, 'PDT20260410012941F84476', NULL, 24, NULL, 1, 'SUCCESS', 0.5000, 23, 13337, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 01:29:41', '2026-04-10 01:30:03', NULL, '2026-04-10 01:29:41', '', '2026-04-10 01:30:03', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":13337,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410012950_9d8fe6b7_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410012950_9d8fe6b7.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (24, 'PDT202604100159376E4C39', NULL, 25, NULL, 1, 'SUCCESS', 0.5000, 24, 14986, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 01:59:38', '2026-04-10 02:00:00', NULL, '2026-04-10 01:59:38', '', '2026-04-10 02:00:00', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":14986,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410015946_ba4fa761_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410015946_ba4fa761.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (25, 'PDT2026041002005186B8BF', NULL, 26, NULL, 1, 'SUCCESS', 0.5000, 25, 42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 02:00:52', '2026-04-10 02:00:52', NULL, '2026-04-10 02:00:52', '', '2026-04-10 02:00:52', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":42,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (26, 'PDT202604101356177E7162', NULL, 27, NULL, 1, 'FAILED', 0.5000, NULL, NULL, 'Inference request timeout or unreachable: I/O error on POST request for \"https://u231948-8c36-8d7654f5.westc.seetacloud.com:8443/infer\": Read timed out; nested exception is java.net.SocketTimeoutException: Read timed out', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 13:56:18', '2026-04-10 13:57:21', NULL, '2026-04-10 13:56:17', '', '2026-04-10 13:57:21', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (27, 'PDT20260410140105EC6A0C', NULL, 28, NULL, 1, 'FAILED', 0.5000, NULL, NULL, 'Inference request timeout or unreachable: I/O error on POST request for \"https://u231948-8c36-8d7654f5.westc.seetacloud.com:8443/infer\": Read timed out; nested exception is java.net.SocketTimeoutException: Read timed out', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 14:01:05', '2026-04-10 14:02:10', NULL, '2026-04-10 14:01:05', '', '2026-04-10 14:02:10', NULL, 0);
+INSERT INTO `polyp_detect_task` VALUES (28, 'PDT20260410141318270A2E', NULL, 29, NULL, 1, 'SUCCESS', 0.5000, 26, 14146, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 14:13:18', '2026-04-10 14:13:43', NULL, '2026-04-10 14:13:18', '', '2026-04-10 14:13:43', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":14146,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410141328_22f5bb5b_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410141328_22f5bb5b.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (29, 'PDT20260410141524DB2533', NULL, 30, NULL, 1, 'SUCCESS', 0.5000, 27, 39, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 14:15:25', '2026-04-10 14:15:26', NULL, '2026-04-10 14:15:25', '', '2026-04-10 14:15:26', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":39,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (30, 'PDT202604101446384DF3D6', NULL, 31, NULL, 1, 'SUCCESS', 0.5000, 28, 284, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 14:46:38', '2026-04-10 14:46:44', NULL, '2026-04-10 14:46:38', '', '2026-04-10 14:46:44', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":284,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260410144644_c0c8d5d5.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (31, 'PDT20260410144758056681', NULL, 32, NULL, 1, 'SUCCESS', 0.5000, 29, 14800, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 14:47:58', '2026-04-10 14:48:17', NULL, '2026-04-10 14:47:58', '', '2026-04-10 14:48:17', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":14800,\"imageHeight\":576,\"resultFramesUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410144802_7c2aac9c_frames.json\",\"resultVideoUrl\":\"http://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410144802_7c2aac9c.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (32, 'PDT20260410151802F5F4AA', NULL, 33, NULL, 1, 'SUCCESS', 0.5000, 30, 15463, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 15:18:02', '2026-04-10 15:18:27', NULL, '2026-04-10 15:18:02', '', '2026-04-10 15:18:27', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":15463,\"imageHeight\":576,\"resultFramesUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410151811_044db48f_frames.json\",\"resultVideoUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410151811_044db48f.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (33, 'PDT20260410151928C70AE4', NULL, 34, NULL, 1, 'SUCCESS', 0.5000, 31, 47, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 15:19:28', '2026-04-10 15:19:29', NULL, '2026-04-10 15:19:28', '', '2026-04-10 15:19:29', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":47,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260410151928_0cdf5085.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (34, 'PDT202604101535240B4EB5', NULL, 35, NULL, 1, 'SUCCESS', 0.5000, 32, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 15:35:24', '2026-04-10 15:35:25', NULL, '2026-04-10 15:35:24', '', '2026-04-10 15:35:25', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":48,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260410153524_ca3a537a.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (35, 'PDT20260410190834B0AEB8', NULL, 36, NULL, 1, 'SUCCESS', 0.5000, 33, 291, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 19:08:35', '2026-04-10 19:08:40', NULL, '2026-04-10 19:08:34', '', '2026-04-10 19:08:40', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":291,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260410190840_46eb12d1.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (36, 'PDT2026041019085906158C', NULL, 37, NULL, 1, 'SUCCESS', 0.5000, 34, 15959, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-10 19:09:00', '2026-04-10 19:09:20', NULL, '2026-04-10 19:09:00', '', '2026-04-10 19:09:20', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":15959,\"imageHeight\":576,\"resultFramesUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410190903_45042d83_frames.json\",\"resultVideoUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260410190903_45042d83.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (37, 'PDT202604110025024AE2C6', NULL, 38, NULL, 1, 'DELETED', 0.5000, NULL, NULL, 'Inference request timeout or unreachable: I/O error on POST request for \"http://127.0.0.1:8001/infer\": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-11 00:25:03', '2026-04-11 00:25:05', NULL, '2026-04-11 00:25:03', '', '2026-04-11 21:03:55', NULL, 1);
+INSERT INTO `polyp_detect_task` VALUES (38, 'PDT2026041100311447685F', NULL, 39, NULL, 1, 'SUCCESS', 0.5000, 35, 58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-11 00:31:15', '2026-04-11 00:31:16', NULL, '2026-04-11 00:31:14', '', '2026-04-11 00:31:16', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":58,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411003116_4dbdb523.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (39, 'PDT202604110044174BC3DC', NULL, 40, NULL, 1, 'SUCCESS', 0.5000, 36, 42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-11 00:44:17', '2026-04-11 00:44:18', NULL, '2026-04-11 00:44:17', '', '2026-04-11 00:44:18', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":42,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411004418_2d0c1fb5.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (40, 'PDT20260411131847EF66FA', NULL, 41, NULL, 1, 'SUCCESS', 0.5000, 37, 326, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-11 13:18:48', '2026-04-11 13:18:54', NULL, '2026-04-11 13:18:48', '', '2026-04-11 13:18:54', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":326,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411131855_d70b18b0.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (41, 'PDT202604111319126316B3', NULL, 42, NULL, 1, 'SUCCESS', 0.5000, 38, 16314, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-11 13:19:13', '2026-04-11 13:19:33', NULL, '2026-04-11 13:19:13', '', '2026-04-11 13:19:33', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":16314,\"imageHeight\":576,\"resultFramesUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411131917_8de00f2f_frames.json\",\"resultVideoUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411131917_8de00f2f.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (42, 'PDT2026041118205220DC4E', NULL, 43, NULL, 1, 'SUCCESS', 0.5000, 39, 328, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-11 18:20:53', '2026-04-11 18:20:59', NULL, '2026-04-11 18:20:52', '', '2026-04-11 18:20:59', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":328,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411182059_e3e4d6ed.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (43, 'PDT20260411211549329F42', NULL, 44, 'image', 1, 'SUCCESS', 0.5000, 40, 238, NULL, 'https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411211555_aac9a66f.jpg', '', '', 1, 1, 1, 0.915233, '2026-04-11 21:15:50', '2026-04-11 21:15:55', NULL, '2026-04-11 21:15:49', '', '2026-04-11 21:15:55', '{\"imageWidth\":549,\"maxConfidence\":0.915233,\"fps\":0.0,\"inferenceMs\":238,\"imageHeight\":530,\"resultFramesUrl\":\"\",\"resultVideoUrl\":\"\",\"frameCount\":1,\"representativeBoxes\":[{\"x1\":277,\"y1\":142,\"x2\":419,\"y2\":366,\"score\":0.915233,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/image_20260411211555_aac9a66f.jpg\",\"detectedFrameCount\":1,\"fileType\":\"image\"}', 0);
+INSERT INTO `polyp_detect_task` VALUES (44, 'PDT20260411211624567ADB', NULL, 45, 'video', 1, 'SUCCESS', 0.5000, 41, 15547, NULL, '', 'https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411211629_738d1d1b.mp4', 'https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411211629_738d1d1b_frames.json', 701, 387, 1, 0.907254, '2026-04-11 21:16:25', '2026-04-11 21:16:45', NULL, '2026-04-11 21:16:25', '', '2026-04-11 21:16:45', '{\"imageWidth\":768,\"maxConfidence\":0.907254,\"fps\":25.0,\"inferenceMs\":15547,\"imageHeight\":576,\"resultFramesUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411211629_738d1d1b_frames.json\",\"resultVideoUrl\":\"https://u231948-8c36-8d7654f5.westc.seetacloud.com/outputs/video_20260411211629_738d1d1b.mp4\",\"frameCount\":701,\"representativeBoxes\":[{\"x1\":131,\"y1\":310,\"x2\":352,\"y2\":500,\"score\":0.907254,\"class_name\":\"polyp\"}],\"boxCount\":1,\"resultImageUrl\":\"\",\"detectedFrameCount\":387,\"fileType\":\"video\"}', 0);
+
+-- ----------------------------
+-- Table structure for polyp_model
+-- ----------------------------
+DROP TABLE IF EXISTS `polyp_model`;
+CREATE TABLE `polyp_model`  (
+  `model_id` bigint NOT NULL AUTO_INCREMENT COMMENT '模型ID',
+  `model_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模型名称',
+  `model_version` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '模型版本',
+  `model_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '模型路径(本地/挂载路径)',
+  `status` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'ACTIVE' COMMENT '状态：ACTIVE/INACTIVE',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否默认模型：1是0否',
+  `conf_threshold` decimal(5, 4) NULL DEFAULT 0.5000 COMMENT '默认置信度阈值',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`model_id`) USING BTREE,
+  INDEX `idx_status_default`(`status`, `is_default`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '息肉检测模型表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of polyp_model
+-- ----------------------------
+INSERT INTO `polyp_model` VALUES (1, 'yolov5-polyp', 'v1', 'M:/0NUIST/class/bysj/Medical-platform-master/ruoyi-system/src/main/resources/yolo/polyp.pt', 'ACTIVE', 1, 0.5000, 'Phase1默认模型', '', '2026-04-03 20:09:47', '', '2026-04-03 20:09:47');
 
 -- ----------------------------
 -- Table structure for purchase
@@ -444,7 +798,7 @@ CREATE TABLE `purchase`  (
   `update_by` varbinary(255) NULL DEFAULT NULL COMMENT '更新者----updateBy',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注------remark'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of purchase
@@ -469,7 +823,7 @@ CREATE TABLE `purchase_drug`  (
   `update_time` datetime NULL DEFAULT NULL,
   `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`pur_order_ID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of purchase_drug
@@ -486,7 +840,7 @@ CREATE TABLE `qrtz_blob_triggers`  (
   `blob_data` blob NULL COMMENT '存放持久化Trigger对象',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Blob类型的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Blob类型的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_blob_triggers
@@ -501,7 +855,7 @@ CREATE TABLE `qrtz_calendars`  (
   `calendar_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日历名称',
   `calendar` blob NOT NULL COMMENT '存放持久化calendar对象',
   PRIMARY KEY (`sched_name`, `calendar_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日历信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日历信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_calendars
@@ -519,7 +873,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
   `time_zone_id` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '时区',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Cron类型的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Cron类型的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_cron_triggers
@@ -544,7 +898,7 @@ CREATE TABLE `qrtz_fired_triggers`  (
   `is_nonconcurrent` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否并发',
   `requests_recovery` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否接受恢复执行',
   PRIMARY KEY (`sched_name`, `entry_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '已触发的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '已触发的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_fired_triggers
@@ -566,7 +920,7 @@ CREATE TABLE `qrtz_job_details`  (
   `requests_recovery` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '是否接受恢复执行',
   `job_data` blob NULL COMMENT '存放持久化job对象',
   PRIMARY KEY (`sched_name`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '任务详细信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '任务详细信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_job_details
@@ -580,7 +934,7 @@ CREATE TABLE `qrtz_locks`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度名称',
   `lock_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '悲观锁名称',
   PRIMARY KEY (`sched_name`, `lock_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储的悲观锁信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储的悲观锁信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_locks
@@ -594,7 +948,7 @@ CREATE TABLE `qrtz_paused_trigger_grps`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调度名称',
   `trigger_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
   PRIMARY KEY (`sched_name`, `trigger_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '暂停的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '暂停的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_paused_trigger_grps
@@ -610,7 +964,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
   `last_checkin_time` bigint NOT NULL COMMENT '上次检查时间',
   `checkin_interval` bigint NOT NULL COMMENT '检查间隔时间',
   PRIMARY KEY (`sched_name`, `instance_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '调度器状态表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '调度器状态表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
@@ -629,7 +983,7 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `times_triggered` bigint NOT NULL COMMENT '已经触发的次数',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '简单触发器的信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '简单触发器的信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simple_triggers
@@ -656,7 +1010,7 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `bool_prop_2` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Boolean类型的trigger的第二个参数',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '同步机制的行锁表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '同步机制的行锁表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simprop_triggers
@@ -686,7 +1040,7 @@ CREATE TABLE `qrtz_triggers`  (
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   INDEX `sched_name`(`sched_name`, `job_name`, `job_group`) USING BTREE,
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '触发器详细信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '触发器详细信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_triggers
@@ -707,7 +1061,7 @@ CREATE TABLE `refund`  (
   `Order_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '订单状态',
   `sup_build_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of refund
@@ -732,7 +1086,7 @@ CREATE TABLE `supplier`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   PRIMARY KEY (`sup_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of supplier
@@ -758,7 +1112,7 @@ CREATE TABLE `sys_config`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '参数配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_config
@@ -766,7 +1120,7 @@ CREATE TABLE `sys_config`  (
 INSERT INTO `sys_config` VALUES (1, '主框架页-默认皮肤样式名称', 'sys.index.skinName', 'skin-blue', 'Y', 'admin', '2026-02-22 23:51:11', '', NULL, '蓝色 skin-blue、绿色 skin-green、紫色 skin-purple、红色 skin-red、黄色 skin-yellow');
 INSERT INTO `sys_config` VALUES (2, '用户管理-账号初始密码', 'sys.user.initPassword', '123456', 'Y', 'admin', '2026-02-22 23:51:11', '', NULL, '初始化密码 123456');
 INSERT INTO `sys_config` VALUES (3, '主框架页-侧边栏主题', 'sys.index.sideTheme', 'theme-dark', 'Y', 'admin', '2026-02-22 23:51:11', '', NULL, '深色主题theme-dark，浅色主题theme-light');
-INSERT INTO `sys_config` VALUES (4, '账号自助-验证码开关', 'sys.account.captchaEnabled', 'true', 'Y', 'admin', '2026-02-22 23:51:11', '', NULL, '是否开启验证码功能（true开启，false关闭）');
+INSERT INTO `sys_config` VALUES (4, '账号自助-验证码开关', 'sys.account.captchaEnabled', 'false', 'Y', 'admin', '2026-02-22 23:51:11', '', NULL, '是否开启验证码功能（true开启，false关闭）');
 INSERT INTO `sys_config` VALUES (5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false', 'Y', 'admin', '2026-02-22 23:51:11', '', NULL, '是否开启注册用户功能（true开启，false关闭）');
 
 -- ----------------------------
@@ -789,7 +1143,7 @@ CREATE TABLE `sys_dept`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -821,7 +1175,7 @@ CREATE TABLE `sys_depts`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间--createTime',
   `update_by` varbinary(255) NULL DEFAULT NULL COMMENT '更新者----updateBy',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime'
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_depts
@@ -856,7 +1210,7 @@ CREATE TABLE `sys_dict_data`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -907,7 +1261,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
   UNIQUE INDEX `dict_type`(`dict_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -944,7 +1298,7 @@ CREATE TABLE `sys_docters`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`d_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_docters
@@ -958,7 +1312,7 @@ DROP TABLE IF EXISTS `sys_docters_depts`;
 CREATE TABLE `sys_docters_depts`  (
   `d_id` int NULL DEFAULT NULL COMMENT '医生序号',
   `depts_id` int NULL DEFAULT NULL COMMENT '部门序号'
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_docters_depts
@@ -983,7 +1337,7 @@ CREATE TABLE `sys_exam_cost`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   PRIMARY KEY (`exam_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_exam_cost
@@ -1012,7 +1366,7 @@ CREATE TABLE `sys_job`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
@@ -1035,7 +1389,7 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -1056,7 +1410,7 @@ CREATE TABLE `sys_logininfor`  (
   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '提示消息',
   `login_time` datetime NULL DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 112 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 148 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -1074,6 +1428,45 @@ INSERT INTO `sys_logininfor` VALUES (109, 'admin', '127.0.0.1', '内网IP', 'Chr
 INSERT INTO `sys_logininfor` VALUES (110, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-19 21:57:11');
 INSERT INTO `sys_logininfor` VALUES (111, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-19 23:28:09');
 INSERT INTO `sys_logininfor` VALUES (112, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-19 23:29:44');
+INSERT INTO `sys_logininfor` VALUES (113, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-27 15:51:10');
+INSERT INTO `sys_logininfor` VALUES (114, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-27 20:11:53');
+INSERT INTO `sys_logininfor` VALUES (115, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-28 14:55:08');
+INSERT INTO `sys_logininfor` VALUES (116, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-03 23:23:50');
+INSERT INTO `sys_logininfor` VALUES (117, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:01:21');
+INSERT INTO `sys_logininfor` VALUES (118, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:02:32');
+INSERT INTO `sys_logininfor` VALUES (119, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:06:08');
+INSERT INTO `sys_logininfor` VALUES (120, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:07:10');
+INSERT INTO `sys_logininfor` VALUES (121, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:13:28');
+INSERT INTO `sys_logininfor` VALUES (122, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:14:21');
+INSERT INTO `sys_logininfor` VALUES (123, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-04 00:15:17');
+INSERT INTO `sys_logininfor` VALUES (124, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-06 16:55:22');
+INSERT INTO `sys_logininfor` VALUES (125, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-09 15:53:51');
+INSERT INTO `sys_logininfor` VALUES (126, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-09 16:43:52');
+INSERT INTO `sys_logininfor` VALUES (127, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-09 17:16:47');
+INSERT INTO `sys_logininfor` VALUES (128, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-09 17:55:42');
+INSERT INTO `sys_logininfor` VALUES (129, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-09 17:55:50');
+INSERT INTO `sys_logininfor` VALUES (130, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-09 21:20:47');
+INSERT INTO `sys_logininfor` VALUES (131, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-09 21:54:40');
+INSERT INTO `sys_logininfor` VALUES (132, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-09 22:33:46');
+INSERT INTO `sys_logininfor` VALUES (133, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-09 22:34:22');
+INSERT INTO `sys_logininfor` VALUES (134, 'admin', '127.0.0.1', '内网IP', 'Mozilla', 'Windows 10', '0', '登录成功', '2026-04-09 22:34:41');
+INSERT INTO `sys_logininfor` VALUES (135, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-09 22:57:48');
+INSERT INTO `sys_logininfor` VALUES (136, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-10 00:17:31');
+INSERT INTO `sys_logininfor` VALUES (137, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-10 01:00:34');
+INSERT INTO `sys_logininfor` VALUES (138, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-10 13:55:53');
+INSERT INTO `sys_logininfor` VALUES (139, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-10 19:05:20');
+INSERT INTO `sys_logininfor` VALUES (140, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-10 22:53:05');
+INSERT INTO `sys_logininfor` VALUES (141, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 00:08:47');
+INSERT INTO `sys_logininfor` VALUES (142, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 12:20:39');
+INSERT INTO `sys_logininfor` VALUES (143, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 13:18:39');
+INSERT INTO `sys_logininfor` VALUES (144, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 15:40:25');
+INSERT INTO `sys_logininfor` VALUES (145, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 17:53:24');
+INSERT INTO `sys_logininfor` VALUES (146, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 17:58:46');
+INSERT INTO `sys_logininfor` VALUES (147, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 18:08:34');
+INSERT INTO `sys_logininfor` VALUES (148, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 19:10:28');
+INSERT INTO `sys_logininfor` VALUES (149, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 20:20:15');
+INSERT INTO `sys_logininfor` VALUES (150, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-11 21:04:04');
+INSERT INTO `sys_logininfor` VALUES (151, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-12 00:22:25');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1100,16 +1493,16 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2006 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 1, 'system', NULL, '', 1, 0, 'M', '0', '0', '', 'system', 'admin', '2026-02-22 23:51:11', '', NULL, '系统管理目录');
+INSERT INTO `sys_menu` VALUES (1, '系统功能', 0, 1, 'system', NULL, '', 1, 0, 'M', '0', '0', '', 'system', 'admin', '2026-02-22 23:51:11', 'admin', '2026-04-12 00:28:53', '系统管理目录');
 INSERT INTO `sys_menu` VALUES (2, '系统监控', 0, 2, 'monitor', NULL, '', 1, 0, 'M', '0', '0', '', 'monitor', 'admin', '2026-02-22 23:51:11', '', NULL, '系统监控目录');
-INSERT INTO `sys_menu` VALUES (3, '系统工具', 0, 3, 'tool', NULL, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', '2026-02-22 23:51:11', '', NULL, '系统工具目录');
-INSERT INTO `sys_menu` VALUES (4, '若依官网', 0, 4, 'http://ruoyi.vip', NULL, '', 0, 0, 'M', '0', '0', '', 'guide', 'admin', '2026-02-22 23:51:11', '', NULL, '若依官网地址');
-INSERT INTO `sys_menu` VALUES (100, '用户管理', 1, 1, 'user', 'system/user/index', '', 1, 0, 'C', '0', '0', 'system:user:list', 'user', 'admin', '2026-02-22 23:51:11', '', NULL, '用户管理菜单');
+INSERT INTO `sys_menu` VALUES (3, '系统工具', 0, 3, 'tool', NULL, '', 1, 0, 'M', '1', '0', '', 'tool', 'admin', '2026-02-22 23:51:11', 'admin', '2026-04-12 00:28:01', '系统工具目录');
+INSERT INTO `sys_menu` VALUES (4, '若依官网', 0, 4, 'http://ruoyi.vip', NULL, '', 0, 0, 'M', '1', '0', '', 'guide', 'admin', '2026-02-22 23:51:11', 'admin', '2026-04-12 00:28:06', '若依官网地址');
+INSERT INTO `sys_menu` VALUES (100, '医护账号管理', 1, 1, 'user', 'system/user/index', '', 1, 0, 'C', '0', '0', 'system:user:list', 'user', 'admin', '2026-02-22 23:51:11', '', NULL, '用户管理菜单');
 INSERT INTO `sys_menu` VALUES (101, '角色管理', 1, 2, 'role', 'system/role/index', '', 1, 0, 'C', '0', '0', 'system:role:list', 'peoples', 'admin', '2026-02-22 23:51:11', '', NULL, '角色管理菜单');
 INSERT INTO `sys_menu` VALUES (102, '菜单管理', 1, 3, 'menu', 'system/menu/index', '', 1, 0, 'C', '0', '0', 'system:menu:list', 'tree-table', 'admin', '2026-02-22 23:51:11', '', NULL, '菜单管理菜单');
 INSERT INTO `sys_menu` VALUES (103, '部门管理', 1, 4, 'dept', 'system/dept/index', '', 1, 0, 'C', '0', '0', 'system:dept:list', 'tree', 'admin', '2026-02-22 23:51:11', '', NULL, '部门管理菜单');
@@ -1117,18 +1510,18 @@ INSERT INTO `sys_menu` VALUES (104, '岗位管理', 1, 5, 'post', 'system/post/i
 INSERT INTO `sys_menu` VALUES (105, '字典管理', 1, 6, 'dict', 'system/dict/index', '', 1, 0, 'C', '0', '0', 'system:dict:list', 'dict', 'admin', '2026-02-22 23:51:11', '', NULL, '字典管理菜单');
 INSERT INTO `sys_menu` VALUES (106, '参数设置', 1, 7, 'config', 'system/config/index', '', 1, 0, 'C', '0', '0', 'system:config:list', 'edit', 'admin', '2026-02-22 23:51:11', '', NULL, '参数设置菜单');
 INSERT INTO `sys_menu` VALUES (107, '通知公告', 1, 8, 'notice', 'system/notice/index', '', 1, 0, 'C', '0', '0', 'system:notice:list', 'message', 'admin', '2026-02-22 23:51:11', '', NULL, '通知公告菜单');
-INSERT INTO `sys_menu` VALUES (108, '日志管理', 1, 9, 'log', '', '', 1, 0, 'M', '0', '0', '', 'log', 'admin', '2026-02-22 23:51:11', '', NULL, '日志管理菜单');
-INSERT INTO `sys_menu` VALUES (109, '在线用户', 2, 1, 'online', 'monitor/online/index', '', 1, 0, 'C', '0', '0', 'monitor:online:list', 'online', 'admin', '2026-02-22 23:51:11', '', NULL, '在线用户菜单');
-INSERT INTO `sys_menu` VALUES (110, '定时任务', 2, 2, 'job', 'monitor/job/index', '', 1, 0, 'C', '0', '0', 'monitor:job:list', 'job', 'admin', '2026-02-22 23:51:11', '', NULL, '定时任务菜单');
-INSERT INTO `sys_menu` VALUES (111, '数据监控', 2, 3, 'druid', 'monitor/druid/index', '', 1, 0, 'C', '0', '0', 'monitor:druid:list', 'druid', 'admin', '2026-02-22 23:51:11', '', NULL, '数据监控菜单');
-INSERT INTO `sys_menu` VALUES (112, '服务监控', 2, 4, 'server', 'monitor/server/index', '', 1, 0, 'C', '0', '0', 'monitor:server:list', 'server', 'admin', '2026-02-22 23:51:11', '', NULL, '服务监控菜单');
-INSERT INTO `sys_menu` VALUES (113, '缓存监控', 2, 5, 'cache', 'monitor/cache/index', '', 1, 0, 'C', '0', '0', 'monitor:cache:list', 'redis', 'admin', '2026-02-22 23:51:11', '', NULL, '缓存监控菜单');
-INSERT INTO `sys_menu` VALUES (114, '缓存列表', 2, 6, 'cacheList', 'monitor/cache/list', '', 1, 0, 'C', '0', '0', 'monitor:cache:list', 'redis-list', 'admin', '2026-02-22 23:51:11', '', NULL, '缓存列表菜单');
-INSERT INTO `sys_menu` VALUES (115, '表单构建', 3, 1, 'build', 'tool/build/index', '', 1, 0, 'C', '0', '0', 'tool:build:list', 'build', 'admin', '2026-02-22 23:51:11', '', NULL, '表单构建菜单');
-INSERT INTO `sys_menu` VALUES (116, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', 1, 0, 'C', '0', '0', 'tool:gen:list', 'code', 'admin', '2026-02-22 23:51:11', '', NULL, '代码生成菜单');
-INSERT INTO `sys_menu` VALUES (117, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger', 'admin', '2026-02-22 23:51:11', '', NULL, '系统接口菜单');
-INSERT INTO `sys_menu` VALUES (500, '操作日志', 108, 1, 'operlog', 'monitor/operlog/index', '', 1, 0, 'C', '0', '0', 'monitor:operlog:list', 'form', 'admin', '2026-02-22 23:51:11', '', NULL, '操作日志菜单');
-INSERT INTO `sys_menu` VALUES (501, '登录日志', 108, 2, 'logininfor', 'monitor/logininfor/index', '', 1, 0, 'C', '0', '0', 'monitor:logininfor:list', 'logininfor', 'admin', '2026-02-22 23:51:11', '', NULL, '登录日志菜单');
+INSERT INTO `sys_menu` VALUES (108, '审计日志', 1, 9, 'log', '', '', 1, 0, 'M', '0', '0', '', 'log', 'admin', '2026-02-22 23:51:11', '', NULL, '日志管理菜单');
+INSERT INTO `sys_menu` VALUES (109, '在线用户', 2, 1, 'online', 'monitor/online/index', '', 1, 0, 'C', '0', '0', 'monitor:online:list', 'online', 'admin', '2026-02-22 23:51:11', 'admin', '2026-04-12 00:27:37', '在线用户菜单');
+INSERT INTO `sys_menu` VALUES (110, '定时任务', 2, 2, 'job', 'monitor/job/index', '', 1, 0, 'C', '0', '0', 'monitor:job:list', 'job', 'admin', '2026-02-22 23:51:11', 'admin', '2026-04-12 00:30:08', '定时任务菜单');
+INSERT INTO `sys_menu` VALUES (111, '数据监控', 2, 3, 'druid', 'monitor/druid/index', '', 1, 0, 'C', '1', '0', 'monitor:druid:list', 'druid', 'admin', '2026-02-22 23:51:11', '', NULL, '数据监控菜单');
+INSERT INTO `sys_menu` VALUES (112, '服务监控', 2, 4, 'server', 'monitor/server/index', '', 1, 0, 'C', '1', '0', 'monitor:server:list', 'server', 'admin', '2026-02-22 23:51:11', '', NULL, '服务监控菜单');
+INSERT INTO `sys_menu` VALUES (113, '缓存监控', 2, 5, 'cache', 'monitor/cache/index', '', 1, 0, 'C', '1', '0', 'monitor:cache:list', 'redis', 'admin', '2026-02-22 23:51:11', '', NULL, '缓存监控菜单');
+INSERT INTO `sys_menu` VALUES (114, '缓存列表', 2, 6, 'cacheList', 'monitor/cache/list', '', 1, 0, 'C', '1', '0', 'monitor:cache:list', 'redis-list', 'admin', '2026-02-22 23:51:11', '', NULL, '缓存列表菜单');
+INSERT INTO `sys_menu` VALUES (115, '表单构建', 3, 1, 'build', 'tool/build/index', '', 1, 0, 'C', '1', '0', 'tool:build:list', 'build', 'admin', '2026-02-22 23:51:11', '', NULL, '表单构建菜单');
+INSERT INTO `sys_menu` VALUES (116, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', 1, 0, 'C', '1', '0', 'tool:gen:list', 'code', 'admin', '2026-02-22 23:51:11', '', NULL, '代码生成菜单');
+INSERT INTO `sys_menu` VALUES (117, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '1', '0', 'tool:swagger:list', 'swagger', 'admin', '2026-02-22 23:51:11', '', NULL, '系统接口菜单');
+INSERT INTO `sys_menu` VALUES (500, '审计日志', 108, 1, 'operlog', 'monitor/operlog/index', '', 1, 0, 'C', '0', '0', 'monitor:operlog:list', 'form', 'admin', '2026-02-22 23:51:11', '', NULL, '操作日志菜单');
+INSERT INTO `sys_menu` VALUES (501, '登录审计', 108, 2, 'logininfor', 'monitor/logininfor/index', '', 1, 0, 'C', '0', '0', 'monitor:logininfor:list', 'logininfor', 'admin', '2026-02-22 23:51:11', '', NULL, '登录日志菜单');
 INSERT INTO `sys_menu` VALUES (1000, '用户查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:user:query', '#', 'admin', '2026-02-22 23:51:11', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1001, '用户新增', 100, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:user:add', '#', 'admin', '2026-02-22 23:51:11', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1002, '用户修改', 100, 3, '', '', '', 1, 0, 'F', '0', '0', 'system:user:edit', '#', 'admin', '2026-02-22 23:51:11', '', NULL, '');
@@ -1190,6 +1583,12 @@ INSERT INTO `sys_menu` VALUES (1057, '生成删除', 116, 3, '#', '', '', 1, 0, 
 INSERT INTO `sys_menu` VALUES (1058, '导入代码', 116, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin', '2026-02-22 23:51:11', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1059, '预览代码', 116, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin', '2026-02-22 23:51:11', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1060, '生成代码', 116, 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2026-02-22 23:51:11', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2000, '息肉检测中心', 1, 2, 'polyp', 'system/polyp/index', '', 1, 0, 'C', '0', '0', 'system:polyp:list', 'clipboard', 'admin', '2026-03-27 10:00:00', 'admin', '2026-04-12 00:27:09', '息肉详情菜单');
+INSERT INTO `sys_menu` VALUES (2001, '息肉查看', 2000, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:polyp:query', '#', 'admin', '2026-03-27 10:00:00', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2002, '息肉新增', 2000, 2, '', '', '', 1, 0, 'F', '1', '0', 'system:polyp:add', '#', 'admin', '2026-03-27 10:00:00', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2003, '息肉修改', 2000, 3, '', '', '', 1, 0, 'F', '1', '0', 'system:polyp:edit', '#', 'admin', '2026-03-27 10:00:00', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2004, '息肉删除', 2000, 4, '', '', '', 1, 0, 'F', '1', '0', 'system:polyp:remove', '#', 'admin', '2026-03-27 10:00:00', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2005, '息肉导出', 2000, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:polyp:export', '#', 'admin', '2026-03-27 10:00:00', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -1207,7 +1606,7 @@ CREATE TABLE `sys_notice`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`notice_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '通知公告表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '通知公告表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_notice
@@ -1237,11 +1636,54 @@ CREATE TABLE `sys_oper_log`  (
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
+INSERT INTO `sys_oper_log` VALUES (100, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', NULL, '/system/menu/4', '127.0.0.1', '内网IP', '{menuId=4}', '{\"msg\":\"菜单已分配,不允许删除\",\"code\":601}', 0, NULL, '2026-04-11 15:41:04');
+INSERT INTO `sys_oper_log` VALUES (101, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/41/view', '127.0.0.1', '内网IP', '{taskId=41}', NULL, 0, NULL, '2026-04-11 17:53:39');
+INSERT INTO `sys_oper_log` VALUES (102, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/40/view', '127.0.0.1', '内网IP', '{taskId=40}', NULL, 0, NULL, '2026-04-11 17:53:45');
+INSERT INTO `sys_oper_log` VALUES (103, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/41/view', '127.0.0.1', '内网IP', '{taskId=41}', NULL, 0, NULL, '2026-04-11 18:13:43');
+INSERT INTO `sys_oper_log` VALUES (104, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/41/view', '127.0.0.1', '内网IP', '{taskId=41}', NULL, 0, NULL, '2026-04-11 18:20:33');
+INSERT INTO `sys_oper_log` VALUES (105, '息肉检测文件上传', 1, 'com.ruoyi.web.controller.polyp.PolypFileController.upload()', 'POST', 1, 'admin', NULL, '/system/polyp/file/upload', '127.0.0.1', '内网IP', NULL, NULL, 0, NULL, '2026-04-11 18:20:52');
+INSERT INTO `sys_oper_log` VALUES (106, '息肉检测任务创建', 1, 'com.ruoyi.web.controller.polyp.PolypTaskController.createTask()', 'POST', 1, 'admin', NULL, '/system/polyp/task', '127.0.0.1', '内网IP', '{\"confThreshold\":0.5,\"modelId\":1,\"sourceFileId\":43}', NULL, 0, NULL, '2026-04-11 18:20:53');
+INSERT INTO `sys_oper_log` VALUES (107, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/42/view', '127.0.0.1', '内网IP', '{taskId=42}', NULL, 0, NULL, '2026-04-11 18:20:53');
+INSERT INTO `sys_oper_log` VALUES (108, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/42/view', '127.0.0.1', '内网IP', '{taskId=42}', NULL, 0, NULL, '2026-04-11 19:10:55');
+INSERT INTO `sys_oper_log` VALUES (109, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/41/view', '127.0.0.1', '内网IP', '{taskId=41}', NULL, 0, NULL, '2026-04-11 19:10:57');
+INSERT INTO `sys_oper_log` VALUES (110, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/42/view', '127.0.0.1', '内网IP', '{taskId=42}', NULL, 0, NULL, '2026-04-11 19:10:59');
+INSERT INTO `sys_oper_log` VALUES (111, '息肉检测任务', 5, 'com.ruoyi.web.controller.polyp.PolypTaskController.export()', 'POST', 1, 'admin', NULL, '/system/polyp/task/export', '127.0.0.1', '内网IP', '{\"params\":{}}', NULL, 0, NULL, '2026-04-11 20:21:15');
+INSERT INTO `sys_oper_log` VALUES (112, '息肉检测任务', 3, 'com.ruoyi.web.controller.polyp.PolypTaskController.remove()', 'DELETE', 1, 'admin', NULL, '/system/polyp/task/37', '127.0.0.1', '内网IP', '{taskIds=37}', NULL, 0, NULL, '2026-04-11 20:23:05');
+INSERT INTO `sys_oper_log` VALUES (113, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', NULL, '/system/menu/4', '127.0.0.1', '内网IP', '{menuId=4}', '{\"msg\":\"菜单已分配,不允许删除\",\"code\":601}', 0, NULL, '2026-04-11 20:24:20');
+INSERT INTO `sys_oper_log` VALUES (114, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/41/view', '127.0.0.1', '内网IP', '{taskId=41}', NULL, 0, NULL, '2026-04-11 20:41:31');
+INSERT INTO `sys_oper_log` VALUES (115, '息肉检测文件上传', 1, 'com.ruoyi.web.controller.polyp.PolypFileController.upload()', 'POST', 1, 'admin', NULL, '/system/polyp/file/upload', '127.0.0.1', '内网IP', NULL, NULL, 0, NULL, '2026-04-11 21:15:50');
+INSERT INTO `sys_oper_log` VALUES (116, '息肉检测任务创建', 1, 'com.ruoyi.web.controller.polyp.PolypTaskController.createTask()', 'POST', 1, 'admin', NULL, '/system/polyp/task', '127.0.0.1', '内网IP', '{\"confThreshold\":0.5,\"modelId\":1,\"sourceFileId\":44}', NULL, 0, NULL, '2026-04-11 21:15:50');
+INSERT INTO `sys_oper_log` VALUES (117, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/43/view', '127.0.0.1', '内网IP', '{taskId=43}', NULL, 0, NULL, '2026-04-11 21:15:50');
+INSERT INTO `sys_oper_log` VALUES (118, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/43/view', '127.0.0.1', '内网IP', '{taskId=43}', NULL, 0, NULL, '2026-04-11 21:16:05');
+INSERT INTO `sys_oper_log` VALUES (119, '息肉检测文件上传', 1, 'com.ruoyi.web.controller.polyp.PolypFileController.upload()', 'POST', 1, 'admin', NULL, '/system/polyp/file/upload', '127.0.0.1', '内网IP', NULL, NULL, 0, NULL, '2026-04-11 21:16:25');
+INSERT INTO `sys_oper_log` VALUES (120, '息肉检测任务创建', 1, 'com.ruoyi.web.controller.polyp.PolypTaskController.createTask()', 'POST', 1, 'admin', NULL, '/system/polyp/task', '127.0.0.1', '内网IP', '{\"confThreshold\":0.5,\"modelId\":1,\"sourceFileId\":45}', NULL, 0, NULL, '2026-04-11 21:16:25');
+INSERT INTO `sys_oper_log` VALUES (121, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/44/view', '127.0.0.1', '内网IP', '{taskId=44}', NULL, 0, NULL, '2026-04-11 21:16:26');
+INSERT INTO `sys_oper_log` VALUES (122, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/19/view', '127.0.0.1', '内网IP', '{taskId=19}', NULL, 0, NULL, '2026-04-11 21:18:05');
+INSERT INTO `sys_oper_log` VALUES (123, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/19/view', '127.0.0.1', '内网IP', '{taskId=19}', NULL, 0, NULL, '2026-04-11 21:18:12');
+INSERT INTO `sys_oper_log` VALUES (124, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/29/view', '127.0.0.1', '内网IP', '{taskId=29}', NULL, 0, NULL, '2026-04-11 21:18:18');
+INSERT INTO `sys_oper_log` VALUES (125, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/28/view', '127.0.0.1', '内网IP', '{taskId=28}', NULL, 0, NULL, '2026-04-11 21:18:21');
+INSERT INTO `sys_oper_log` VALUES (126, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/33/view', '127.0.0.1', '内网IP', '{taskId=33}', NULL, 0, NULL, '2026-04-11 21:18:26');
+INSERT INTO `sys_oper_log` VALUES (127, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/32/view', '127.0.0.1', '内网IP', '{taskId=32}', NULL, 0, NULL, '2026-04-11 21:18:31');
+INSERT INTO `sys_oper_log` VALUES (128, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/36/view', '127.0.0.1', '内网IP', '{taskId=36}', NULL, 0, NULL, '2026-04-11 21:18:41');
+INSERT INTO `sys_oper_log` VALUES (129, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/38/view', '127.0.0.1', '内网IP', '{taskId=38}', NULL, 0, NULL, '2026-04-11 21:26:59');
+INSERT INTO `sys_oper_log` VALUES (130, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/38/view', '127.0.0.1', '内网IP', '{taskId=38}', NULL, 0, NULL, '2026-04-11 21:27:00');
+INSERT INTO `sys_oper_log` VALUES (131, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/42/view', '127.0.0.1', '内网IP', '{taskId=42}', NULL, 0, NULL, '2026-04-11 21:27:01');
+INSERT INTO `sys_oper_log` VALUES (132, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/39/view', '127.0.0.1', '内网IP', '{taskId=39}', NULL, 0, NULL, '2026-04-11 21:27:21');
+INSERT INTO `sys_oper_log` VALUES (133, '息肉检测详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/44/view', '127.0.0.1', '内网IP', '{taskId=44}', NULL, 0, NULL, '2026-04-11 21:27:25');
+INSERT INTO `sys_oper_log` VALUES (134, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"system/polyp/index\",\"createTime\":\"2026-03-27 10:00:00\",\"icon\":\"clipboard\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2000,\"menuName\":\"息肉检测中心\",\"menuType\":\"M\",\"orderNum\":2,\"params\":{},\"parentId\":0,\"path\":\"polyp\",\"perms\":\"system:polyp:list\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:26:14');
+INSERT INTO `sys_oper_log` VALUES (135, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"system/polyp/index\",\"createTime\":\"2026-03-27 10:00:00\",\"icon\":\"clipboard\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2000,\"menuName\":\"息肉检测中心\",\"menuType\":\"C\",\"orderNum\":2,\"params\":{},\"parentId\":1,\"path\":\"polyp\",\"perms\":\"system:polyp:list\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:27:09');
+INSERT INTO `sys_oper_log` VALUES (136, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"monitor/online/index\",\"createTime\":\"2026-02-22 23:51:11\",\"icon\":\"online\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":109,\"menuName\":\"在线用户\",\"menuType\":\"C\",\"orderNum\":1,\"params\":{},\"parentId\":2,\"path\":\"online\",\"perms\":\"monitor:online:list\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:27:37');
+INSERT INTO `sys_oper_log` VALUES (137, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createTime\":\"2026-02-22 23:51:11\",\"icon\":\"tool\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":3,\"menuName\":\"系统工具\",\"menuType\":\"M\",\"orderNum\":3,\"params\":{},\"parentId\":0,\"path\":\"tool\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:28:02');
+INSERT INTO `sys_oper_log` VALUES (138, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createTime\":\"2026-02-22 23:51:11\",\"icon\":\"guide\",\"isCache\":\"0\",\"isFrame\":\"0\",\"menuId\":4,\"menuName\":\"若依官网\",\"menuType\":\"M\",\"orderNum\":4,\"params\":{},\"parentId\":0,\"path\":\"http://ruoyi.vip\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:28:06');
+INSERT INTO `sys_oper_log` VALUES (139, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createTime\":\"2026-02-22 23:51:11\",\"icon\":\"system\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":1,\"menuName\":\"系统功能\",\"menuType\":\"M\",\"orderNum\":1,\"params\":{},\"parentId\":0,\"path\":\"system\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:28:53');
+INSERT INTO `sys_oper_log` VALUES (140, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', NULL, '/system/menu/4', '127.0.0.1', '内网IP', '{menuId=4}', '{\"msg\":\"菜单已分配,不允许删除\",\"code\":601}', 0, NULL, '2026-04-12 00:29:33');
+INSERT INTO `sys_oper_log` VALUES (141, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"monitor/job/index\",\"createTime\":\"2026-02-22 23:51:11\",\"icon\":\"job\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":110,\"menuName\":\"定时任务\",\"menuType\":\"C\",\"orderNum\":2,\"params\":{},\"parentId\":2,\"path\":\"job\",\"perms\":\"monitor:job:list\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-12 00:30:09');
+INSERT INTO `sys_oper_log` VALUES (142, '检查任务详情查看', 0, 'com.ruoyi.web.controller.polyp.PolypTaskController.taskDetailForView()', 'GET', 1, 'admin', NULL, '/system/polyp/task/44/view', '127.0.0.1', '内网IP', '{taskId=44}', NULL, 0, NULL, '2026-04-12 00:38:24');
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -1259,7 +1701,7 @@ CREATE TABLE `sys_post`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_post
@@ -1284,7 +1726,7 @@ CREATE TABLE `sys_registration_cost`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间--updateTime',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注------remark',
   PRIMARY KEY (`reg_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_registration_cost
@@ -1314,7 +1756,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -1330,7 +1772,7 @@ CREATE TABLE `sys_role_dept`  (
   `role_id` bigint NOT NULL COMMENT '角色ID',
   `dept_id` bigint NOT NULL COMMENT '部门ID',
   PRIMARY KEY (`role_id`, `dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和部门关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和部门关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_dept
@@ -1347,11 +1789,17 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint NOT NULL COMMENT '角色ID',
   `menu_id` bigint NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (1, 2000);
+INSERT INTO `sys_role_menu` VALUES (1, 2001);
+INSERT INTO `sys_role_menu` VALUES (1, 2002);
+INSERT INTO `sys_role_menu` VALUES (1, 2003);
+INSERT INTO `sys_role_menu` VALUES (1, 2004);
+INSERT INTO `sys_role_menu` VALUES (1, 2005);
 INSERT INTO `sys_role_menu` VALUES (2, 1);
 INSERT INTO `sys_role_menu` VALUES (2, 2);
 INSERT INTO `sys_role_menu` VALUES (2, 3);
@@ -1463,12 +1911,12 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2026-03-19 23:29:42', 'admin', '2026-02-22 23:51:11', '', '2026-03-19 23:29:44', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2026-04-12 00:22:24', 'admin', '2026-02-22 23:51:11', '', '2026-04-12 00:22:25', '管理员');
 INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2026-02-22 23:51:11', 'admin', '2026-02-22 23:51:11', '', NULL, '测试员');
 
 -- ----------------------------
@@ -1479,7 +1927,7 @@ CREATE TABLE `sys_user_post`  (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `post_id` bigint NOT NULL COMMENT '岗位ID',
   PRIMARY KEY (`user_id`, `post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_post
@@ -1495,7 +1943,7 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `role_id` bigint NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role

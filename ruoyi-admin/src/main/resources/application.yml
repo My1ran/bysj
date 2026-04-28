@@ -3,7 +3,7 @@ ruoyi:
   version: 3.8.4
   copyrightYear: 2022
   demoEnabled: true
-  profile: M:/0NUIST/class/bysj/Medical-platform-master/uploadPath
+  profile: ${RUOYI_PROFILE:${user.dir}/uploadPath}
   addressEnabled: false
   captchaType: math
 
@@ -41,11 +41,11 @@ spring:
     restart:
       enabled: true
   redis:
-    host: 47.95.179.218
-    port: 6379
-    database: 0
-    password: redis_RZHe2E
-    timeout: 10s
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    database: ${REDIS_DATABASE:0}
+    password: ${REDIS_PASSWORD:}
+    timeout: ${REDIS_TIMEOUT:10s}
     lettuce:
       pool:
         min-idle: 0
@@ -79,7 +79,7 @@ xss:
 
 polyp:
   inference:
-    base-url: https://u231948-8c36-8d7654f5.westc.seetacloud.com:8443
+    base-url: ${POLYP_INFER_BASE_URL:http://127.0.0.1:8001}
     timeout: ${POLYP_INFER_TIMEOUT:60000}
     video-timeout: ${POLYP_INFER_VIDEO_TIMEOUT:900000}
     send-model-path: ${POLYP_INFER_SEND_MODEL_PATH:false}
@@ -96,8 +96,8 @@ polyp:
     default-model-id: ${POLYP_INFER_DEFAULT_MODEL_ID:1}
   ffmpeg:
     enabled: ${POLYP_FFMPEG_ENABLED:true}
-    path: M:\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe
+    path: ${POLYP_FFMPEG_PATH:ffmpeg}
     timeout-seconds: ${POLYP_FFMPEG_TIMEOUT_SECONDS:300}
     output-suffix: ${POLYP_FFMPEG_OUTPUT_SUFFIX:_web}
   storage:
-    source-dir: polyp/source
+    source-dir: ${POLYP_SOURCE_DIR:polyp/source}
