@@ -6,7 +6,7 @@
 
     <resultMap type="HisDetectionResult" id="HisDetectionResultResult">
         <result property="resultId"    column="result_id"    />
-        <result property="patiId"    column="pati_id"    />
+        <result property="userId"    column="user_id"    />
         <result property="patiName"    column="pati_name"    />
         <result property="detectionType"    column="detection_type"    />
         <result property="sampleNumber"    column="sample_number"    />
@@ -28,14 +28,14 @@
     </resultMap>
 
     <sql id="selectHisDetectionResultVo">
-        select result_id, pati_id, pati_name, detection_type, sample_number, original_file, result_file, polyp_count, max_size, min_size, avg_confidence, positions, detection_time, report_generated, report_file, create_by, create_time, update_by, update_time, remark
+        select result_id, user_id, pati_name, detection_type, sample_number, original_file, result_file, polyp_count, max_size, min_size, avg_confidence, positions, detection_time, report_generated, report_file, create_by, create_time, update_by, update_time, remark
         from his_detection_result
     </sql>
 
     <select id="selectHisDetectionResultList" parameterType="HisDetectionResult" resultMap="HisDetectionResultResult">
         <include refid="selectHisDetectionResultVo"/>
         <where>
-            <if test="patiId != null "> and pati_id = #{patiId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
             <if test="patiName != null  and patiName != ''"> and pati_name like concat('%', #{patiName}, '%')</if>
             <if test="detectionType != null  and detectionType != ''"> and detection_type = #{detectionType}</if>
             <if test="sampleNumber != null  and sampleNumber != ''"> and sample_number = #{sampleNumber}</if>
@@ -53,7 +53,7 @@
     <insert id="insertHisDetectionResult" parameterType="HisDetectionResult" useGeneratedKeys="true" keyProperty="resultId">
         insert into his_detection_result
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="patiId != null">pati_id,</if>
+            <if test="userId != null">user_id,</if>
             <if test="patiName != null">pati_name,</if>
             <if test="detectionType != null">detection_type,</if>
             <if test="sampleNumber != null">sample_number,</if>
@@ -72,7 +72,7 @@
             <if test="remark != null">remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="patiId != null">#{patiId},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="patiName != null">#{patiName},</if>
             <if test="detectionType != null">#{detectionType},</if>
             <if test="sampleNumber != null">#{sampleNumber},</if>
@@ -95,7 +95,7 @@
     <update id="updateHisDetectionResult" parameterType="HisDetectionResult">
         update his_detection_result
         <trim prefix="SET" suffixOverrides=",">
-            <if test="patiId != null">pati_id = #{patiId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="patiName != null">pati_name = #{patiName},</if>
             <if test="detectionType != null">detection_type = #{detectionType},</if>
             <if test="sampleNumber != null">sample_number = #{sampleNumber},</if>

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medical.common.exception.ServiceException;
 import com.medical.common.utils.DateUtils;
+import com.medical.common.utils.SecurityUtils;
 import com.medical.common.utils.StringUtils;
 import com.medical.common.utils.uuid.IdUtils;
 import com.medical.polyp.domain.FileAsset;
@@ -109,7 +110,7 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
 
         PolypDetectTask task = new PolypDetectTask();
         task.setTaskNo(generateTaskNo());
-        task.setPatientId(request.getPatientId());
+        task.setUserId(SecurityUtils.getUserId());
         task.setSourceFileId(request.getSourceFileId());
         task.setMediaType(fileType);
         task.setModelId(model.getModelId());
@@ -347,7 +348,7 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         List<InferBox> boxes = inferResponse.getBoxes() == null ? new ArrayList<>() : inferResponse.getBoxes();
 
         HisDetectionResult detectionResult = new HisDetectionResult();
-        detectionResult.setPatiId(task.getPatientId());
+        detectionResult.setUserId(task.getUserId());
         detectionResult.setDetectionType(PolypFileTypeUtils.TYPE_VIDEO.equals(fileType) ? "1" : "0");
         detectionResult.setSampleNumber(task.getTaskNo());
         detectionResult.setOriginalFile(sourceFile.getFileUrl());

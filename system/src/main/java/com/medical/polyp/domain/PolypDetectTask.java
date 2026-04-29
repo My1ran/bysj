@@ -13,7 +13,7 @@ public class PolypDetectTask extends BaseEntity
 
     private Long taskId;
     private String taskNo;
-    private Long patientId;
+    private Long userId;
     private Long sourceFileId;
     private Long modelId;
     private String status;
@@ -56,14 +56,14 @@ public class PolypDetectTask extends BaseEntity
         this.taskNo = taskNo;
     }
 
-    public Long getPatientId()
+    public Long getUserId()
     {
-        return patientId;
+        return userId;
     }
 
-    public void setPatientId(Long patientId)
+    public void setUserId(Long userId)
     {
-        this.patientId = patientId;
+        this.userId = userId;
     }
 
     public Long getSourceFileId()
@@ -262,7 +262,7 @@ public class PolypDetectTask extends BaseEntity
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
             .append("taskId", getTaskId())
             .append("taskNo", getTaskNo())
-            .append("patientId", getPatientId())
+            .append("userId", getUserId())
             .append("sourceFileId", getSourceFileId())
             .append("modelId", getModelId())
             .append("status", getStatus())

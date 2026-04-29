@@ -29,7 +29,7 @@ CREATE TABLE `his_patient` (
 DROP TABLE IF EXISTS `his_detection_result`;
 CREATE TABLE `his_detection_result` (
   `result_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '检测结果 ID',
-  `pati_id` bigint(20) DEFAULT NULL COMMENT '患者 ID',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `pati_name` varchar(50) DEFAULT '' COMMENT '患者姓名 (冗余)',
   `detection_type` char(1) DEFAULT '' COMMENT '检测类型 (0 图片检测 1 视频检测 2 实时检测)',
   `sample_number` varchar(50) DEFAULT NULL COMMENT '样本编号',
@@ -49,7 +49,7 @@ CREATE TABLE `his_detection_result` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`result_id`),
-  KEY `idx_pati_id` (`pati_id`),
+  KEY `idx_user_id` (`user_id`),
   KEY `idx_detection_time` (`detection_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='检测结果表';
 

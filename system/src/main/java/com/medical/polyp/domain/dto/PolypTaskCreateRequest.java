@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 public class PolypTaskCreateRequest
 {
     private Long sourceFileId;
-    private Long patientId;
     private Long modelId;
     private BigDecimal confThreshold;
 
@@ -17,16 +16,6 @@ public class PolypTaskCreateRequest
     public void setSourceFileId(Long sourceFileId)
     {
         this.sourceFileId = sourceFileId;
-    }
-
-    public Long getPatientId()
-    {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId)
-    {
-        this.patientId = patientId;
     }
 
     public Long getModelId()

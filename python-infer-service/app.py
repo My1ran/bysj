@@ -1,22 +1,24 @@
 import os
+import mimetypes
 import time
 from typing import List, Optional
+from urllib.parse import unquote
 
-from fastapi import FastAPI, File, Form, Request, UploadFile
-from fastapi.responses import Response
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.responses import Response, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from infer_image import infer_image_file
 from infer_video import infer_video_file
 from model_loader import ModelManager
 from file_utils import download_to_temp, ensure_output_dir, infer_file_type, save_upload_file, get_ffmpeg_bin
+from range_utils import RangeNotSatisfiable, content_range_header, parse_range_header
 
 app = FastAPI(title="Polyp YOLOv5 Inference Service", version="1.1.0")
 model_manager = ModelManager()
 output_dir = ensure_output_dir()
-app.mount("/outputs", StaticFiles(directory=output_dir), name="outputs")
+OUTPUT_CHUNK_SIZE = 1024 * 1024
 
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").strip()
 FORCE_HTTPS_PUBLIC_URL = os.getenv("FORCE_HTTPS_PUBLIC_URL", "true").lower() == "true"
@@ -101,12 +103,87 @@ def health():
         "model": model_manager.health(),
     }
 
+
+def resolve_output_path(filename: str) -> str:
+    output_root = os.path.abspath(output_dir)
+    normalized_name = unquote(filename or "").replace("\\", "/")
+    file_path = os.path.abspath(os.path.join(output_root, normalized_name))
+    try:
+        if os.path.commonpath([output_root, file_path]) != output_root:
+            raise HTTPException(status_code=404, detail="output file not found")
+    except ValueError:
+        raise HTTPException(status_code=404, detail="output file not found")
+    if not os.path.isfile(file_path):
+        raise HTTPException(status_code=404, detail="output file not found")
+    return file_path
+
+
+def iter_file_bytes(file_path: str, start: int, end: int):
+    with open(file_path, "rb") as fp:
+        fp.seek(start)
+        remaining = end - start + 1
+        while remaining > 0:
+            chunk = fp.read(min(OUTPUT_CHUNK_SIZE, remaining))
+            if not chunk:
+                break
+            remaining -= len(chunk)
+            yield chunk
+
+
+def build_output_file_response(filename: str, request: Request, head: bool = False):
+    file_path = resolve_output_path(filename)
+    file_size = os.path.getsize(file_path)
+    media_type = mimetypes.guess_type(file_path)[0] or "application/octet-stream"
+    headers = {
+        "Accept-Ranges": "bytes",
+        "Content-Disposition": "inline",
+    }
+
+    range_header = request.headers.get("range")
+    if range_header:
+        try:
+            parsed_range = parse_range_header(range_header, file_size)
+        except RangeNotSatisfiable:
+            headers["Content-Range"] = f"bytes */{file_size}"
+            return Response(status_code=416, headers=headers)
+        if parsed_range is None:
+            range_header = None
+        else:
+            start, end = parsed_range
+
+    if range_header:
+        content_length = end - start + 1
+        headers["Content-Range"] = content_range_header(start, end, file_size)
+        headers["Content-Length"] = str(content_length)
+        if head:
+            return Response(status_code=206, headers=headers, media_type=media_type)
+        return StreamingResponse(
+            iter_file_bytes(file_path, start, end),
+            status_code=206,
+            media_type=media_type,
+            headers=headers,
+        )
+
+    headers["Content-Length"] = str(file_size)
+    if head:
+        return Response(status_code=200, headers=headers, media_type=media_type)
+    end = file_size - 1
+    body = iter_file_bytes(file_path, 0, end) if file_size > 0 else iter(())
+    return StreamingResponse(body, status_code=200, media_type=media_type, headers=headers)
+
+
+@app.api_route("/outputs/{filename:path}", methods=["GET", "HEAD"])
+def get_output_file(filename: str, request: Request):
+    return build_output_file_response(filename, request, head=request.method.upper() == "HEAD")
+
+
 @app.middleware("http")
 async def add_outputs_cors_headers(request: Request, call_next):
     response: Response = await call_next(request)
     if request.url.path.startswith("/outputs/"):
         origin = request.headers.get("origin", "*")
         response.headers["Access-Control-Allow-Origin"] = origin if origin else "*"
+        response.headers["Access-Control-Expose-Headers"] = "Accept-Ranges, Content-Length, Content-Range, Content-Type"
         response.headers["Vary"] = "Origin"
     return response
 

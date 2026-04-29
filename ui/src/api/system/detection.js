@@ -18,11 +18,10 @@ export function getDetection(resultId) {
 }
 
 // 上传图片并检测
-export function uploadDetect(file, patiId) {
-  const formData = new FormData()
-  formData.append('file', file)
-  if (patiId) {
-    formData.append('patiId', patiId)
+export function uploadDetect(file) {
+  const formData = file instanceof FormData ? file : new FormData()
+  if (!(file instanceof FormData)) {
+    formData.append('file', file)
   }
   return request({
     url: '/system/detection/upload',

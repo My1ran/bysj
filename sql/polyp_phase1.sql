@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `polyp_model` (
 CREATE TABLE IF NOT EXISTS `polyp_detect_task` (
   `task_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
   `task_no` varchar(64) NOT NULL COMMENT '任务编号',
-  `patient_id` bigint(20) DEFAULT NULL COMMENT '患者ID(可空)',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `source_file_id` bigint(20) NOT NULL COMMENT '原图文件ID(file_asset.file_id)',
   `model_id` bigint(20) NOT NULL COMMENT '模型ID(polyp_model.model_id)',
   `status` varchar(16) NOT NULL COMMENT '任务状态：PENDING/RUNNING/SUCCESS/FAILED',
@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `polyp_detect_task` (
   UNIQUE KEY `uk_task_no` (`task_no`),
   KEY `idx_status` (`status`),
   KEY `idx_source_file_id` (`source_file_id`),
-  KEY `idx_model_id` (`model_id`)
+  KEY `idx_model_id` (`model_id`),
+  KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='息肉检测任务表';
 
 -- 初始化默认模型（按需修改model_path）

@@ -21,9 +21,9 @@ public class HisDetectionResult extends BaseEntity
     /** 检测结果 ID */
     private Long resultId;
 
-    /** 患者 ID */
-    @Excel(name = "患者 ID")
-    private Long patiId;
+    /** 用户ID */
+    @Excel(name = "用户ID")
+    private Long userId;
 
     /** 患者姓名 (冗余) */
     @Excel(name = "患者姓名")
@@ -87,14 +87,14 @@ public class HisDetectionResult extends BaseEntity
     {
         return resultId;
     }
-    public void setPatiId(Long patiId)
+    public void setUserId(Long userId)
     {
-        this.patiId = patiId;
+        this.userId = userId;
     }
 
-    public Long getPatiId()
+    public Long getUserId()
     {
-        return patiId;
+        return userId;
     }
     public void setPatiName(String patiName)
     {
@@ -218,7 +218,7 @@ public class HisDetectionResult extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("resultId", getResultId())
-            .append("patiId", getPatiId())
+            .append("userId", getUserId())
             .append("patiName", getPatiName())
             .append("detectionType", getDetectionType())
             .append("sampleNumber", getSampleNumber())

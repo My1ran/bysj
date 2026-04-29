@@ -25,10 +25,8 @@ import com.medical.common.core.domain.AjaxResult;
 import com.medical.common.enums.BusinessType;
 import com.medical.system.domain.HisDetectionResult;
 import com.medical.system.domain.HisPolypDetail;
-import com.medical.system.domain.HisPatient;
 import com.medical.system.service.IHisDetectionResultService;
 import com.medical.system.service.IHisPolypDetailService;
-import com.medical.system.service.IHisPatientService;
 import com.medical.system.yolo.YoloResult;
 import com.medical.system.yolo.YoloV5ServiceImpl;
 import com.medical.system.yolo.BoundingBox;
@@ -55,9 +53,6 @@ public class HisDetectionController extends BaseController
 
     @Autowired
     private IHisPolypDetailService hisPolypDetailService;
-
-    @Autowired
-    private IHisPatientService hisPatientService;
 
     @Autowired
     private YoloV5ServiceImpl yoloV5Service;
@@ -106,8 +101,7 @@ public class HisDetectionController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:detection:upload')")
     @Log(title = "图片检测", businessType = BusinessType.INSERT)
     @PostMapping("/upload")
-    public AjaxResult uploadDetect(@RequestParam("file") MultipartFile file,
-                                    @RequestParam(value = "patiId", required = false) Long patiId) throws Exception
+    public AjaxResult uploadDetect(@RequestParam("file") MultipartFile file) throws Exception
     {
         if (file.isEmpty()) {
             return AjaxResult.error("上传文件为空");
@@ -134,7 +128,7 @@ public class HisDetectionController extends BaseController
 
         // 保存检测结果
         HisDetectionResult detectionResult = new HisDetectionResult();
-        detectionResult.setPatiId(patiId);
+        detectionResult.setUserId(getUserId());
         detectionResult.setDetectionType("0"); // 图片检测
         detectionResult.setSampleNumber(generateSampleNumber());
         detectionResult.setOriginalFile("/detection/" + fileName);

@@ -81,17 +81,7 @@
           </el-table>
 
           <el-divider content-position="left">保存记录</el-divider>
-          <el-form :model="saveForm" label-width="80px" size="small">
-            <el-form-item label="选择患者">
-              <el-select v-model="saveForm.patiId" placeholder="请选择患者" clearable style="width: 100%">
-                <el-option
-                  v-for="patient in patientList"
-                  :key="patient.patiId"
-                  :label="patient.patiName + ' (' + patient.patiCode + ')'"
-                  :value="patient.patiId"
-                />
-              </el-select>
-            </el-form-item>
+          <el-form label-width="80px" size="small">
             <el-form-item>
               <el-button type="primary" @click="saveResult" :disabled="!isDetecting">
                 保存检测结果
@@ -105,7 +95,6 @@
 </template>
 
 <script>
-import { listPatient } from "@/api/system/patient";
 import { uploadDetect } from "@/api/system/detection";
 
 export default {
@@ -124,33 +113,15 @@ export default {
       currentDetections: [],
       avgConfidence: 0,
 
-      // 患者列表
-      patientList: [],
-
-      // 保存表单
-      saveForm: {
-        patiId: null
-      },
-
       // 检测时长
       detectionDuration: 0,
       durationTimer: null
     };
   },
-  created() {
-    this.getPatientList();
-  },
   beforeDestroy() {
     this.stopDetection();
   },
   methods: {
-    /** 查询患者列表 */
-    getPatientList() {
-      listPatient({ pageSize: 1000 }).then(response => {
-        this.patientList = response.rows;
-      });
-    },
-
     /** 开始检测 */
     async startDetection() {
       try {
@@ -227,9 +198,6 @@ export default {
         // 创建 FormData 发送检测
         const formData = new FormData();
         formData.append('file', blob, 'frame.jpg');
-        if (this.saveForm.patiId) {
-          formData.append('patiId', this.saveForm.patiId);
-        }
 
         try {
           const response = await uploadDetect(formData);
@@ -304,11 +272,6 @@ export default {
 
     /** 保存检测结果 */
     saveResult() {
-      if (!this.saveForm.patiId) {
-        this.$modal.msgWarning("请选择患者");
-        return;
-      }
-
       // 捕获当前帧并保存
       const canvas = this.$refs.canvas;
       canvas.toBlob(async (blob) => {
@@ -316,7 +279,6 @@ export default {
 
         const formData = new FormData();
         formData.append('file', blob, 'result.jpg');
-        formData.append('patiId', this.saveForm.patiId);
 
         this.$modal.loading("正在保存检测结果...");
         try {
