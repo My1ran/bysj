@@ -53,7 +53,7 @@ logs/
 tmp/
 output/
 deploy/
-config/
+/config/
 sql/
 uploadPath/
 python-infer-service/.venv/
