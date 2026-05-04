@@ -21,7 +21,6 @@ public class PolypTaskExportVO
     @Excel(name = "推理耗时(ms)")
     private Long inferenceMs;
 
-    @Excel(name = "息肉数量")
     private Integer polypCount;
 
     @Excel(name = "结果图URL")
