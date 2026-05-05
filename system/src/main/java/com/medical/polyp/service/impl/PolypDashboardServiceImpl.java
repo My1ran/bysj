@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
+import com.medical.common.utils.SecurityUtils;
 import com.medical.polyp.mapper.PolypDetectTaskMapper;
 import com.medical.polyp.service.IPolypDashboardService;
 
@@ -31,7 +32,7 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     @Override
     public Map<String, Object> getOverview()
     {
-        Map<String, Object> raw = polypDetectTaskMapper.selectDashboardOverview();
+        Map<String, Object> raw = polypDetectTaskMapper.selectDashboardOverview(getCurrentUserId());
         if (raw == null)
         {
             raw = Collections.emptyMap();
@@ -50,7 +51,7 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     @Override
     public List<Map<String, Object>> getTrend()
     {
-        List<Map<String, Object>> dbRows = polypDetectTaskMapper.selectDashboardTrend();
+        List<Map<String, Object>> dbRows = polypDetectTaskMapper.selectDashboardTrend(getCurrentUserId());
         Map<String, Long> dbMap = new HashMap<>();
         if (dbRows != null)
         {
@@ -77,8 +78,9 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     @Override
     public Map<String, Object> getDistribution()
     {
-        List<Map<String, Object>> mediaRows = polypDetectTaskMapper.selectDashboardMediaDistribution();
-        List<Map<String, Object>> statusRows = polypDetectTaskMapper.selectDashboardStatusDistribution();
+        Long currentUserId = getCurrentUserId();
+        List<Map<String, Object>> mediaRows = polypDetectTaskMapper.selectDashboardMediaDistribution(currentUserId);
+        List<Map<String, Object>> statusRows = polypDetectTaskMapper.selectDashboardStatusDistribution(currentUserId);
 
         Map<String, Long> mediaMap = new LinkedHashMap<>();
         mediaMap.put("image", 0L);
@@ -116,8 +118,13 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     public List<Map<String, Object>> getRecent(int limit)
     {
         int safeLimit = limit <= 0 ? 10 : Math.min(limit, 50);
-        List<Map<String, Object>> rows = polypDetectTaskMapper.selectDashboardRecentTasks(safeLimit);
+        List<Map<String, Object>> rows = polypDetectTaskMapper.selectDashboardRecentTasks(getCurrentUserId(), safeLimit);
         return rows == null ? Collections.emptyList() : rows;
+    }
+
+    private Long getCurrentUserId()
+    {
+        return SecurityUtils.getUserId();
     }
 
     private List<Map<String, Object>> toPairList(Map<String, Long> source, String keyName, String valueName)

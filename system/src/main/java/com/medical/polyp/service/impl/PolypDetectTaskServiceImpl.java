@@ -132,6 +132,7 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         {
             throw new ServiceException("task does not exist");
         }
+        assertTaskOwnedByCurrentUser(task);
 
         Map<String, Object> result = new HashMap<>();
         FileAsset sourceFile = fileAssetService.selectFileAssetByFileId(task.getSourceFileId());
@@ -205,7 +206,7 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
     @Override
     public List<PolypDetectTask> selectPolypDetectTaskList(PolypDetectTask query)
     {
-        return polypDetectTaskMapper.selectPolypDetectTaskList(query);
+        return polypDetectTaskMapper.selectPolypDetectTaskList(applyCurrentUserScope(query));
     }
 
     @Override
@@ -215,13 +216,34 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
         {
             return 0;
         }
-        return polypDetectTaskMapper.logicDeletePolypDetectTaskByTaskIds(taskIds, DateUtils.getNowDate());
+
+        Long currentUserId = getCurrentUserId();
+        List<Long> allowedTaskIds = new ArrayList<>();
+        for (Long taskId : taskIds)
+        {
+            if (taskId == null)
+            {
+                continue;
+            }
+            PolypDetectTask task = polypDetectTaskMapper.selectPolypDetectTaskByTaskId(taskId);
+            if (isTaskOwnedByUser(task, currentUserId))
+            {
+                allowedTaskIds.add(taskId);
+            }
+        }
+        if (allowedTaskIds.isEmpty())
+        {
+            return 0;
+        }
+        return polypDetectTaskMapper.logicDeletePolypDetectTaskByTaskIds(
+            allowedTaskIds.toArray(new Long[0]),
+            DateUtils.getNowDate());
     }
 
     @Override
     public List<PolypTaskExportVO> selectTaskExportList(PolypDetectTask query)
     {
-        List<Map<String, Object>> rows = polypDetectTaskMapper.selectPolypTaskExportList(query);
+        List<Map<String, Object>> rows = polypDetectTaskMapper.selectPolypTaskExportList(applyCurrentUserScope(query));
         List<PolypTaskExportVO> result = new ArrayList<>();
         if (rows == null)
         {
@@ -244,6 +266,31 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
             result.add(item);
         }
         return result;
+    }
+
+    private PolypDetectTask applyCurrentUserScope(PolypDetectTask query)
+    {
+        PolypDetectTask scopedQuery = query == null ? new PolypDetectTask() : query;
+        scopedQuery.setUserId(getCurrentUserId());
+        return scopedQuery;
+    }
+
+    private void assertTaskOwnedByCurrentUser(PolypDetectTask task)
+    {
+        if (!isTaskOwnedByUser(task, getCurrentUserId()))
+        {
+            throw new ServiceException("task does not exist");
+        }
+    }
+
+    private boolean isTaskOwnedByUser(PolypDetectTask task, Long userId)
+    {
+        return task != null && userId != null && userId.equals(task.getUserId());
+    }
+
+    private Long getCurrentUserId()
+    {
+        return SecurityUtils.getUserId();
     }
 
     private void executeTaskAsync(Long taskId)

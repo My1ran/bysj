@@ -19,13 +19,13 @@ public interface PolypDetectTaskMapper
 
     List<Map<String, Object>> selectPolypTaskExportList(PolypDetectTask query);
 
-    Map<String, Object> selectDashboardOverview();
+    Map<String, Object> selectDashboardOverview(@Param("userId") Long userId);
 
-    List<Map<String, Object>> selectDashboardTrend();
+    List<Map<String, Object>> selectDashboardTrend(@Param("userId") Long userId);
 
-    List<Map<String, Object>> selectDashboardMediaDistribution();
+    List<Map<String, Object>> selectDashboardMediaDistribution(@Param("userId") Long userId);
 
-    List<Map<String, Object>> selectDashboardStatusDistribution();
+    List<Map<String, Object>> selectDashboardStatusDistribution(@Param("userId") Long userId);
 
-    List<Map<String, Object>> selectDashboardRecentTasks(@Param("limit") Integer limit);
+    List<Map<String, Object>> selectDashboardRecentTasks(@Param("userId") Long userId, @Param("limit") Integer limit);
 }
