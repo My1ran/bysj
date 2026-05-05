@@ -1,6 +1,7 @@
 package com.medical.polyp.mapper;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +18,35 @@ public class PolypDetectTaskMapperXmlTest
         Element select = selectStatement("selectDashboardRecentTasks");
 
         assertNotEquals("java.lang.Integer", select.getAttribute("parameterType"));
+    }
+
+    @Test
+    public void dashboardStatementsUseOptionalUserScope() throws Exception
+    {
+        assertHasOptionalUserScope("selectDashboardOverview");
+        assertHasOptionalUserScope("selectDashboardTrend");
+        assertHasOptionalUserScope("selectDashboardMediaDistribution");
+        assertHasOptionalUserScope("selectDashboardStatusDistribution");
+        assertHasOptionalUserScope("selectDashboardRecentTasks");
+    }
+
+    private void assertHasOptionalUserScope(String id) throws Exception
+    {
+        Element select = selectStatement(id);
+        NodeList ifNodes = select.getElementsByTagName("if");
+
+        boolean hasGuard = false;
+        for (int i = 0; i < ifNodes.getLength(); i++)
+        {
+            Element ifNode = (Element) ifNodes.item(i);
+            if ("userId != null".equals(ifNode.getAttribute("test")))
+            {
+                hasGuard = true;
+                break;
+            }
+        }
+
+        assertTrue(id + " should guard user scope with a null check", hasGuard);
     }
 
     private Element selectStatement(String id) throws Exception

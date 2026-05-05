@@ -32,7 +32,7 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     @Override
     public Map<String, Object> getOverview()
     {
-        Map<String, Object> raw = polypDetectTaskMapper.selectDashboardOverview(getCurrentUserId());
+        Map<String, Object> raw = polypDetectTaskMapper.selectDashboardOverview(getCurrentScopeUserId());
         if (raw == null)
         {
             raw = Collections.emptyMap();
@@ -51,7 +51,7 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     @Override
     public List<Map<String, Object>> getTrend()
     {
-        List<Map<String, Object>> dbRows = polypDetectTaskMapper.selectDashboardTrend(getCurrentUserId());
+        List<Map<String, Object>> dbRows = polypDetectTaskMapper.selectDashboardTrend(getCurrentScopeUserId());
         Map<String, Long> dbMap = new HashMap<>();
         if (dbRows != null)
         {
@@ -78,7 +78,7 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     @Override
     public Map<String, Object> getDistribution()
     {
-        Long currentUserId = getCurrentUserId();
+        Long currentUserId = getCurrentScopeUserId();
         List<Map<String, Object>> mediaRows = polypDetectTaskMapper.selectDashboardMediaDistribution(currentUserId);
         List<Map<String, Object>> statusRows = polypDetectTaskMapper.selectDashboardStatusDistribution(currentUserId);
 
@@ -118,13 +118,14 @@ public class PolypDashboardServiceImpl implements IPolypDashboardService
     public List<Map<String, Object>> getRecent(int limit)
     {
         int safeLimit = limit <= 0 ? 10 : Math.min(limit, 50);
-        List<Map<String, Object>> rows = polypDetectTaskMapper.selectDashboardRecentTasks(getCurrentUserId(), safeLimit);
+        List<Map<String, Object>> rows = polypDetectTaskMapper.selectDashboardRecentTasks(getCurrentScopeUserId(), safeLimit);
         return rows == null ? Collections.emptyList() : rows;
     }
 
-    private Long getCurrentUserId()
+    private Long getCurrentScopeUserId()
     {
-        return SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getUserId();
+        return SecurityUtils.isAdmin(userId) ? null : userId;
     }
 
     private List<Map<String, Object>> toPairList(Map<String, Long> source, String keyName, String valueName)

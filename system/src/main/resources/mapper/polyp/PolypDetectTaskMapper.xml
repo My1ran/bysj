@@ -175,15 +175,21 @@
 
     <select id="selectDashboardOverview" resultType="java.util.HashMap">
         select
-            (select count(1) from polyp_detect_task where user_id = #{userId} and ifnull(is_deleted, 0) = 0 and status != 'DELETED') as totalTaskCount,
-            (select count(1) from polyp_detect_task where user_id = #{userId} and ifnull(is_deleted, 0) = 0 and status != 'DELETED' and date(create_time) = curdate()) as todayTaskCount,
-            (select count(1) from polyp_detect_task where user_id = #{userId} and status = 'SUCCESS' and ifnull(is_deleted, 0) = 0 and status != 'DELETED') as successTaskCount,
-            (select count(1) from polyp_detect_task where user_id = #{userId} and status = 'FAILED' and ifnull(is_deleted, 0) = 0 and status != 'DELETED') as failedTaskCount,
-            (select ifnull(round(avg(inference_ms), 2), 0) from polyp_detect_task where user_id = #{userId} and status = 'SUCCESS' and ifnull(is_deleted, 0) = 0 and status != 'DELETED' and inference_ms is not null) as avgInferenceMs,
+            (select count(1) from polyp_detect_task where ifnull(is_deleted, 0) = 0 and status != 'DELETED'
+                <if test="userId != null">and user_id = #{userId}</if>) as totalTaskCount,
+            (select count(1) from polyp_detect_task where ifnull(is_deleted, 0) = 0 and status != 'DELETED' and date(create_time) = curdate()
+                <if test="userId != null">and user_id = #{userId}</if>) as todayTaskCount,
+            (select count(1) from polyp_detect_task where status = 'SUCCESS' and ifnull(is_deleted, 0) = 0 and status != 'DELETED'
+                <if test="userId != null">and user_id = #{userId}</if>) as successTaskCount,
+            (select count(1) from polyp_detect_task where status = 'FAILED' and ifnull(is_deleted, 0) = 0 and status != 'DELETED'
+                <if test="userId != null">and user_id = #{userId}</if>) as failedTaskCount,
+            (select ifnull(round(avg(inference_ms), 2), 0) from polyp_detect_task where status = 'SUCCESS' and ifnull(is_deleted, 0) = 0 and status != 'DELETED' and inference_ms is not null
+                <if test="userId != null">and user_id = #{userId}</if>) as avgInferenceMs,
             (select ifnull(sum(r.polyp_count), 0)
              from his_detection_result r
              join polyp_detect_task t on t.result_id = r.result_id
-             where t.user_id = #{userId} and ifnull(t.is_deleted, 0) = 0 and t.status != 'DELETED') as totalPolypCount
+             where ifnull(t.is_deleted, 0) = 0 and t.status != 'DELETED'
+                <if test="userId != null">and t.user_id = #{userId}</if>) as totalPolypCount
     </select>
 
     <select id="selectDashboardTrend" resultType="java.util.HashMap">
@@ -192,7 +198,7 @@
         from polyp_detect_task
         where ifnull(is_deleted, 0) = 0
           and status != 'DELETED'
-          and user_id = #{userId}
+          <if test="userId != null">and user_id = #{userId}</if>
           and create_time >= date_sub(curdate(), interval 6 day)
         group by date_format(create_time, '%Y-%m-%d')
         order by statDate asc
@@ -204,7 +210,8 @@
              select ifnull(t.media_type, case when lower(ifnull(f.ext_name, '')) in ('mp4', 'avi', 'mov', 'mkv') then 'video' else 'image' end) as media_type
              from polyp_detect_task t
              left join file_asset f on f.file_id = t.source_file_id
-             where ifnull(t.is_deleted, 0) = 0 and t.status != 'DELETED' and t.user_id = #{userId}
+             where ifnull(t.is_deleted, 0) = 0 and t.status != 'DELETED'
+                <if test="userId != null">and t.user_id = #{userId}</if>
         ) a
         group by media_type
     </select>
@@ -214,7 +221,7 @@
         from polyp_detect_task
         where ifnull(is_deleted, 0) = 0
           and status != 'DELETED'
-          and user_id = #{userId}
+          <if test="userId != null">and user_id = #{userId}</if>
         group by status
     </select>
 
@@ -230,7 +237,7 @@
         left join file_asset f on f.file_id = t.source_file_id
         where ifnull(t.is_deleted, 0) = 0
           and t.status != 'DELETED'
-          and t.user_id = #{userId}
+          <if test="userId != null">and t.user_id = #{userId}</if>
         order by t.task_id desc
         limit #{limit}
     </select>

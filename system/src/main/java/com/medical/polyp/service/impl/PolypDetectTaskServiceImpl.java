@@ -226,7 +226,7 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
                 continue;
             }
             PolypDetectTask task = polypDetectTaskMapper.selectPolypDetectTaskByTaskId(taskId);
-            if (isTaskOwnedByUser(task, currentUserId))
+            if (isTaskVisibleToUser(task, currentUserId))
             {
                 allowedTaskIds.add(taskId);
             }
@@ -271,21 +271,27 @@ public class PolypDetectTaskServiceImpl implements IPolypDetectTaskService
     private PolypDetectTask applyCurrentUserScope(PolypDetectTask query)
     {
         PolypDetectTask scopedQuery = query == null ? new PolypDetectTask() : query;
-        scopedQuery.setUserId(getCurrentUserId());
+        scopedQuery.setUserId(getCurrentScopeUserId());
         return scopedQuery;
     }
 
     private void assertTaskOwnedByCurrentUser(PolypDetectTask task)
     {
-        if (!isTaskOwnedByUser(task, getCurrentUserId()))
+        if (!isTaskVisibleToUser(task, getCurrentUserId()))
         {
             throw new ServiceException("task does not exist");
         }
     }
 
-    private boolean isTaskOwnedByUser(PolypDetectTask task, Long userId)
+    private boolean isTaskVisibleToUser(PolypDetectTask task, Long userId)
     {
-        return task != null && userId != null && userId.equals(task.getUserId());
+        return task != null && (SecurityUtils.isAdmin(userId) || (userId != null && userId.equals(task.getUserId())));
+    }
+
+    private Long getCurrentScopeUserId()
+    {
+        Long userId = getCurrentUserId();
+        return SecurityUtils.isAdmin(userId) ? null : userId;
     }
 
     private Long getCurrentUserId()

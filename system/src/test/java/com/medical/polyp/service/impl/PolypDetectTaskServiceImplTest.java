@@ -64,6 +64,18 @@ public class PolypDetectTaskServiceImplTest
     }
 
     @Test
+    public void adminListDoesNotApplyUserScope()
+    {
+        setCurrentUser(1L);
+        PolypDetectTask query = new PolypDetectTask();
+        query.setUserId(99L);
+
+        service.selectPolypDetectTaskList(query);
+
+        assertNull(taskMapper.lastListQuery.getUserId());
+    }
+
+    @Test
     public void exportAlwaysUsesCurrentUser()
     {
         PolypDetectTask query = new PolypDetectTask();
@@ -72,6 +84,18 @@ public class PolypDetectTaskServiceImplTest
         service.selectTaskExportList(query);
 
         assertEquals(Long.valueOf(7L), taskMapper.lastExportQuery.getUserId());
+    }
+
+    @Test
+    public void adminExportDoesNotApplyUserScope()
+    {
+        setCurrentUser(1L);
+        PolypDetectTask query = new PolypDetectTask();
+        query.setUserId(99L);
+
+        service.selectTaskExportList(query);
+
+        assertNull(taskMapper.lastExportQuery.getUserId());
     }
 
     @Test
@@ -91,6 +115,15 @@ public class PolypDetectTaskServiceImplTest
     }
 
     @Test
+    public void adminCanViewOtherUsersTask()
+    {
+        setCurrentUser(1L);
+        taskMapper.tasks.put(14L, task(14L, 8L));
+
+        assertEquals(Long.valueOf(14L), ((PolypDetectTask) service.getTaskDetail(14L).get("task")).getTaskId());
+    }
+
+    @Test
     public void deleteOnlyRemovesCurrentUsersTasks()
     {
         taskMapper.tasks.put(11L, task(11L, 7L));
@@ -100,6 +133,19 @@ public class PolypDetectTaskServiceImplTest
 
         assertEquals(1, deleted);
         assertArrayEquals(new Long[] {11L}, taskMapper.deletedTaskIds);
+    }
+
+    @Test
+    public void adminCanDeleteAllUsersTasks()
+    {
+        setCurrentUser(1L);
+        taskMapper.tasks.put(15L, task(15L, 7L));
+        taskMapper.tasks.put(16L, task(16L, 8L));
+
+        int deleted = service.deleteTasks(new Long[] {15L, 16L});
+
+        assertEquals(2, deleted);
+        assertArrayEquals(new Long[] {15L, 16L}, taskMapper.deletedTaskIds);
     }
 
     @Test
