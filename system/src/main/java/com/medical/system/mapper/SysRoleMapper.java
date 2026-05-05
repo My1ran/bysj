@@ -50,6 +50,14 @@ public interface SysRoleMapper
     public SysRole selectRoleById(Long roleId);
 
     /**
+     * 通过角色权限字符查询角色
+     *
+     * @param roleKey 角色权限字符
+     * @return 角色对象信息
+     */
+    public SysRole selectRoleByKey(String roleKey);
+
+    /**
      * 根据用户ID查询角色
      * 
      * @param userName 用户名

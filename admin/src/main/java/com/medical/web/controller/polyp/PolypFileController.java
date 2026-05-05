@@ -25,7 +25,7 @@ public class PolypFileController
     }
 
     @Log(title = "检查资料上传", businessType = BusinessType.INSERT, isSaveRequestData = false, isSaveResponseData = false)
-    @PreAuthorize("@ss.hasPermi('system:polyp:file:upload')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:add')")
     @PostMapping("/upload")
     public AjaxResult upload(@RequestParam("file") MultipartFile file)
     {

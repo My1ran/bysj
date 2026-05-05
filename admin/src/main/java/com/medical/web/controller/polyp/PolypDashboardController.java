@@ -19,28 +19,28 @@ public class PolypDashboardController
         this.polypDashboardService = polypDashboardService;
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/overview")
     public AjaxResult overview()
     {
         return AjaxResult.success(polypDashboardService.getOverview());
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/trend")
     public AjaxResult trend()
     {
         return AjaxResult.success(polypDashboardService.getTrend());
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/distribution")
     public AjaxResult distribution()
     {
         return AjaxResult.success(polypDashboardService.getDistribution());
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/recent")
     public AjaxResult recent(@RequestParam(value = "limit", defaultValue = "10") Integer limit)
     {

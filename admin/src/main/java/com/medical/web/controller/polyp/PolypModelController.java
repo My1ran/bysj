@@ -19,7 +19,7 @@ public class PolypModelController
         this.polypModelService = polypModelService;
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:model:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/current")
     public AjaxResult currentModel()
     {

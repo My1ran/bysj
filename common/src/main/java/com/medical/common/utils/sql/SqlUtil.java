@@ -5,7 +5,7 @@ import com.medical.common.utils.StringUtils;
 
 /**
  * sql操作工具类
- * 
+ *
  * @author medical
  */
 public class SqlUtil

@@ -34,7 +34,7 @@ public class PolypTaskController extends BaseController
     }
 
     @Log(title = "检查任务创建", businessType = BusinessType.INSERT, isSaveResponseData = false)
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:add')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:add')")
     @PostMapping("/task")
     public AjaxResult createTask(@RequestBody PolypTaskCreateRequest request)
     {
@@ -42,7 +42,7 @@ public class PolypTaskController extends BaseController
         return AjaxResult.success(task);
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/task/{taskId}")
     public AjaxResult taskDetail(@PathVariable("taskId") Long taskId)
     {
@@ -51,7 +51,7 @@ public class PolypTaskController extends BaseController
     }
 
     @Log(title = "检查任务详情查看", businessType = BusinessType.OTHER, isSaveResponseData = false)
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:query')")
     @GetMapping("/task/{taskId}/view")
     public AjaxResult taskDetailForView(@PathVariable("taskId") Long taskId)
     {
@@ -59,7 +59,7 @@ public class PolypTaskController extends BaseController
         return AjaxResult.success(detail);
     }
 
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:query')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:list')")
     @GetMapping("/task/list")
     public TableDataInfo taskList(PolypDetectTask query)
     {
@@ -69,7 +69,7 @@ public class PolypTaskController extends BaseController
     }
 
     @Log(title = "检查任务删除", businessType = BusinessType.DELETE, isSaveResponseData = false)
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:remove')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:remove')")
     @DeleteMapping("/task/{taskIds}")
     public AjaxResult remove(@PathVariable Long[] taskIds)
     {
@@ -77,7 +77,7 @@ public class PolypTaskController extends BaseController
     }
 
     @Log(title = "检查任务导出", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('system:polyp:task:export')")
+    @PreAuthorize("@ss.hasPermi('system:polyp:export')")
     @PostMapping("/task/export")
     public void export(HttpServletResponse response, PolypDetectTask query)
     {

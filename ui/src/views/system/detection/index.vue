@@ -13,7 +13,7 @@
           <el-tag v-else type="info">暂无启用模型</el-tag>
         </el-col>
         <el-col :span="12" class="align-right">
-          <el-button v-hasPermi="['system:polyp:model:query']" type="primary" size="mini" icon="el-icon-refresh" @click="loadCurrentModel">刷新模型</el-button>
+          <el-button v-hasPermi="['system:polyp:query']" type="primary" size="mini" icon="el-icon-refresh" @click="loadCurrentModel">刷新模型</el-button>
         </el-col>
       </el-row>
       <el-upload
@@ -38,7 +38,7 @@
         <el-button type="text" class="upload-selected-remove" @click="handleRemoveFile">移除</el-button>
       </div>
       <div class="actions">
-        <el-button v-hasPermi="['system:polyp:file:upload']" type="primary" icon="el-icon-video-play" :loading="detecting" @click="submitDetect">提交检查</el-button>
+        <el-button v-hasPermi="['system:polyp:add']" type="primary" icon="el-icon-video-play" :loading="detecting" @click="submitDetect">提交检查</el-button>
       </div>
     </el-card>
 
@@ -142,7 +142,7 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
           <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-          <el-button v-hasPermi="['system:polyp:task:export']" type="warning" icon="el-icon-download" @click="handleExport">导出</el-button>
+          <el-button v-hasPermi="['system:polyp:export']" type="warning" icon="el-icon-download" @click="handleExport">导出</el-button>
         </el-form-item>
       </el-form>
       <el-table v-loading="listLoading" :data="taskList" border empty-text="暂无检查任务">
@@ -159,7 +159,7 @@
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="showDetail(scope.row.taskId)">查看</el-button>
-            <el-button v-hasPermi="['system:polyp:task:remove']" size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button v-hasPermi="['system:polyp:remove']" size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

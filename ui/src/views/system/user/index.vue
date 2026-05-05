@@ -346,6 +346,11 @@ import { getToken } from "@/utils/auth";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
+const MEDICAL_SUPPORT_DEPT_IDS = [102, 107, 108, 109];
+const ENDOSCOPY_CLINICAL_DEPT_IDS = [101, 103, 104, 105, 106];
+const MEDICAL_SUPPORT_ROLE_KEYS = ['medical_support', 'admin']
+const ENDOSCOPY_CLINICAL_ROLE_KEYS = ['endoscopy_clinical', 'common']
+
 export default {
   name: "User",
   dicts: ['sys_normal_disable', 'sys_user_sex'],
@@ -456,6 +461,9 @@ export default {
     // 根据名称筛选部门树
     deptName(val) {
       this.$refs.tree.filter(val);
+    },
+    "form.deptId"(deptId) {
+      this.applyDeptDefaultRole(deptId, true);
     }
   },
   created() {
@@ -584,6 +592,33 @@ export default {
         this.form.password = "";
       });
     },
+    getDeptDefaultRoleKeys(deptId) {
+      const id = Number(deptId);
+      if (MEDICAL_SUPPORT_DEPT_IDS.includes(id)) {
+        return MEDICAL_SUPPORT_ROLE_KEYS;
+      }
+      if (ENDOSCOPY_CLINICAL_DEPT_IDS.includes(id)) {
+        return ENDOSCOPY_CLINICAL_ROLE_KEYS;
+      }
+      return [];
+    },
+    getEnabledRoleIdByKey(roleKeys) {
+      const role = this.roleOptions.find(item => roleKeys.includes(item.roleKey) && item.status !== "1");
+      return role ? role.roleId : undefined;
+    },
+    applyDeptDefaultRole(deptId, force = false) {
+      const roleKeys = this.getDeptDefaultRoleKeys(deptId);
+      if (!roleKeys.length || !this.roleOptions.length) {
+        return;
+      }
+      const roleId = this.getEnabledRoleIdByKey(roleKeys);
+      if (roleId === undefined) {
+        return;
+      }
+      if (force || !this.form.roleIds || !this.form.roleIds.length) {
+        this.$set(this.form, "roleIds", [roleId]);
+      }
+    },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
       this.$prompt('请输入"' + row.userName + '"的新密码', "提示", {
@@ -607,6 +642,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.applyDeptDefaultRole(this.form.deptId);
           if (this.form.userId != undefined) {
             updateUser(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

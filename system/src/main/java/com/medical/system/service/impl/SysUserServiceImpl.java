@@ -1,6 +1,7 @@
 package com.medical.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
@@ -39,6 +40,18 @@ import com.medical.system.service.ISysUserService;
 public class SysUserServiceImpl implements ISysUserService
 {
     private static final Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
+
+    private static final String ROLE_KEY_MEDICAL_SUPPORT = "medical_support";
+
+    private static final String ROLE_KEY_ENDOSCOPY_CLINICAL = "endoscopy_clinical";
+
+    private static final String ROLE_KEY_ADMIN = "admin";
+
+    private static final String ROLE_KEY_COMMON = "common";
+
+    private static final List<Long> MEDICAL_SUPPORT_DEPT_IDS = Arrays.asList(102L, 107L, 108L, 109L);
+
+    private static final List<Long> ENDOSCOPY_CLINICAL_DEPT_IDS = Arrays.asList(101L, 103L, 104L, 105L, 106L);
 
     @Autowired
     private SysUserMapper userMapper;
@@ -256,6 +269,7 @@ public class SysUserServiceImpl implements ISysUserService
     @Transactional
     public int insertUser(SysUser user)
     {
+        fillDefaultRoleIdsByDept(user);
         // 新增用户信息
         int rows = userMapper.insertUser(user);
         // 新增用户岗位关联
@@ -287,6 +301,7 @@ public class SysUserServiceImpl implements ISysUserService
     @Transactional
     public int updateUser(SysUser user)
     {
+        fillDefaultRoleIdsByDept(user);
         Long userId = user.getUserId();
         // 删除用户与角色关联
         userRoleMapper.deleteUserRoleByUserId(userId);
@@ -429,6 +444,54 @@ public class SysUserServiceImpl implements ISysUserService
             }
             userRoleMapper.batchUserRole(list);
         }
+    }
+
+    /**
+     * 未显式选择角色时，按医疗组织默认补齐角色，减少账号开通步骤。
+     */
+    private void fillDefaultRoleIdsByDept(SysUser user)
+    {
+        if (StringUtils.isNull(user) || StringUtils.isNotEmpty(user.getRoleIds()))
+        {
+            return;
+        }
+        List<String> roleKeys = selectDefaultRoleKeys(user.getDeptId());
+        if (CollectionUtils.isEmpty(roleKeys))
+        {
+            return;
+        }
+
+        List<Long> roleIds = new ArrayList<Long>(roleKeys.size());
+        for (String roleKey : roleKeys)
+        {
+            SysRole role = roleMapper.selectRoleByKey(roleKey);
+            if (StringUtils.isNotNull(role) && UserConstants.NORMAL.equals(role.getStatus()))
+            {
+                roleIds.add(role.getRoleId());
+                break;
+            }
+        }
+        if (!roleIds.isEmpty())
+        {
+            user.setRoleIds(roleIds.toArray(new Long[0]));
+        }
+    }
+
+    private List<String> selectDefaultRoleKeys(Long deptId)
+    {
+        if (deptId == null)
+        {
+            return new ArrayList<String>();
+        }
+        if (MEDICAL_SUPPORT_DEPT_IDS.contains(deptId))
+        {
+            return Arrays.asList(ROLE_KEY_MEDICAL_SUPPORT, ROLE_KEY_ADMIN);
+        }
+        if (ENDOSCOPY_CLINICAL_DEPT_IDS.contains(deptId))
+        {
+            return Arrays.asList(ROLE_KEY_ENDOSCOPY_CLINICAL, ROLE_KEY_COMMON);
+        }
+        return new ArrayList<String>();
     }
 
     /**

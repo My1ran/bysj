@@ -133,6 +133,114 @@ UPDATE sys_menu
 SET menu_name = '医疗岗位管理'
 WHERE perms = 'system:post:list';
 
+-- --------------------------------------------
+-- 4) 组织默认权限角色：让科室选择和角色权限融合
+-- --------------------------------------------
+INSERT INTO sys_role (
+    role_name, role_key, role_sort, data_scope,
+    menu_check_strictly, dept_check_strictly,
+    status, del_flag, create_by, create_time, remark
+)
+SELECT
+    '医疗支撑部权限', 'medical_support', 3, '1',
+    1, 1,
+    '0', '0', 'admin', NOW(), '医疗支撑部、影像与数据组、信息科、系统运维组默认全权限'
+WHERE NOT EXISTS (SELECT 1 FROM sys_role WHERE role_key = 'medical_support' AND del_flag = '0');
+
+INSERT INTO sys_role (
+    role_name, role_key, role_sort, data_scope,
+    menu_check_strictly, dept_check_strictly,
+    status, del_flag, create_by, create_time, remark
+)
+SELECT
+    '内镜临床部权限', 'endoscopy_clinical', 4, '4',
+    1, 1,
+    '0', '0', 'admin', NOW(), '内镜临床部默认：息肉检测 + 通知公告接收'
+WHERE NOT EXISTS (SELECT 1 FROM sys_role WHERE role_key = 'endoscopy_clinical' AND del_flag = '0');
+
+UPDATE sys_role
+SET role_name = '医疗支撑部权限',
+    data_scope = '1',
+    status = '0',
+    remark = '医疗支撑部、影像与数据组、信息科、系统运维组默认全权限'
+WHERE role_key = 'medical_support' AND del_flag = '0';
+
+UPDATE sys_role
+SET role_name = '内镜临床部权限',
+    data_scope = '4',
+    status = '0',
+    remark = '内镜临床部默认：息肉检测 + 通知公告接收'
+WHERE role_key = 'endoscopy_clinical' AND del_flag = '0';
+
+-- 医疗支撑部：包含任何当前菜单/按钮权限
+DELETE rm
+FROM sys_role_menu rm
+INNER JOIN sys_role r ON r.role_id = rm.role_id
+WHERE r.role_key = 'medical_support';
+
+INSERT INTO sys_role_menu (role_id, menu_id)
+SELECT r.role_id, m.menu_id
+FROM sys_role r
+CROSS JOIN sys_menu m
+WHERE r.role_key = 'medical_support'
+  AND r.del_flag = '0'
+  AND NOT EXISTS (
+      SELECT 1
+      FROM sys_role_menu exists_rm
+      WHERE exists_rm.role_id = r.role_id
+        AND exists_rm.menu_id = m.menu_id
+  );
+
+-- 内镜临床部：仅保留息肉检测与通知公告接收，不授予系统管理类功能
+DROP TEMPORARY TABLE IF EXISTS tmp_endoscopy_clinical_menu;
+CREATE TEMPORARY TABLE tmp_endoscopy_clinical_menu (
+    menu_id BIGINT(20) NOT NULL PRIMARY KEY
+) ENGINE=Memory;
+
+INSERT IGNORE INTO tmp_endoscopy_clinical_menu (menu_id)
+SELECT menu_id
+FROM sys_menu
+WHERE status = '0'
+  AND (
+      perms LIKE 'system:polyp:%'
+      OR component IN ('system/polyp/index', 'system/detection/index')
+      OR perms IN ('system:notice:list', 'system:notice:query')
+  );
+
+-- 补齐父级目录，否则动态路由树无法挂载子菜单
+INSERT IGNORE INTO tmp_endoscopy_clinical_menu (menu_id)
+SELECT DISTINCT m.parent_id
+FROM sys_menu m
+INNER JOIN tmp_endoscopy_clinical_menu t ON t.menu_id = m.menu_id
+WHERE m.parent_id IS NOT NULL AND m.parent_id <> 0;
+
+INSERT IGNORE INTO tmp_endoscopy_clinical_menu (menu_id)
+SELECT DISTINCT parent_menu.parent_id
+FROM sys_menu parent_menu
+INNER JOIN tmp_endoscopy_clinical_menu t ON t.menu_id = parent_menu.menu_id
+WHERE parent_menu.parent_id IS NOT NULL AND parent_menu.parent_id <> 0;
+
+DELETE rm
+FROM sys_role_menu rm
+INNER JOIN sys_role r ON r.role_id = rm.role_id
+WHERE r.role_key = 'endoscopy_clinical';
+
+INSERT INTO sys_role_menu (role_id, menu_id)
+SELECT r.role_id, t.menu_id
+FROM sys_role r
+CROSS JOIN tmp_endoscopy_clinical_menu t
+WHERE r.role_key = 'endoscopy_clinical'
+  AND r.del_flag = '0';
+
+DELETE rm
+FROM sys_role_menu rm
+INNER JOIN sys_role r ON r.role_id = rm.role_id
+INNER JOIN sys_menu m ON m.menu_id = rm.menu_id
+WHERE r.role_key = 'endoscopy_clinical'
+  AND m.perms IN ('system:notice:add', 'system:notice:edit', 'system:notice:remove');
+
+DROP TEMPORARY TABLE IF EXISTS tmp_endoscopy_clinical_menu;
+
 COMMIT;
 
 -- ============================================================
