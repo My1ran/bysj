@@ -109,6 +109,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/system/notice-detail',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:notice:query'],
+    children: [
+      {
+        path: 'index/:noticeId(\\d+)',
+        component: () => import('@/views/system/notice/detail'),
+        name: 'NoticeDetail',
+        meta: { title: '公告详情', activeMenu: '/system/notice' }
+      }
+    ]
+  },
+  {
     path: '/system/dict-data',
     component: Layout,
     hidden: true,

@@ -55,6 +55,22 @@ $expectedTitles = @(
 foreach ($title in $expectedTitles) {
     Assert-Contains $router "title: '$title'" "Missing corrected route title: $title"
 }
+Assert-Contains $router "path: '/system/notice-detail'" 'Router should expose a dedicated notice detail route.'
+Assert-Contains $router "permissions: ['system:notice:query']" 'Notice detail route should require query permission.'
+Assert-Contains $router "component: () => import('@/views/system/notice/detail')" 'Notice detail route should load the dedicated detail view.'
+
+$noticeIndex = Read-Utf8 'ui/src/views/system/notice/index.vue'
+Assert-Contains $noticeIndex "this.`$router.push({ name: 'NoticeDetail'" 'Notice list view should navigate to the dedicated detail page.'
+Assert-Contains $noticeIndex "v-hasPermi=`"['system:notice:query']`"" 'Notice list view should guard the view action with query permission.'
+
+if (-not (Test-Path (Join-Path $Root 'ui/src/views/system/notice/detail.vue'))) {
+    Add-Failure 'Missing dedicated notice detail view: ui/src/views/system/notice/detail.vue'
+}
+else {
+    $noticeDetail = Read-Utf8 'ui/src/views/system/notice/detail.vue'
+    Assert-Contains $noticeDetail 'getNotice(this.noticeId)' 'Notice detail view should fetch notice detail by id.'
+    Assert-Contains $noticeDetail 'v-html="notice.noticeContent || emptyContent"' 'Notice detail view should render notice content read-only.'
+}
 
 $userService = Read-Utf8 'system/src/main/java/com/medical/system/service/impl/SysUserServiceImpl.java'
 Assert-Contains $userService 'fillDefaultRoleIdsByDept(user);' 'SysUserServiceImpl should apply department default roles before saving users.'

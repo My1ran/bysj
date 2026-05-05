@@ -163,13 +163,13 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="内容">
-              <editor v-model="form.noticeContent" :min-height="192" :readOnly="isView"/>
+              <editor v-model="form.noticeContent" :min-height="192"/>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" v-if="!isView">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -184,7 +184,6 @@ export default {
   dicts: ['sys_notice_status', 'sys_notice_type'],
   data() {
     return {
-      isView: false,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -241,7 +240,6 @@ export default {
     cancel() {
       this.open = false;
       this.reset();
-      this.isView = false;
     },
     // 表单重置
     reset() {
@@ -284,7 +282,6 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改公告";
-        this.isView = false;
       });
     },
     /** 提交按钮 */
@@ -318,15 +315,7 @@ export default {
       }).catch(() => {});
     },
     handleView(row) {
-      this.reset();
-      const noticeId = row.noticeId;
-
-      getNotice(noticeId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "查看公告";
-        this.isView = true;
-      });
+      this.$router.push({ name: 'NoticeDetail', params: { noticeId: row.noticeId } });
     }
   }
 };
