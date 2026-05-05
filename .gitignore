@@ -54,7 +54,7 @@ tmp/
 output/
 deploy/
 /config/
-sql/
+/sql/
 uploadPath/
 python-infer-service/.venv/
 python-infer-service/outputs/
@@ -62,6 +62,7 @@ hs_err_pid*.log
 replay_pid*.log
 deploy/.env
 deploy/runtime/
+/doc/
 
 !*/build/*.java
 !*/build/*.html
